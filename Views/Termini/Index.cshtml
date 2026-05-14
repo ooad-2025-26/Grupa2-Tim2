@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Task6.Models.Termin>
+
+<h1>Termini</h1>
+
+<p>
+    <a asp-action="Create">Dodaj termin</a>
+</p>
+
+<table class="table">
+
+    <tr>
+        <th>Datum</th>
+        <th>Vrijeme</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Datum</td>
+            <td>@item.Vrijeme</td>
+        </tr>
+    }
+
+</table>

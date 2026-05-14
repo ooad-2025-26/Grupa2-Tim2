@@ -1,16 +1,29 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Task6.Models;
 
-public class EscapeRoom
+namespace Task6.Models
 {
-    [Key]
-    public int RoomID { get; set; }
+    public class EscapeRoom
+    {
+        [Key]
+        public int RoomID { get; set; }
 
-    public string Naziv { get; set; }
-    public string Opis { get; set; }
-    public Tezina Tezina { get; set; }
-    public int Kapacitet { get; set; }
-    public double Cijena { get; set; }
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
+        public string Naziv { get; set; }
 
-    public EscapeRoom() { }
+        [Required]
+        [StringLength(300)]
+        public string Opis { get; set; }
+
+        [Required]
+        public Tezina Tezina { get; set; }
+
+        [Range(1, 20)]
+        public int Kapacitet { get; set; }
+
+        [Range(0, 1000)]
+        public double Cijena { get; set; }
+
+        public EscapeRoom() { }
+    }
 }

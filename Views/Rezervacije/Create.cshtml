@@ -1,0 +1,34 @@
+﻿@model Task6.Models.Rezervacija
+
+<h1>Nova rezervacija</h1>
+
+<form asp-action="Create">
+
+    <div>
+        <label>Datum Kreiranja</label>
+        <input asp-for="DatumKreiranja" />
+    </div>
+
+    <div>
+        <label>Broj Osoba</label>
+        <input asp-for="BrojOsoba" />
+    </div>
+
+    <div>
+        <label>Status</label>
+        <input asp-for="Status" />
+    </div>
+
+    <div>
+        <label>Korisnik ID</label>
+        <input asp-for="KorisnikID" />
+    </div>
+
+    <div>
+        <label>Termin ID</label>
+        <input asp-for="TerminID" />
+    </div>
+
+    <button type="submit">Spasi</button>
+
+</form>

@@ -1,0 +1,29 @@
+﻿@model Task6.Models.Recenzija
+
+<h1>Dodaj recenziju</h1>
+
+<form asp-action="Create">
+
+    <div>
+        <label>Ocjena</label>
+        <input asp-for="Ocjena" />
+    </div>
+
+    <div>
+        <label>Komentar</label>
+        <input asp-for="Komentar" />
+    </div>
+
+    <div>
+        <label>Korisnik ID</label>
+        <input asp-for="KorisnikID" />
+    </div>
+
+    <div>
+        <label>Room ID</label>
+        <input asp-for="RoomID" />
+    </div>
+
+    <button type="submit">Spasi</button>
+
+</form>

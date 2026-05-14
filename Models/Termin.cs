@@ -1,18 +1,26 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-public class Termin
+namespace Task6.Models
 {
-    [Key]
-    public int TerminID { get; set; }
+    public class Termin
+    {
+        [Key]
+        public int TerminID { get; set; }
 
-    public DateTime Datum { get; set; }
-    public TimeSpan Vrijeme { get; set; }
-    public bool Dostupnost { get; set; }
+        [Required]
+        public DateTime Datum { get; set; }
 
-    [ForeignKey("EscapeRoom")]
-    public int RoomID { get; set; }
-    public EscapeRoom EscapeRoom { get; set; }
+        [Required]
+        public string Vrijeme { get; set; }
 
-    public Termin() { }
+        public bool Dostupnost { get; set; }
+
+        [ForeignKey("EscapeRoom")]
+        public int RoomID { get; set; }
+
+        public EscapeRoom EscapeRoom { get; set; }
+
+        public Termin() { }
+    }
 }

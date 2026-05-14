@@ -3,7 +3,7 @@
     public enum Uloga
     {
         Korisnik,
-    Administrator,
-    Zaposlenik
+        Administrator,
+        Zaposlenik
     }
 }

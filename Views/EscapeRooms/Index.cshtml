@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Task6.Models.EscapeRoom>
+
+<h1>Escape Rooms</h1>
+
+<p>
+    <a asp-action="Create">Dodaj Escape Room</a>
+</p>
+
+<table class="table">
+
+    <tr>
+        <th>Naziv</th>
+        <th>Opis</th>
+        <th>Kapacitet</th>
+        <th>Cijena</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Naziv</td>
+            <td>@item.Opis</td>
+            <td>@item.Kapacitet</td>
+            <td>@item.Cijena</td>
+        </tr>
+    }
+
+</table>

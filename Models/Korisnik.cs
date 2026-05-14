@@ -1,18 +1,33 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Task6.Models;
 
-public class Korisnik
+namespace Task6.Models
 {
-    [Key]
-    public int KorisnikID { get; set; }
+    public class Korisnik
+    {
+        [Key]
+        public int KorisnikID { get; set; }
 
-    public string Username { get; set; }
-    public string Ime { get; set; }
-    public string Prezime { get; set; }
-    public string Email { get; set; }
-    public string Lozinka { get; set; }
+        [Required]
+        [StringLength(30, MinimumLength = 3)]
+        public string Username { get; set; }
 
-    public Uloga Uloga { get; set; }
+        [Required]
+        [StringLength(30)]
+        public string Ime { get; set; }
 
-    public Korisnik() { }
+        [Required]
+        [StringLength(30)]
+        public string Prezime { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(20, MinimumLength = 6)]
+        public string Lozinka { get; set; }
+
+        [Required]
+        public Uloga Uloga { get; set; }
+    }
 }

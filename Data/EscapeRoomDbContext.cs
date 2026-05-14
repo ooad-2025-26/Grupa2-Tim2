@@ -1,11 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Task6.Models;
 
-public class EscapeRoomDbContext : DbContext
+namespace Task6.Data
 {
-    public EscapeRoomDbContext(DbContextOptions<EscapeRoomDbContext> options)
-        : base(options)
+    public class EscapeRoomDbContext : IdentityDbContext<ApplicationUser>
     {
-    }
+        public EscapeRoomDbContext(DbContextOptions<EscapeRoomDbContext> options)
+            : base(options)
+        {
+        }
 
-    public DbSet<Korisnik> Korisnici { get; set; }
+        public DbSet<Korisnik> Korisnici { get; set; }
+        public DbSet<EscapeRoom> EscapeRooms { get; set; }
+        public DbSet<Rezervacija> Rezervacije { get; set; }
+        public DbSet<Termin> Termini { get; set; }
+        public DbSet<Placanje> Placanja { get; set; }
+        public DbSet<Recenzija> Recenzije { get; set; }
+        public DbSet<Podrska> Podrske { get; set; }
+        public DbSet<Obavijest> Obavijesti { get; set; }
+    }
 }

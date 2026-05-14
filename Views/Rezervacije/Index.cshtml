@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Task6.Models.Rezervacija>
+
+<h1>Rezervacije</h1>
+
+<p>
+    <a asp-action="Create">Nova rezervacija</a>
+</p>
+
+<table class="table">
+
+    <tr>
+        <th>Datum Kreiranja</th>
+        <th>Broj Osoba</th>
+        <th>Status</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.DatumKreiranja</td>
+            <td>@item.BrojOsoba</td>
+            <td>@item.Status</td>
+        </tr>
+    }
+
+</table>

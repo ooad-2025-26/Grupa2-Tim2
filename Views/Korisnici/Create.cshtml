@@ -1,0 +1,44 @@
+﻿@model Task6.Models.Korisnik
+
+<h1>Dodaj korisnika</h1>
+
+<form asp-action="Create">
+
+    <div>
+        <label>Username</label>
+        <input asp-for="Username" />
+    </div>
+
+    <div>
+        <label>Ime</label>
+        <input asp-for="Ime" />
+    </div>
+
+    <div>
+        <label>Prezime</label>
+        <input asp-for="Prezime" />
+    </div>
+
+    <div>
+        <label>Email</label>
+        <input asp-for="Email" />
+    </div>
+
+    <div>
+        <label>Lozinka</label>
+        <input asp-for="Lozinka" />
+    </div>
+
+    <div>
+        <label>Uloga</label>
+
+        <select asp-for="Uloga">
+            <option value="0">Korisnik</option>
+            <option value="1">Administrator</option>
+            <option value="2">Zaposlenik</option>
+        </select>
+    </div>
+
+    <button type="submit">Spasi</button>
+
+</form>

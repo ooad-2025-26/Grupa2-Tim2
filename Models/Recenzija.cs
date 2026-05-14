@@ -1,22 +1,32 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-public class Recenzija
+namespace Task6.Models
 {
-    [Key]
-    public int RecenzijaID { get; set; }
+    public class Recenzija
+    {
+        [Key]
+        public int RecenzijaID { get; set; }
 
-    public double Ocjena { get; set; }
-    public string Komentar { get; set; }
-    public DateTime Datum { get; set; }
+        [Range(1, 5)]
+        public double Ocjena { get; set; }
 
-    [ForeignKey("Korisnik")]
-    public int KorisnikID { get; set; }
-    public Korisnik Korisnik { get; set; }
+        [StringLength(300)]
+        public string Komentar { get; set; }
 
-    [ForeignKey("EscapeRoom")]
-    public int RoomID { get; set; }
-    public EscapeRoom EscapeRoom { get; set; }
+        [Required]
+        public DateTime Datum { get; set; }
 
-    public Recenzija() { }
+        [ForeignKey("Korisnik")]
+        public int KorisnikID { get; set; }
+
+        public Korisnik Korisnik { get; set; }
+
+        [ForeignKey("EscapeRoom")]
+        public int RoomID { get; set; }
+
+        public EscapeRoom EscapeRoom { get; set; }
+
+        public Recenzija() { }
+    }
 }

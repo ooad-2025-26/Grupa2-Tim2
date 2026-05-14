@@ -1,8 +1,1168 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<body>
+
+    <!-- FLASHLIGHT INTRO -->
+
+    <div class="flashlight-intro">
+
+        <div class="flashlight-dark"></div>
+
+        <div class="flashlight-glow"></div>
+
+        <div class="loading-text">
+            Pronalazak posljednjeg ključa...
+        </div>
+
+    </div>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <nav class="navbar">
+
+            <div class="logo">
+                <h2>THE LAST <span>key</span></h2>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#about">O NAMA</a></li>
+                <li><a href="#rooms">SOBE</a></li>
+                <li><a href="#contact">KONTAKT I PODRŠKA</a></li>
+                <li><a href="#">ČESTA PITANJA</a></li>
+            </ul>
+
+            <div class="nav-buttons">
+                <a href="#" class="btn-login">Prijava</a>
+                <a href="#" class="btn-register">Registracija</a>
+            </div>
+
+        </nav>
+
+        <!-- HERO CONTENT -->
+
+        <div class="hero-content">
+
+            <p class="subtitle">DOBRODOŠLI U</p>
+
+            <h1>
+                THE LAST <span>key</span>
+            </h1>
+
+            <p class="description">
+                Otkrijte naše aktivne sobe i započnite avanturu klikom na
+                dugme ispod.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#rooms" class="btn-orange">Istraži Sobe</a>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ABOUT SECTION -->
+
+    <section id="about" class="about-section">
+
+        <div class="about-content">
+
+            <p class="about-subtitle">
+                O NAMA
+            </p>
+
+            <h2 class="about-title">
+                THE LAST KEY <br>
+                SARAJEVO
+            </h2>
+
+            <p class="about-text">
+                The Last Key Sarajevo otvoren je 2023. godine sa ciljem da ljubiteljima
+                misterije, adrenalina i timskog duha pruži potpuno novo escape room iskustvo.
+                Inspirisani svjetskim escape konceptima, kreirali smo prostor u kojem svaka
+                soba priča jedinstvenu priču i pretvara igrače u glavne junake avanture.
+            </p>
+
+            <p class="about-text">
+                Tokom protekle dvije godine kroz naše sobe prošlo je više od 5000 igrača,
+                uključujući prijateljske grupe, porodice, turiste, kompanije i studentske
+                organizacije. Posebno smo ponosni na team building događaje koji okupljaju
+                timove kroz saradnju, logiku i zabavu.
+            </p>
+
+            <p class="about-text">
+                Naš cilj nije samo igra, već stvaranje iskustva koje se pamti.
+                Od misterioznih istraga i laboratorijskih eksperimenata do magičnih akademija,
+                svaka avantura osmišljena je tako da testira kreativnost, komunikaciju i
+                snalažljivost igrača pod pritiskom vremena.
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- ROOMS SECTION -->
+
+    <section id="rooms" class="rooms-section">
+
+        <div class="rooms-content">
+
+            <p class="rooms-subtitle">
+                AKTIVNE SOBE
+            </p>
+
+            <h2 class="rooms-hover-title">
+                Istraži naše misterije
+            </h2>
+
+            <p class="rooms-text">
+                Zakoračite u svijet zagonetki, tajni i adrenalina.
+                Svaka soba krije novu priču koju morate otkriti.
+            </p>
+
+            <!-- ESCAPE ROOM CARDS -->
+
+            <div class="escape-cards">
+
+                <!-- CARD 1 -->
+
+                <div class="escape-card">
+
+                    <div class="card-image">
+                        <img src="/images/murder1.webp" alt="">
+                    </div>
+
+                    <div class="card-content">
+
+                        <h3>The Murder Case</h3>
+
+                        <p>
+                            Istražite misteriozno ubistvo i pronađite posljednji dokaz prije nego vrijeme istekne.
+                        </p>
+
+                        <div class="card-info">
+                            <span>👥 2-6</span>
+                            <span>⏱ 60 min</span>
+                        </div>
+
+                        <a href="#" class="card-btn murder-btn">
+                            Pregled sobe
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <!-- CARD 2 -->
+
+                <div class="escape-card">
+
+                    <div class="card-image">
+                        <img src="/images/classroom1.jpg" alt="">
+                    </div>
+
+                    <div class="card-content">
+
+                        <h3>Locked Classroom</h3>
+
+                        <p>
+                            Zaključani ste u staroj učionici punoj skrivenih poruka i tajnih prolaza.
+                        </p>
+
+                        <div class="card-info">
+                            <span>👥 2-5</span>
+                            <span>⏱ 45 min</span>
+                        </div>
+
+                        <a href="#" class="card-btn classroom-btn">
+                            Pregled sobe
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <!-- CARD 3 -->
+
+                <div class="escape-card">
+
+                    <div class="card-image">
+                        <img src="/images/lab1.jpg" alt="">
+                    </div>
+
+                    <div class="card-content">
+
+                        <h3>Outbreak Lab</h3>
+
+                        <p>
+                            Eksperiment je pošao po zlu. Pronađite antivirus prije širenja zaraze.
+                        </p>
+
+                        <div class="card-info">
+                            <span>👥 3-6</span>
+                            <span>⏱ 70 min</span>
+                        </div>
+
+                        <a href="#" class="card-btn">
+                            Pregled sobe
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <!-- CARD 4 -->
+
+                <div class="escape-card">
+
+                    <div class="card-image">
+                        <img src="/images/magic1.jpeg" alt="">
+                    </div>
+
+                    <div class="card-content">
+
+                        <h3>Magic Academy</h3>
+
+                        <p>
+                            Otkrijte zabranjene čarolije i pronađite drevni artefakt skriven u akademiji.
+                        </p>
+
+                        <div class="card-info">
+                            <span>👥 2-7</span>
+                            <span>⏱ 80 min</span>
+                        </div>
+
+                        <a href="#" class="card-btn">
+                            Pregled sobe
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- CONTACT SECTION -->
+
+    <section id="contact" class="contact-section">
+
+        <div class="contact-container">
+
+            <p class="contact-subtitle">
+                KONTAKT I PODRŠKA
+            </p>
+
+            <h2 class="contact-title">
+                Posjetite nas u srcu Sarajeva
+            </h2>
+
+            <p class="contact-text">
+                Za rezervacije, dodatne informacije ili podršku naš tim vam je uvijek na raspolaganju.
+                Posjetite nas na adresi ispod ili nas kontaktirajte direktno.
+            </p>
+
+            <div class="contact-wrapper">
+
+                <!-- LIJEVA STRANA -->
+
+                <div class="contact-left">
+
+                    <!-- ADRESA -->
+
+                    <div class="contact-card">
+
+                        <h3>📍 Adresa</h3>
+
+                        <p>Kralja Tvrtka 6</p>
+
+                        <p>Sarajevo, Bosna i Hercegovina</p>
+
+                    </div>
+
+                    <!-- KONTAKT -->
+
+                    <div class="contact-card">
+
+                        <h3>Kontakt</h3>
+
+                        <p>📞 +387 61 234 567</p>
+
+                        <p>✉ support@thelastkey.ba</p>
+
+                    </div>
+
+                </div>
+
+                <!-- MAPA -->
+
+                <div class="map-container">
+
+                    <img src="/images/mapa.png" alt="Mapa">
+
+                    <div class="map-pin">
+                        📍
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+    <!-- LOGIN MODAL -->
+
+    <div class="login-modal" id="loginModal">
+
+        <div class="login-box">
+
+            <span class="close-login" id="closeLogin">
+                &times;
+            </span>
+
+            <h2>Prijava</h2>
+
+            <p class="login-subtext">
+                Prijavite se i nastavite svoju escape avanturu.
+            </p>
+
+            <form>
+
+                <div class="input-group">
+
+                    <label>Email</label>
+
+                    <input type="email" placeholder="Unesite email">
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Lozinka</label>
+
+                    <input type="password" placeholder="Unesite lozinku">
+
+                </div>
+
+                <button type="submit" class="login-submit">
+                    Završi prijavu
+                </button>
+
+                <a href="#" class="forgot-password">
+                    Zaboravljena lozinka?
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- REGISTER MODAL -->
+
+    <div class="register-modal" id="registerModal">
+
+        <div class="register-box">
+
+            <span class="close-register" id="closeRegister">
+                &times;
+            </span>
+
+            <h2>Registracija</h2>
+
+            <p class="register-subtext">
+                Kreirajte profil i otključajte nove escape avanture.
+            </p>
+
+            <form>
+
+                <div class="input-group">
+
+                    <label>Ime i prezime</label>
+
+                    <input type="text" placeholder="Unesite ime i prezime">
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Email</label>
+
+                    <input type="email" placeholder="Unesite email">
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Lozinka</label>
+
+                    <input type="password" placeholder="Unesite lozinku">
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Potvrda lozinke</label>
+
+                    <input type="password" placeholder="Ponovo unesite lozinku">
+
+                </div>
+
+                <button type="submit" class="register-submit">
+                    Registruj se
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- SCRIPT -->
+
+    <script>
+
+            /* LOGIN */
+
+            const loginBtn = document.querySelector(".btn-login");
+            const loginModal = document.getElementById("loginModal");
+            const closeLogin = document.getElementById("closeLogin");
+
+            loginBtn.addEventListener("click", function(e) {
+
+                e.preventDefault();
+
+                loginModal.classList.add("show-login");
+
+            });
+
+            closeLogin.addEventListener("click", function() {
+
+                loginModal.classList.remove("show-login");
+
+            });
+
+            /* REGISTER */
+
+            const registerBtn = document.querySelector(".btn-register");
+            const registerModal = document.getElementById("registerModal");
+            const closeRegister = document.getElementById("closeRegister");
+
+            registerBtn.addEventListener("click", function(e) {
+
+                e.preventDefault();
+
+                registerModal.classList.add("show-register");
+
+            });
+
+            closeRegister.addEventListener("click", function() {
+
+                registerModal.classList.remove("show-register");
+
+            });
+                        /* MURDER ROOM */
+
+            document.addEventListener("DOMContentLoaded", function() {
+
+                const murderBtn = document.querySelector(".murder-btn");
+
+                const murderModal = document.getElementById("murderModal");
+
+                const closeMurderModal = document.getElementById("closeMurderModal");
+
+                murderBtn.addEventListener("click", function(e) {
+
+                    e.preventDefault();
+
+                    murderModal.classList.add("show-room-modal");
+
+                });
+
+                closeMurderModal.addEventListener("click", function() {
+
+                    murderModal.classList.remove("show-room-modal");
+
+                });
+
+                window.addEventListener("click", function(e) {
+
+                    if (e.target === murderModal) {
+
+                        murderModal.classList.remove("show-room-modal");
+                    }
+
+                });
+
+            });
+
+            /* CLOSE WHEN CLICK OUTSIDE */
+
+            window.addEventListener("click", function(e) {
+
+                if (e.target === loginModal) {
+
+                    loginModal.classList.remove("show-login");
+                }
+
+                if (e.target === registerModal) {
+
+                    registerModal.classList.remove("show-register");
+                }
+
+                          
+
+            });
+
+
+                                   /* CLASSROOM ROOM */
+
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const classroomBtn = document.querySelector(".classroom-btn");
+
+                const classroomModal = document.getElementById("classroomModal");
+
+                const closeClassroomModal = document.getElementById("closeClassroomModal");
+
+                classroomBtn.addEventListener("click", function (e) {
+
+                    e.preventDefault();
+
+                    classroomModal.classList.add("show-room-modal");
+
+                });
+
+                closeClassroomModal.addEventListener("click", function () {
+
+                    classroomModal.classList.remove("show-room-modal");
+
+                });
+
+                window.addEventListener("click", function (e) {
+
+                    if (e.target === classroomModal) {
+
+                        classroomModal.classList.remove("show-room-modal");
+
+                    }
+
+                });
+
+            });
+
+    </script>
+    <!-- BACK TO TOP -->
+
+    <a href="#" class="back-to-top">
+        ↑
+    </a>
+
+   
+
+    <!-- =========================
+     MURDER CASE MODAL
+========================= -->
+
+    <div class="room-modal" id="murderModal">
+
+        <div class="room-modal-box">
+
+            <!-- CLOSE -->
+
+            <span class="close-room" id="closeMurderModal">
+                &times;
+            </span>
+
+            <!-- IMAGE -->
+
+            <div class="room-image">
+
+                <img src="/images/murder1.webp" alt="Murder Case">
+
+                <div class="room-overlay">
+
+                    <h2>The Murder Case</h2>
+
+                    <p>
+                        Misterija • Detektivska istraga • Adrenalin
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- DETAILS -->
+
+            <div class="room-details">
+
+                
+
+                    <!-- INFO -->
+
+                    <div class="room-info-modern">
+
+                        <div class="modern-info-card">
+
+                            <div class="modern-icon">🕵️</div>
+
+                            <div>
+                                <h4>Težina</h4>
+                                <p>10/10</p>
+                            </div>
+
+                        </div>
+
+                        <div class="modern-info-card">
+
+                            <div class="modern-icon">⏳</div>
+
+                            <div>
+                                <h4>Trajanje</h4>
+                                <p>60 min</p>
+                            </div>
+
+                        </div>
+
+                        <div class="modern-info-card">
+
+                            <div class="modern-icon">👥</div>
+
+                            <div>
+                                <h4>Igrača</h4>
+                                <p>3 – 6</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- GRID -->
+
+                    <div class="room-grid">
+
+                        <!-- LEFT -->
+
+                        <div class="room-left">
+
+                            <!-- DESCRIPTION -->
+
+                            <div class="room-description modern-box">
+
+                                <h3>Opis sobe</h3>
+
+                                <p>
+                                    Vrijeme ističe, a ubica je još na slobodi.
+                                    Istražite dokaze, povežite tragove i otkrijte
+                                    istinu prije nego bude kasno.
+                                </p>
+
+                                <p>
+                                    Ovo je najzahtjevnija soba — puna kompleksnih
+                                    tragova, skrivenih veza i logičkih izazova.
+                                    Potrebna je odlična komunikacija i dobra
+                                    organizacija tima.
+                                </p>
+
+                                <p>
+                                    IDEAL RED: Fokus, kompleksna logika + timski rad
+                                </p>
+
+                            </div>
+
+                            <!-- RESERVATION -->
+
+                            <div class="reservation-box modern-box">
+
+                                <div class="reservation-top">
+
+                                    <h3>Rezervacija termina</h3>
+
+                                    <span>📅</span>
+
+                                </div>
+
+                                <form class="reservation-form">
+
+                                    <input type="text" placeholder="Ime i prezime">
+
+                                    <input type="email" placeholder="Email">
+
+                                    <input type="date">
+
+                                    <input type="time">
+
+                                    <div class="reservation-note">
+
+                                        ℹ Nakon rezervacije ćemo vam poslati potvrdu termina.
+                                    </div>
+
+                                    <button type="submit">
+                                        Rezerviši termin
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                        <!-- RIGHT -->
+
+                        <div class="room-right">
+
+                            <!-- AVERAGE -->
+
+                            <div class="average-rating-modern">
+
+                                <div class="rating-left">
+
+                                    <h2>4.8</h2>
+
+                                    <p>Ocjena sobe</p>
+
+                                </div>
+
+                                <div class="rating-right">
+
+                                    ⭐⭐⭐⭐⭐
+
+                                    <span>23 recenzije</span>
+
+                                </div>
+
+                            </div>
+
+                            <!-- REVIEWS -->
+
+                            <div class="reviews-section">
+
+                                <h3>Recenzije igrača</h3>
+
+                                <!-- REVIEW -->
+
+                                <div class="review-card modern-review">
+
+                                    <div class="review-header">
+
+                                        <div class="review-user">
+
+                                            <div class="review-avatar">
+                                                AK
+                                            </div>
+
+                                            <div>
+
+                                                <h4>Amar K.</h4>
+
+                                                <span>Prije 2 dana</span>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="review-stars">
+                                            ⭐⭐⭐⭐⭐
+                                        </div>
+
+                                    </div>
+
+                                    <p>
+                                        Najbolja escape room soba koju smo igrali.
+                                        Atmosfera je brutalna i stvarno imate osjećaj
+                                        kao da ste u pravoj istrazi.
+                                    </p>
+
+                                </div>
+
+                                <!-- REVIEW -->
+
+                                <div class="review-card modern-review">
+
+                                    <div class="review-header">
+
+                                        <div class="review-user">
+
+                                            <div class="review-avatar">
+                                                LM
+                                            </div>
+
+                                            <div>
+
+                                                <h4>Lejla M.</h4>
+
+                                                <span>Prije 5 dana</span>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="review-stars">
+                                            ⭐⭐⭐⭐⭐
+                                        </div>
+
+                                    </div>
+
+                                    <p>
+                                        Previše detalja i odlični puzzle zadaci.
+                                        Vrijeme je proletilo.
+                                    </p>
+
+                                </div>
+
+                                <!-- REVIEW -->
+
+                                <div class="review-card modern-review">
+
+                                    <div class="review-header">
+
+                                        <div class="review-user">
+
+                                            <div class="review-avatar">
+                                                TH
+                                            </div>
+
+                                            <div>
+
+                                                <h4>Tarik H.</h4>
+
+                                                <span>Prije 1 sedmice</span>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="review-stars">
+                                            ⭐⭐⭐⭐
+                                        </div>
+
+                                    </div>
+
+                                    <p>
+                                        Teška soba ali predobra. Treba baš dobra timska
+                                        komunikacija i fokus tokom cijele igre.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+            <!-- =========================
+     LOCKED CLASSROOM MODAL
+========================= -->
+
+            <div class="room-modal" id="classroomModal">
+
+                <div class="room-modal-box">
+
+                    <!-- CLOSE -->
+
+                    <span class="close-room" id="closeClassroomModal">
+                        &times;
+                    </span>
+
+                    <!-- IMAGE -->
+
+                    <div class="room-image">
+
+                        <img src="/images/classroom1.jpg" alt="Locked Classroom">
+
+                        <div class="room-overlay">
+
+                            <h2>Locked Classroom</h2>
+
+                            <p>
+                                Misterija • Logika • Timski rad
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <!-- DETAILS -->
+
+                    <div class="room-details">
+
+                        <!-- INFO -->
+
+                        <div class="room-info-modern">
+
+                            <div class="modern-info-card">
+
+                                <div class="modern-number">01</div>
+
+                                <div>
+                                    <h4>Težina</h4>
+                                    <p>4/10</p>
+                                </div>
+
+                            </div>
+
+                            <div class="modern-info-card">
+
+                                <div class="modern-number">02</div>
+
+                                <div>
+                                    <h4>Trajanje</h4>
+                                    <p>45 min</p>
+                                </div>
+
+                            </div>
+
+                            <div class="modern-info-card">
+
+                                <div class="modern-number">03</div>
+
+                                <div>
+                                    <h4>Igrača</h4>
+                                    <p>2 – 5</p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- GRID -->
+
+                        <div class="room-grid">
+
+                            <!-- LEFT -->
+
+                            <div class="room-left">
+
+                                <!-- DESCRIPTION -->
+
+                                <div class="room-description modern-box">
+
+                                    <h3>Opis sobe</h3>
+
+                                    <p>
+                                        Zaključani ste u učionici nakon časa.
+                                        Profesor je ostavio niz zagonetki koje
+                                        samo najpažljiviji mogu riješiti.
+                                        Kombinujte znanje i logiku da pronađete
+                                        izlaz prije nego vrijeme istekne.
+                                    </p>
+
+                                    <p>
+                                        Soba je prilagođena mladima i početnicima,
+                                        sa jasnim tragovima i zanimljivim školskim
+                                        zadacima. Sve je intuitivno, ali zahtijeva
+                                        timski rad i pažnju na detalje.
+                                    </p>
+
+                                    <p>
+                                        IDEAL RED: Fokus • logika • jednostavne zagonetke
+                                    </p>
+
+                                </div>
+
+                                <!-- RESERVATION -->
+
+                                <div class="reservation-box modern-box">
+
+                                    <div class="reservation-top">
+
+                                        <h3>Rezervacija termina</h3>
+
+                                        <span>📅</span>
+
+                                    </div>
+
+                                    <form class="reservation-form">
+
+                                        <input type="text" placeholder="Ime i prezime">
+
+                                        <input type="email" placeholder="Email">
+
+                                        <input type="date">
+
+                                        <input type="time">
+
+                                        <div class="reservation-note">
+
+                                            ℹ Nakon rezervacije ćemo vam poslati potvrdu termina.
+
+                                        </div>
+
+                                        <button type="submit">
+                                            Rezerviši termin
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                            <!-- RIGHT -->
+
+                            <div class="room-right">
+
+                                <!-- AVERAGE -->
+
+                                <div class="average-rating-modern">
+
+                                    <div class="rating-left">
+
+                                        <h2>4.7</h2>
+
+                                        <p>Ocjena sobe</p>
+
+                                    </div>
+
+                                    <div class="rating-right">
+
+                                        ⭐⭐⭐⭐⭐
+
+                                        <span>18 recenzija</span>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- REVIEWS -->
+
+                                <div class="reviews-section">
+
+                                    <h3>Recenzije igrača</h3>
+
+                                    <!-- REVIEW -->
+
+                                    <div class="modern-review">
+
+                                        <div class="review-header">
+
+                                            <div class="review-user">
+
+                                                <div class="review-avatar">
+                                                    LM
+                                                </div>
+
+                                                <div>
+
+                                                    <h4>Lejla M.</h4>
+
+                                                    <span>Prije 3 dana</span>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="review-stars">
+                                                ⭐⭐⭐⭐⭐
+                                            </div>
+
+                                        </div>
+
+                                        <p>
+                                            Previše detalja i odlični puzzle-i.
+                                            Vrijeme je proletilo.
+                                        </p>
+
+                                    </div>
+
+                                    <!-- REVIEW -->
+
+                                    <div class="modern-review">
+
+                                        <div class="review-header">
+
+                                            <div class="review-user">
+
+                                                <div class="review-avatar">
+                                                    TH
+                                                </div>
+
+                                                <div>
+
+                                                    <h4>Tarik H.</h4>
+
+                                                    <span>Prije 1 sedmice</span>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="review-stars">
+                                                ⭐⭐⭐⭐
+                                            </div>
+
+                                        </div>
+
+                                        <p>
+                                            Odlična soba za početnike.
+                                            Zadaci su kreativni i zabavni.
+                                        </p>
+
+                                    </div>
+
+                                    <!-- REVIEW -->
+
+                                    <div class="modern-review">
+
+                                        <div class="review-header">
+
+                                            <div class="review-user">
+
+                                                <div class="review-avatar">
+                                                    AK
+                                                </div>
+
+                                                <div>
+
+                                                    <h4>Amar K.</h4>
+
+                                                    <span>Prije 2 sedmice</span>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="review-stars">
+                                                ⭐⭐⭐⭐⭐
+                                            </div>
+
+                                        </div>
+
+                                        <p>
+                                            Super tematski uređena učionica.
+                                            Topla preporuka!
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+    
+
+
+</body>

@@ -1,0 +1,39 @@
+﻿@model Task6.Models.EscapeRoom
+
+<h1>Dodaj Escape Room</h1>
+
+<form asp-action="Create">
+
+    <div>
+        <label>Naziv</label>
+        <input asp-for="Naziv" />
+    </div>
+
+    <div>
+        <label>Opis</label>
+        <input asp-for="Opis" />
+    </div>
+
+    <div>
+        <label>Kapacitet</label>
+        <input asp-for="Kapacitet" />
+    </div>
+
+    <div>
+        <label>Cijena</label>
+        <input asp-for="Cijena" />
+    </div>
+
+    <div>
+        <label>Tezina</label>
+
+        <select asp-for="Tezina">
+            <option value="0">Lako</option>
+            <option value="1">Srednje</option>
+            <option value="2">Tesko</option>
+        </select>
+    </div>
+
+    <button type="submit">Spasi</button>
+
+</form>

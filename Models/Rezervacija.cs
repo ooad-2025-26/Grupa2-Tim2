@@ -1,22 +1,31 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-public class Rezervacija
+namespace Task6.Models
 {
-    [Key]
-    public int RezervacijaID { get; set; }
+    public class Rezervacija
+    {
+        [Key]
+        public int RezervacijaID { get; set; }
 
-    public DateTime DatumKreiranja { get; set; }
-    public bool Status { get; set; }
-    public int BrojOsoba { get; set; }
+        [Required]
+        public DateTime DatumKreiranja { get; set; }
 
-    [ForeignKey("Korisnik")]
-    public int KorisnikID { get; set; }
-    public Korisnik Korisnik { get; set; }
+        public bool Status { get; set; }
 
-    [ForeignKey("Termin")]
-    public int TerminID { get; set; }
-    public Termin Termin { get; set; }
+        [Range(1, 10)]
+        public int BrojOsoba { get; set; }
 
-    public Rezervacija() { }
+        [ForeignKey("Korisnik")]
+        public int KorisnikID { get; set; }
+
+        public Korisnik Korisnik { get; set; }
+
+        [ForeignKey("Termin")]
+        public int TerminID { get; set; }
+
+        public Termin Termin { get; set; }
+
+        public Rezervacija() { }
+    }
 }
