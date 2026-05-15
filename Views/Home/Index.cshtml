@@ -30,7 +30,7 @@
                 <li><a href="#about">O NAMA</a></li>
                 <li><a href="#rooms">SOBE</a></li>
                 <li><a href="#contact">KONTAKT I PODRŠKA</a></li>
-                <li><a href="#">ČESTA PITANJA</a></li>
+                <a href="#faq">ČESTA PITANJA</a>
             </ul>
 
             <div class="nav-buttons">
@@ -204,9 +204,11 @@
                             <span>👥 3-6</span>
                             <span>⏱ 70 min</span>
                         </div>
+                        <a href="javascript:void(0)"
+                               class="card-btn outbreak-btn">
 
-                        <a href="#" class="card-btn">
                             Pregled sobe
+
                         </a>
 
                     </div>
@@ -234,9 +236,166 @@
                             <span>⏱ 80 min</span>
                         </div>
 
-                        <a href="#" class="card-btn">
+                        <a href="javascript:void(0)" class="card-btn magic-btn">
                             Pregled sobe
                         </a>
+
+                    </div>
+
+                </div>
+
+                <!-- CARD 5 -->
+
+                <div class="escape-card">
+
+                    <div class="card-image">
+                        <img src="/images/haunted1.jpg" alt="">
+                    </div>
+
+                    <div class="card-content">
+
+                        <h3>Haunted House</h3>
+
+                        <p>
+                            Zakoračite u napuštenu kuću punu mračnih tajni i skrivenih prolaza.
+                        </p>
+
+                        <div class="card-info">
+                            <span>👥 2-6</span>
+                            <span>⏱ 60 min</span>
+                        </div>
+
+                        <a href="javascript:void(0)" class="card-btn haunted-btn">
+                            Pregled sobe
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FAQ SECTION -->
+
+    <section id="faq" class="faq-section">
+
+        <div class="faq-container">
+
+            <p class="faq-subtitle">
+                ČESTA PITANJA
+            </p>
+
+            <h2 class="faq-title">
+                Sve što trebate znati prije rezervacije
+            </h2>
+
+            <p class="faq-text">
+                Pronađite odgovore na najčešća pitanja vezana za rezervacije,
+                trajanje igara, broj igrača i pravila escape room iskustva.
+            </p>
+
+            <div class="faq-wrapper">
+
+                <!-- ITEM -->
+
+                <div class="faq-item">
+
+                    <button class="faq-question">
+                        Koliko traje jedna escape room igra?
+                        <span>+</span>
+                    </button>
+
+                    <div class="faq-answer">
+
+                        <p>
+                            Većina naših escape room avantura traje između
+                            45 i 80 minuta, zavisno od odabrane sobe.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- ITEM -->
+
+                <div class="faq-item">
+
+                    <button class="faq-question">
+                        Da li je potrebna prethodna rezervacija?
+                        <span>+</span>
+                    </button>
+
+                    <div class="faq-answer">
+
+                        <p>
+                            Da. Rezervacija termina je obavezna kako bismo
+                            osigurali dostupnost sobe i pripremili iskustvo za vaš tim.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- ITEM -->
+
+                <div class="faq-item">
+
+                    <button class="faq-question">
+                        Koliko igrača može učestvovati?
+                        <span>+</span>
+                    </button>
+
+                    <div class="faq-answer">
+
+                        <p>
+                            Broj igrača zavisi od sobe, ali većina naših
+                            avantura podržava između 2 i 7 učesnika.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- ITEM -->
+
+                <div class="faq-item">
+
+                    <button class="faq-question">
+                        Šta ako zakasnimo na rezervisani termin?
+                        <span>+</span>
+                    </button>
+
+                    <div class="faq-answer">
+
+                        <p>
+                            Preporučujemo dolazak najmanje 10 minuta ranije.
+                            Veća kašnjenja mogu skratiti trajanje igre.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- ITEM -->
+
+                <div class="faq-item">
+
+                    <button class="faq-question">
+                        Da li su sobe prilagođene početnicima?
+                        <span>+</span>
+                    </button>
+
+                    <div class="faq-answer">
+
+                        <p>
+                            Naravno. Imamo sobe različitih težina —
+                            od početničkih do naprednih izazova.
+                        </p>
 
                     </div>
 
@@ -354,11 +513,92 @@
                     Završi prijavu
                 </button>
 
-                <a href="#" class="forgot-password">
+                <a href="javascript:void(0)"
+                       class="forgot-password"
+                       id="forgotPasswordBtn">
+
                     Zaboravljena lozinka?
+
                 </a>
 
             </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+     FORGOT PASSWORD MODAL
+========================= -->
+
+    <div class="forgot-modal" id="forgotModal">
+
+        <div class="forgot-box">
+
+            <span class="close-forgot"
+                  id="closeForgotModal">
+
+                &times;
+
+            </span>
+
+            <h2>Resetovanje lozinke</h2>
+
+            <p>
+                Unesite e-mail adresu povezanu sa vašim računom.
+            </p>
+
+            <input type="email"
+                   placeholder="Email adresa">
+
+            <button id="sendCodeBtn">
+
+                Pošalji kod
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- =========================
+     VERIFICATION CODE MODAL
+========================= -->
+
+    <div class="forgot-modal" id="codeModal">
+
+        <div class="forgot-box">
+
+            <h2>Verifikacija koda</h2>
+
+            <p>
+                Unesite kod koji smo poslali na vaš e-mail.
+            </p>
+
+            <input type="text"
+                   id="verificationCode"
+                   placeholder="Unesite kod">
+
+            <p id="codeError"
+                   class="code-error">
+
+                Kod nije ispravan.
+
+            </p>
+
+            <button id="verifyCodeBtn">
+
+                Potvrdi kod
+
+            </button>
+
+            <button id="resendCodeBtn"
+                    class="resend-btn">
+
+                Pošalji kod ponovo
+
+            </button>
 
         </div>
 
@@ -448,6 +688,41 @@
 
             });
 
+            /* FORGOT PASSWORD */
+
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const forgotPasswordBtn =
+                document.getElementById("forgotPasswordBtn");
+
+                const forgotModal =
+                document.getElementById("forgotModal");
+
+                const closeForgotModal =
+                document.getElementById("closeForgotModal");
+
+                         forgotPasswordBtn.addEventListener("click", function (e) {
+
+                e.preventDefault();
+
+                /* ZATVORI LOGIN */
+
+                loginModal.classList.remove("show-login");
+
+                /* OTVORI FORGOT */
+
+                forgotModal.classList.add("show-forgot");
+
+            });
+
+                closeForgotModal.addEventListener("click", function () {
+
+                    forgotModal.classList.remove("show-forgot");
+
+                });
+
+            });
+
             /* REGISTER */
 
             const registerBtn = document.querySelector(".btn-register");
@@ -521,7 +796,7 @@
             });
 
 
-                                   /* CLASSROOM ROOM */
+                                   /* HAUNTED CLASSROOM */
 
             document.addEventListener("DOMContentLoaded", function () {
 
@@ -556,6 +831,140 @@
                 });
 
             });
+
+
+
+                        /* OUTBREAK LAB */
+
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const outbreakBtn =
+                document.querySelector(".outbreak-btn");
+
+                const outbreakModal =
+                document.getElementById("outbreakModal");
+
+                const closeOutbreakModal =
+                document.getElementById("closeOutbreakModal");
+
+                outbreakBtn.addEventListener("click", function (e) {
+
+                    e.preventDefault();
+
+                    outbreakModal.classList.add("show-room-modal");
+
+                });
+
+                closeOutbreakModal.addEventListener("click", function () {
+
+                    outbreakModal.classList.remove("show-room-modal");
+
+                });
+
+                window.addEventListener("click", function (e) {
+
+                    if (e.target === outbreakModal) {
+
+                        outbreakModal.classList.remove("show-room-modal");
+
+                    }
+
+                });
+
+            });
+
+                        /* MAGIC ACADEMY */
+
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const magicBtn = document.querySelector(".magic-btn");
+
+                const magicModal = document.getElementById("magicModal");
+
+                const closeMagicModal = document.getElementById("closeMagicModal");
+
+                magicBtn.addEventListener("click", function (e) {
+
+                    e.preventDefault();
+
+                    magicModal.classList.add("show-room-modal");
+
+                });
+
+                closeMagicModal.addEventListener("click", function () {
+
+                    magicModal.classList.remove("show-room-modal");
+
+                });
+
+                window.addEventListener("click", function (e) {
+
+                    if (e.target === magicModal) {
+
+                        magicModal.classList.remove("show-room-modal");
+
+                    }
+
+                });
+
+            });
+
+
+                        /* HAUNTED HOUSE */
+
+
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const hauntedBtn = document.querySelector(".haunted-btn");
+
+                const hauntedModal = document.getElementById("hauntedModal");
+
+                const closeHauntedModal = document.getElementById("closeHauntedModal");
+
+                hauntedBtn.addEventListener("click", function (e) {
+
+                    e.preventDefault();
+
+                    hauntedModal.classList.add("show-room-modal");
+
+                });
+
+                closeHauntedModal.addEventListener("click", function () {
+
+                    hauntedModal.classList.remove("show-room-modal");
+
+                });
+
+                window.addEventListener("click", function (e) {
+
+                    if (e.target === hauntedModal) {
+
+                        hauntedModal.classList.remove("show-room-modal");
+
+                    }
+
+                });
+
+            });
+
+
+                 /* FAQ */
+
+            const faqQuestions = document.querySelectorAll(".faq-question");
+
+            faqQuestions.forEach(question => {
+
+                question.addEventListener("click", () => {
+
+                    const item = question.parentElement;
+
+                    item.classList.toggle("active");
+
+                });
+
+            });
+        
+
 
     </script>
     <!-- BACK TO TOP -->
@@ -865,7 +1274,7 @@
 
 
 
-            <!-- =========================
+    <!-- =========================
      LOCKED CLASSROOM MODAL
 ========================= -->
 
@@ -1162,7 +1571,905 @@
 
             </div>
 
-    
+    <!-- =========================
+     OUTBREAK LAB MODAL
+========================= -->
+
+    <div class="room-modal" id="outbreakModal">
+
+        <div class="room-modal-box">
+
+            <!-- CLOSE -->
+
+            <span class="close-room" id="closeOutbreakModal">
+                &times;
+            </span>
+
+            <!-- IMAGE -->
+
+            <div class="room-image">
+
+                <img src="/images/lab1.jpg" alt="Outbreak Lab">
+
+                <div class="room-overlay">
+
+                    <h2>Outbreak Lab</h2>
+
+                    <p>
+                        Naučna misterija • Eksperiment • Napetost
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- DETAILS -->
+
+            <div class="room-details">
+
+                <!-- INFO -->
+
+                <div class="room-info-modern">
+
+                    <div class="modern-info-card">
+
+                        <div class="modern-number">01</div>
+
+                        <div>
+                            <h4>Težina</h4>
+                            <p>8/10</p>
+                        </div>
+
+                    </div>
+
+                    <div class="modern-info-card">
+
+                        <div class="modern-number">02</div>
+
+                        <div>
+                            <h4>Trajanje</h4>
+                            <p>60 min</p>
+                        </div>
+
+                    </div>
+
+                    <div class="modern-info-card">
+
+                        <div class="modern-number">03</div>
+
+                        <div>
+                            <h4>Igrača</h4>
+                            <p>2 – 5</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- GRID -->
+
+                <div class="room-grid">
+
+                    <!-- LEFT -->
+
+                    <div class="room-left">
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="room-description modern-box">
+
+                            <h3>Opis sobe</h3>
+
+                            <p>
+                                Opasan virus pušten je u laboratoriju i
+                                cijeli sistem je pred zaključavanjem.
+                                Vaš tim mora pronaći skrivene sastojke
+                                i napraviti antidot prije nego vrijeme
+                                istekne.
+                            </p>
+
+                            <p>
+                                Soba kombinuje logiku, pritisak vremena
+                                i intenzivne zadatke koji zahtijevaju
+                                brzo razmišljanje, komunikaciju i
+                                preciznu koordinaciju između igrača.
+                            </p>
+
+                            <p>
+                                Svaka sekunda je važna, a jedan pogrešan
+                                korak može vas udaljiti od rješenja.
+                            </p>
+
+                            <p>
+                                IDEAL RED:
+                                Fokus • pritisak vremena • kombinovanje rješenja
+                            </p>
+
+                        </div>
+
+                        <!-- RESERVATION -->
+
+                        <div class="reservation-box modern-box">
+
+                            <div class="reservation-top">
+
+                                <h3>Rezervacija termina</h3>
+
+                                <span>📅</span>
+
+                            </div>
+
+                            <form class="reservation-form">
+
+                                <input type="text"
+                                       placeholder="Ime i prezime">
+
+                                <input type="email"
+                                       placeholder="Email">
+
+                                <input type="date">
+
+                                <input type="time">
+
+                                <div class="reservation-note">
+
+                                    ℹ Nakon rezervacije ćemo vam poslati potvrdu termina.
+
+                                </div>
+
+                                <button type="submit">
+                                    Rezerviši termin
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                    <!-- RIGHT -->
+
+                    <div class="room-right">
+
+                        <!-- AVERAGE -->
+
+                        <div class="average-rating-modern">
+
+                            <div class="rating-left">
+
+                                <h2>4.9</h2>
+
+                                <p>Ocjena sobe</p>
+
+                            </div>
+
+                            <div class="rating-right">
+
+                                ⭐⭐⭐⭐⭐
+
+                                <span>31 recenzija</span>
+
+                            </div>
+
+                        </div>
+
+                        <!-- REVIEWS -->
+
+                        <div class="reviews-section">
+
+                            <h3>Recenzije igrača</h3>
+
+                            <!-- REVIEW -->
+
+                            <div class="modern-review">
+
+                                <div class="review-header">
+
+                                    <div class="review-user">
+
+                                        <div class="review-avatar">
+                                            EM
+                                        </div>
+
+                                        <div>
+
+                                            <h4>Emir S.</h4>
+
+                                            <span>Prije 1 dan</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="review-stars">
+                                        ⭐⭐⭐⭐⭐
+                                    </div>
+
+                                </div>
+
+                                <p>
+                                    Konstantan pritisak vremena vas drži
+                                    fokusiranim cijelu igru. Atmosfera
+                                    laboratorija je vrhunska.
+                                </p>
+
+                            </div>
+
+                            <!-- REVIEW -->
+
+                            <div class="modern-review">
+
+                                <div class="review-header">
+
+                                    <div class="review-user">
+
+                                        <div class="review-avatar">
+                                            NT
+                                        </div>
+
+                                        <div>
+
+                                            <h4>Ana T.</h4>
+
+                                            <span>Prije 4 dana</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="review-stars">
+                                        ⭐⭐⭐⭐⭐
+                                    </div>
+
+                                </div>
+
+                                <p>
+                                    Odlični puzzle zadaci i super osjećaj
+                                    napetosti. Antidot challenge je bio
+                                    baš zanimljiv.
+                                </p>
+
+                            </div>
+
+                            <!-- REVIEW -->
+
+                            <div class="modern-review">
+
+                                <div class="review-header">
+
+                                    <div class="review-user">
+
+                                        <div class="review-avatar">
+                                            DK
+                                        </div>
+
+                                        <div>
+
+                                            <h4>Marko K.</h4>
+
+                                            <span>Prije 1 sedmice</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="review-stars">
+                                        ⭐⭐⭐⭐
+                                    </div>
+
+                                </div>
+
+                                <p>
+                                    Jedna od najdinamičnijih soba koje
+                                    smo igrali. Svaki član tima mora
+                                    aktivno učestvovati.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+     MAGIC ACADEMY MODAL
+========================= -->
+
+    <div class="room-modal" id="magicModal">
+
+        <div class="room-modal-box">
+
+            <!-- CLOSE -->
+
+            <span class="close-room" id="closeMagicModal">
+                &times;
+            </span>
+
+            <!-- IMAGE -->
+
+            <div class="room-image">
+
+                <img src="/images/magic1.jpeg" alt="Magic Academy">
+
+                <div class="room-overlay">
+
+                    <h2>Magic Academy</h2>
+
+                    <p>
+                        Magija • Misterija • Avantura
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- DETAILS -->
+
+            <div class="room-details">
+
+                <!-- INFO -->
+
+                <div class="room-info-modern">
+
+                    <div class="modern-info-card">
+
+                        <div class="modern-number">01</div>
+
+                        <div>
+                            <h4>Težina</h4>
+                            <p>7/10</p>
+                        </div>
+
+                    </div>
+
+                    <div class="modern-info-card">
+
+                        <div class="modern-number">02</div>
+
+                        <div>
+                            <h4>Trajanje</h4>
+                            <p>60 min</p>
+                        </div>
+
+                    </div>
+
+                    <div class="modern-info-card">
+
+                        <div class="modern-number">03</div>
+
+                        <div>
+                            <h4>Igrača</h4>
+                            <p>2 – 6</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- GRID -->
+
+                <div class="room-grid">
+
+                    <!-- LEFT -->
+
+                    <div class="room-left">
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="room-description modern-box">
+
+                            <h3>Opis sobe</h3>
+
+                            <p>
+                                Zakoračite u drevnu akademiju magije skrivenu iza zidova
+                                punih misterioznih simbola, zabranjenih knjiga i tajnih prolaza.
+                                Svaka prostorija krije nove tragove i čarolije koje morate
+                                otkriti prije nego što vrijeme istekne.
+                            </p>
+
+                            <p>
+                                Ova soba kombinuje istraživanje, logičke izazove i atmosferu
+                                fantastične avanture. Očekuju vas skriveni mehanizmi,
+                                magični artefakti i zadaci koji zahtijevaju pažnju,
+                                timski rad i snalažljivost.
+                            </p>
+
+                            <p>
+                                IDEAL RED: Fokus • atmosfera • kreativno razmišljanje
+                            </p>
+
+                        </div>
+
+                        <!-- RESERVATION -->
+
+                        <div class="reservation-box modern-box">
+
+                            <div class="reservation-top">
+
+                                <h3>Rezervacija termina</h3>
+
+                                <span>📅</span>
+
+                            </div>
+
+                            <form class="reservation-form">
+
+                                <input type="text" placeholder="Ime i prezime">
+
+                                <input type="email" placeholder="Email">
+
+                                <input type="date">
+
+                                <input type="time">
+
+                                <div class="reservation-note">
+
+                                    ℹ Nakon rezervacije ćemo vam poslati potvrdu termina.
+
+                                </div>
+
+                                <button type="submit">
+                                    Rezerviši termin
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                    <!-- RIGHT -->
+
+                    <div class="room-right">
+
+                        <!-- AVERAGE -->
+
+                        <div class="average-rating-modern">
+
+                            <div class="rating-left">
+
+                                <h2>4.9</h2>
+
+                                <p>Ocjena sobe</p>
+
+                            </div>
+
+                            <div class="rating-right">
+
+                                ⭐⭐⭐⭐⭐
+
+                                <span>22 recenzije</span>
+
+                            </div>
+
+                        </div>
+
+                        <!-- REVIEWS -->
+                        <!-- REVIEWS -->
+
+                        <div class="reviews-section">
+
+                            <h3>Recenzije igrača</h3>
+
+                            <!-- REVIEW -->
+
+                            <div class="modern-review">
+
+                                <div class="review-header">
+
+                                    <div class="review-user">
+
+                                        <div class="review-avatar">
+                                            ES
+                                        </div>
+
+                                        <div>
+
+                                            <h4>Emina S.</h4>
+
+                                            <span>Prije 1 dan</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="review-stars">
+                                        ⭐⭐⭐⭐⭐
+                                    </div>
+
+                                </div>
+
+                                <p>
+                                    Ambijent je nevjerovatan i detalji su baš dobro urađeni.
+                                    Imali smo osjećaj kao da smo dio prave magične škole.
+                                </p>
+
+                            </div>
+
+                            <!-- REVIEW -->
+
+                            <div class="modern-review">
+
+                                <div class="review-header">
+
+                                    <div class="review-user">
+
+                                        <div class="review-avatar">
+                                            DN
+                                        </div>
+
+                                        <div>
+
+                                            <h4>Denis N.</h4>
+
+                                            <span>Prije 4 dana</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="review-stars">
+                                        ⭐⭐⭐⭐⭐
+                                    </div>
+
+                                </div>
+
+                                <p>
+                                    Zadaci su kreativni i zanimljivi, posebno skriveni mehanizmi
+                                    i tragovi povezani sa čarolijama.
+                                </p>
+
+                            </div>
+
+                            <!-- REVIEW -->
+
+                            <div class="modern-review">
+
+                                <div class="review-header">
+
+                                    <div class="review-user">
+
+                                        <div class="review-avatar">
+                                            AJ
+                                        </div>
+
+                                        <div>
+
+                                            <h4>Amina J.</h4>
+
+                                            <span>Prije 1 sedmice</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="review-stars">
+                                        ⭐⭐⭐⭐
+                                    </div>
+
+                                </div>
+
+                                <p>
+                                    Odlična fantasy atmosfera i super timski izazovi.
+                                    Vrijeme je baš brzo prošlo.
+                                </p>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =========================
+     HAUNTED HOUSE MODAL
+========================= -->
+
+    <div class="room-modal" id="hauntedModal">
+
+        <div class="room-modal-box">
+
+            <!-- CLOSE -->
+
+            <span class="close-room" id="closeHauntedModal">
+                &times;
+            </span>
+
+            <!-- IMAGE -->
+
+            <div class="room-image">
+
+                <img src="/images/haunted1.jpg" alt="Haunted House">
+
+                <div class="room-overlay">
+
+                    <h2>Haunted House</h2>
+
+                    <p>
+                        Horor • Misterija • Napetost
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- DETAILS -->
+
+            <div class="room-details">
+
+                <!-- INFO -->
+
+                <div class="room-info-modern">
+
+                    <div class="modern-info-card">
+
+                        <div class="modern-number">01</div>
+
+                        <div>
+                            <h4>Težina</h4>
+                            <p>7/10</p>
+                        </div>
+
+                    </div>
+
+                    <div class="modern-info-card">
+
+                        <div class="modern-number">02</div>
+
+                        <div>
+                            <h4>Trajanje</h4>
+                            <p>60 min</p>
+                        </div>
+
+                    </div>
+
+                    <div class="modern-info-card">
+
+                        <div class="modern-number">03</div>
+
+                        <div>
+                            <h4>Igrača</h4>
+                            <p>2 – 6</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- GRID -->
+
+                <div class="room-grid">
+
+                    <!-- LEFT -->
+
+                    <div class="room-left">
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="room-description modern-box">
+
+                            <h3>Opis sobe</h3>
+
+                            <p>
+                                Zakoračite u napuštenu kuću ispunjenu jezivim zvukovima,
+                                skrivenim prolazima i mračnim tajnama. Svaka prostorija
+                                krije nove tragove i iznenađenja koja će testirati vašu
+                                hrabrost i snalažljivost.
+                            </p>
+
+                            <p>
+                                Ova soba stavlja fokus na atmosferu, istraživanje i osjećaj
+                                napetosti. Pažljivo posmatrajte detalje, otkrivajte skrivene
+                                mehanizme i pokušajte razotkriti priču prije nego što bude kasno.
+                            </p>
+
+                            <p>
+                                IDEAL RED: Atmosfera • fokus • snalažljivost
+                            </p>
+
+                        </div>
+
+                        <!-- RESERVATION -->
+
+                        <div class="reservation-box modern-box">
+
+                            <div class="reservation-top">
+
+                                <h3>Rezervacija termina</h3>
+
+                                <span>📅</span>
+
+                            </div>
+
+                            <form class="reservation-form">
+
+                                <input type="text" placeholder="Ime i prezime">
+
+                                <input type="email" placeholder="Email">
+
+                                <input type="date">
+
+                                <input type="time">
+
+                                <div class="reservation-note">
+
+                                    ℹ Nakon rezervacije ćemo vam poslati potvrdu termina.
+
+                                </div>
+
+                                <button type="submit">
+                                    Rezerviši termin
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                    <!-- RIGHT -->
+
+                    <div class="room-right">
+
+                        <!-- AVERAGE -->
+
+                        <div class="average-rating-modern">
+
+                            <div class="rating-left">
+
+                                <h2>4.9</h2>
+
+                                <p>Ocjena sobe</p>
+
+                            </div>
+
+                            <div class="rating-right">
+
+                                ⭐⭐⭐⭐⭐
+
+                                <span>21 recenzija</span>
+
+                            </div>
+
+                        </div>
+
+                        <!-- REVIEWS -->
+
+                        <div class="reviews-section">
+
+                            <h3>Recenzije igrača</h3>
+
+                            <!-- REVIEW -->
+
+                            <div class="modern-review">
+
+                                <div class="review-header">
+
+                                    <div class="review-user">
+
+                                        <div class="review-avatar">
+                                            AK
+                                        </div>
+
+                                        <div>
+
+                                            <h4>Amna K.</h4>
+
+                                            <span>Prije 2 dana</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="review-stars">
+                                        ⭐⭐⭐⭐⭐
+                                    </div>
+
+                                </div>
+
+                                <p>
+                                    Atmosfera je nevjerovatna. Konstantno smo bili na oprezu
+                                    i svaki detalj doprinosi osjećaju misterije.
+                                </p>
+
+                            </div>
+
+                            <!-- REVIEW -->
+
+                            <div class="modern-review">
+
+                                <div class="review-header">
+
+                                    <div class="review-user">
+
+                                        <div class="review-avatar">
+                                            HM
+                                        </div>
+
+                                        <div>
+
+                                            <h4>Harun M.</h4>
+
+                                            <span>Prije 5 dana</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="review-stars">
+                                        ⭐⭐⭐⭐⭐
+                                    </div>
+
+                                </div>
+
+                                <p>
+                                    Odlični efekti i neočekivani momenti.
+                                    Jedna od najboljih horror soba koje smo igrali.
+                                </p>
+
+                            </div>
+
+                            <!-- REVIEW -->
+
+                            <div class="modern-review">
+
+                                <div class="review-header">
+
+                                    <div class="review-user">
+
+                                        <div class="review-avatar">
+                                            LS
+                                        </div>
+
+                                        <div>
+
+                                            <h4>Lejla S.</h4>
+
+                                            <span>Prije 1 sedmice</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="review-stars">
+                                        ⭐⭐⭐⭐
+                                    </div>
+
+                                </div>
+
+                                <p>
+                                    Perfektna kombinacija istraživanja, napetosti i timskog rada.
+                                    Držala nas je pod tenzijom cijelo vrijeme.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 
 </body>

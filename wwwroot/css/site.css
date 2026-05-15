@@ -168,6 +168,92 @@ body {
     font-weight: 600;
 }
 
+
+
+
+/* =========================
+   FORGOT PASSWORD
+========================= */
+
+.forgot-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+    z-index: 99999;
+}
+
+.show-forgot {
+    opacity: 1;
+    visibility: visible;
+}
+
+.forgot-box {
+    width: 420px;
+    background: #F5FBE6;
+    padding: 45px;
+    border-radius: 28px;
+    position: relative;
+}
+
+    .forgot-box h2 {
+        color: #233D4D;
+        margin-bottom: 15px;
+    }
+
+    .forgot-box p {
+        color: #5c6b73;
+        margin-bottom: 25px;
+        line-height: 1.6;
+    }
+
+    .forgot-box input {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 14px;
+        margin-bottom: 20px;
+        background: white;
+    }
+
+    .forgot-box button {
+        width: 100%;
+        border: none;
+        padding: 16px;
+        border-radius: 14px;
+        background: #FE7F2D;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+.close-forgot {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.code-error {
+    color: #d62828;
+    font-size: 14px;
+    margin-bottom: 16px;
+    display: none;
+}
+
+.resend-btn {
+    margin-top: 12px !important;
+    background: transparent !important;
+    border: 2px solid #215E61 !important;
+    color: #215E61 !important;
+}
+
 /* =========================
    HERO CONTENT
 ========================= */
@@ -623,7 +709,7 @@ body {
 }
 
     /* TOP PRELAZ */
-
+    /*
     .contact-section::before {
         content: "";
         position: absolute;
@@ -633,6 +719,18 @@ body {
         height: 180px;
         background: linear-gradient( to bottom, #215E61 0%, rgba(33,94,97,0.75) 35%, rgba(245,251,230,0) 100% );
         z-index: 1;
+    }
+        */
+    .contact-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 190px;
+        background: linear-gradient( to bottom, #215E61 0%, rgba(33,94,97,0.78) 28%, rgba(74,122,118,0.34) 58%, rgba(245,251,230,0) 100% );
+        filter: blur(0px);
+        opacity: 0.95;
     }
 
 /* CONTAINER */
@@ -781,6 +879,151 @@ body {
     100% {
         transform: translate(-50%, -50%);
     }
+}
+
+/* =========================
+   FAQ SECTION
+========================= */
+
+.faq-section {
+    padding: 120px 80px;
+    background: #F5FBE6;
+    position: relative;
+    overflow: hidden;
+}
+
+    /* TOP PRELAZ */
+
+    .faq-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 180px;
+        background: linear-gradient( to bottom, #215E61 0%, rgba(33,94,97,0.72) 35%, rgba(245,251,230,0) 100% );
+    }
+
+.faq-section {
+    padding: 120px 80px;
+    background: #F5FBE6;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+    /* BOTTOM PRELAZ */
+
+    .faq-section::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 190px;
+        background: linear-gradient( to top, #215E61 0%, rgba(33,94,97,0.78) 28%, rgba(74,122,118,0.34) 58%, rgba(245,251,230,0) 100% );
+        filter: blur(0px);
+        opacity: 0.95;
+    }
+
+.faq-container {
+    max-width: 950px;
+    margin: auto;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.faq-subtitle {
+    color: #215E61;
+    letter-spacing: 6px;
+    font-weight: 700;
+    margin-bottom: 22px;
+    position: relative;
+    display: inline-block;
+}
+
+    .faq-subtitle::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: -12px;
+        transform: translateX(-50%);
+        width: 220px;
+        height: 2px;
+        background: #215E61;
+    }
+
+.faq-title {
+    font-size: 56px;
+    color: #233D4D;
+    margin-bottom: 22px;
+    font-weight: 900;
+}
+
+.faq-text {
+    max-width: 780px;
+    margin: auto;
+    font-size: 20px;
+    line-height: 1.8;
+    color: #4f616b;
+    margin-bottom: 60px;
+}
+
+.faq-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.faq-item {
+    background: rgba(255,255,255,0.9);
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+    transition: 0.3s;
+}
+
+    .faq-item:hover {
+        transform: translateY(-3px);
+    }
+
+.faq-question {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 28px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 700;
+    color: #233D4D;
+}
+
+    .faq-question span {
+        font-size: 28px;
+        color: #FE7F2D;
+    }
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.35s ease;
+    padding: 0 30px;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 200px;
+    padding: 0 30px 28px;
+}
+
+.faq-answer p {
+    color: #52646d;
+    line-height: 1.8;
+    font-size: 16px;
+    text-align: left;
 }
 
 /* =========================
