@@ -1,0 +1,6 @@
+{
+  "name": "Escape Room Booking Manager",
+  "description": "Cjelokupni Full-Stack portfelj za upravljanje i rezervaciju termina u escape room-ovima sa podrškom za korisnike, administratore i zaposlenike.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
