@@ -12,8 +12,8 @@ using Task6.Data;
 namespace Task6.Migrations
 {
     [DbContext(typeof(EscapeRoomDbContext))]
-    [Migration("20260512154608_IdentityAdded")]
-    partial class IdentityAdded
+    [Migration("20260523111539_InitialIdentity")]
+    partial class InitialIdentity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -177,6 +177,11 @@ namespace Task6.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Ime")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -200,11 +205,19 @@ namespace Task6.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Prezime")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
+
+                    b.Property<int>("Uloga")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -253,46 +266,6 @@ namespace Task6.Migrations
                     b.HasKey("RoomID");
 
                     b.ToTable("EscapeRooms");
-                });
-
-            modelBuilder.Entity("Task6.Models.Korisnik", b =>
-                {
-                    b.Property<int>("KorisnikID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("KorisnikID"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Ime")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("Lozinka")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Prezime")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<int>("Uloga")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.HasKey("KorisnikID");
-
-                    b.ToTable("Korisnici");
                 });
 
             modelBuilder.Entity("Task6.Models.Obavijest", b =>
@@ -366,8 +339,9 @@ namespace Task6.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("KorisnikID")
-                        .HasColumnType("int");
+                    b.Property<string>("KorisnikID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("NaslovPoruke")
                         .IsRequired()
@@ -402,8 +376,9 @@ namespace Task6.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<int>("KorisnikID")
-                        .HasColumnType("int");
+                    b.Property<string>("KorisnikID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("Ocjena")
                         .HasColumnType("float");
@@ -434,8 +409,9 @@ namespace Task6.Migrations
                     b.Property<DateTime>("DatumKreiranja")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("KorisnikID")
-                        .HasColumnType("int");
+                    b.Property<string>("KorisnikID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
@@ -544,7 +520,7 @@ namespace Task6.Migrations
 
             modelBuilder.Entity("Task6.Models.Podrska", b =>
                 {
-                    b.HasOne("Task6.Models.Korisnik", "Korisnik")
+                    b.HasOne("Task6.Models.ApplicationUser", "Korisnik")
                         .WithMany()
                         .HasForeignKey("KorisnikID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -555,7 +531,7 @@ namespace Task6.Migrations
 
             modelBuilder.Entity("Task6.Models.Recenzija", b =>
                 {
-                    b.HasOne("Task6.Models.Korisnik", "Korisnik")
+                    b.HasOne("Task6.Models.ApplicationUser", "Korisnik")
                         .WithMany()
                         .HasForeignKey("KorisnikID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -574,7 +550,7 @@ namespace Task6.Migrations
 
             modelBuilder.Entity("Task6.Models.Rezervacija", b =>
                 {
-                    b.HasOne("Task6.Models.Korisnik", "Korisnik")
+                    b.HasOne("Task6.Models.ApplicationUser", "Korisnik")
                         .WithMany()
                         .HasForeignKey("KorisnikID")
                         .OnDelete(DeleteBehavior.Cascade)

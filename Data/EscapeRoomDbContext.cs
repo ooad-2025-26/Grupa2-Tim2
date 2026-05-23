@@ -11,7 +11,6 @@ namespace Task6.Data
         {
         }
 
-        public DbSet<Korisnik> Korisnici { get; set; }
         public DbSet<EscapeRoom> EscapeRooms { get; set; }
         public DbSet<Rezervacija> Rezervacije { get; set; }
         public DbSet<Termin> Termini { get; set; }

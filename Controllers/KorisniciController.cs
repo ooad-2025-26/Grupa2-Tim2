@@ -1,43 +1,43 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Task6.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Task6.Models;
 
 namespace Task6.Controllers
 {
     public class KorisniciController : Controller
     {
-        private readonly EscapeRoomDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public KorisniciController(EscapeRoomDbContext context)
+        public KorisniciController(UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _userManager = userManager;
         }
 
-        // PRIKAZ SVIH KORISNIKA
         public IActionResult Index()
         {
-            var korisnici = _context.Korisnici.ToList();
-
+            var korisnici = _userManager.Users.ToList();
             return View(korisnici);
         }
 
-        // OTVARA FORMU
         public IActionResult Create()
         {
             return View();
         }
 
-        // SPASAVA PODATKE
         [HttpPost]
-        public IActionResult Create(Korisnik korisnik)
+        public async Task<IActionResult> Create(ApplicationUser korisnik, string lozinka)
         {
             if (ModelState.IsValid)
             {
-                _context.Korisnici.Add(korisnik);
+                korisnik.UserName = korisnik.Email;
 
-                _context.SaveChanges();
+                var rezultat = await _userManager.CreateAsync(korisnik, lozinka);
 
-                return RedirectToAction(nameof(Index));
+                if (rezultat.Succeeded)
+                    return RedirectToAction(nameof(Index));
+
+                foreach (var greska in rezultat.Errors)
+                    ModelState.AddModelError("", greska.Description);
             }
 
             return View(korisnik);

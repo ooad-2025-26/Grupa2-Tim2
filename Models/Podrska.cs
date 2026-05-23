@@ -23,10 +23,10 @@ namespace Task6.Models
         [StringLength(100)]
         public string NaslovPoruke { get; set; }
 
-        [ForeignKey("Korisnik")]
-        public int KorisnikID { get; set; }
+        [ForeignKey(nameof(Korisnik))]
+        public string KorisnikID { get; set; }
 
-        public Korisnik Korisnik { get; set; }
+        public ApplicationUser Korisnik { get; set; }
 
         public Podrska() { }
     }

@@ -16,10 +16,10 @@ namespace Task6.Models
         [Range(1, 10)]
         public int BrojOsoba { get; set; }
 
-        [ForeignKey("Korisnik")]
-        public int KorisnikID { get; set; }
+        [ForeignKey(nameof(Korisnik))]
+        public string KorisnikID { get; set; }
 
-        public Korisnik Korisnik { get; set; }
+        public ApplicationUser Korisnik { get; set; }
 
         [ForeignKey("Termin")]
         public int TerminID { get; set; }

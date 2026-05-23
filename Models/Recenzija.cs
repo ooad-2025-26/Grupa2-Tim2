@@ -17,10 +17,10 @@ namespace Task6.Models
         [Required]
         public DateTime Datum { get; set; }
 
-        [ForeignKey("Korisnik")]
-        public int KorisnikID { get; set; }
+        [ForeignKey(nameof(Korisnik))]
+        public string KorisnikID { get; set; }
 
-        public Korisnik Korisnik { get; set; }
+        public ApplicationUser Korisnik { get; set; }
 
         [ForeignKey("EscapeRoom")]
         public int RoomID { get; set; }
