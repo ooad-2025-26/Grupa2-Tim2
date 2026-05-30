@@ -1,0 +1,19 @@
+@{
+    ViewData["Title"] = "Unesite kod";
+}
+
+<h2>Unesite kod poslan na email</h2>
+
+<form asp-action="VerifyResetCode" method="post">
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" value="@ViewBag.Email" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="code" class="form-label">Kod</label>
+        <input type="text" class="form-control" id="code" name="code" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Potvrdi kod</button>
+</form>

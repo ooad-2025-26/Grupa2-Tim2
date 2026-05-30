@@ -1,3 +1,4 @@
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Task6.Models
@@ -8,22 +9,23 @@ namespace Task6.Models
         public int RoomID { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 3)]
-        public string Naziv { get; set; }
+        [MaxLength(50)]
+        public string Naziv { get; set; } = string.Empty;
 
         [Required]
-        [StringLength(300)]
-        public string Opis { get; set; }
+        [MaxLength(300)]
+        public string Opis { get; set; } = string.Empty;
 
-        [Required]
         public Tezina Tezina { get; set; }
 
-        [Range(1, 20)]
         public int Kapacitet { get; set; }
 
-        [Range(0, 1000)]
         public double Cijena { get; set; }
 
-        public EscapeRoom() { }
+        // Navigation property for related reviews (recenzije)
+        public virtual ICollection<Recenzija> Recenzije { get; set; } = new List<Recenzija>();
+
+        // Navigation property for termini
+        public virtual ICollection<Termin> Termini { get; set; } = new List<Termin>();
     }
 }

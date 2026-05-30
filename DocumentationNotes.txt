@@ -1,0 +1,11 @@
+Added startup logging of connection string and which database is used.
+Follow these manual steps after pulling changes:
+1. dotnet ef database update --context EscapeRoomDbContext
+2. Verify database `EscapeRoomDB_Nova` exists in SQL Server Object Explorer.
+3. If there is a conflict with existing DB, follow lab instructions in repository documentation to drop or rename existing DB.
+
+Files changed:
+- appsettings.json (DefaultConnection updated to EscapeRoomDB_Nova)
+- Program.cs (added logging of connection string and name) 
+
+If you want automated fallback to attempt Baseline migration (--ignore-changes), request it explicitly.

@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Task6.Models
 {
@@ -9,11 +9,11 @@ namespace Task6.Models
 
         [Required]
         [StringLength(100)]
-        public string Naslov { get; set; }
+        public string Naslov { get; set; } = null!;
 
         [Required]
         [StringLength(500)]
-        public string Sadrzaj { get; set; }
+        public string Sadrzaj { get; set; } = null!;
 
         [Required]
         public DateTime Datum { get; set; }

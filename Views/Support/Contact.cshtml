@@ -1,0 +1,48 @@
+@model Task6.Models.Podrska
+
+@{
+    ViewData["Title"] = "Kontaktirajte nas";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="mb-4">Kontaktirajte nas</h1>
+
+            <p class="lead mb-4">Imate pitanja ili problem? Pošaljite nam poruku i uskoro ćemo vam odgovoriti!</p>
+
+            <form method="post" class="card p-4 shadow-sm">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="NaslovPoruke" class="form-label"></label>
+                    <input asp-for="NaslovPoruke" class="form-control" placeholder="Tema poruke" required />
+                    <span asp-validation-for="NaslovPoruke" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" class="form-control" type="email" placeholder="vas@email.com" required />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Sadrzaj" class="form-label"></label>
+                    <textarea asp-for="Sadrzaj" class="form-control" rows="5" placeholder="Napišite vašu poruku..." required></textarea>
+                    <span asp-validation-for="Sadrzaj" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Pošalji poruku</button>
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Otkaži</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

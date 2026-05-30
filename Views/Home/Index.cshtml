@@ -1,4 +1,9 @@
+﻿
 
+@using Microsoft.AspNetCore.Identity
+@using Task6.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <body>
 
@@ -34,8 +39,43 @@
             </ul>
 
             <div class="nav-buttons">
-                <a href="#" class="btn-login">Prijava</a>
-                <a href="#" class="btn-register">Registracija</a>
+
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    var currentUser = await UserManager.GetUserAsync(User);
+
+                    <a asp-controller="Profil"
+                       asp-action="Index"
+                       class="btn-login">
+                        @(currentUser?.Ime ?? "Moj Profil")
+                    </a>
+
+                    <form asp-controller="Account"
+                          asp-action="Logout"
+                          method="post"
+                          style="display:inline;">
+
+                        <button type="submit"
+                                class="btn-register">
+                            Odjava
+                        </button>
+
+                    </form>
+                }
+                 
+                else
+                {
+                    <a href="/Account/Login"
+                       class="btn-login">
+                        Prijava
+                    </a>
+
+                    <a href="/Account/Register"
+                       class="btn-register">
+                        Registracija
+                    </a>
+                }
+               
             </div>
 
         </nav>
@@ -475,6 +515,8 @@
         </div>
 
     </section>
+
+    @*
     <!-- LOGIN MODAL -->
 
     <div class="login-modal" id="loginModal">
@@ -527,7 +569,7 @@
 
     </div>
 
-
+    
     <!-- =========================
      FORGOT PASSWORD MODAL
 ========================= -->
@@ -604,6 +646,7 @@
 
     </div>
 
+    
     <!-- REGISTER MODAL -->
 
     <div class="register-modal" id="registerModal">
@@ -664,10 +707,13 @@
 
     </div>
 
+    *@
+
     <!-- SCRIPT -->
 
     <script>
 
+             @*
             /* LOGIN */
 
             const loginBtn = document.querySelector(".btn-login");
@@ -742,6 +788,12 @@
                 registerModal.classList.remove("show-register");
 
             });
+
+
+           *@
+
+
+
                         /* MURDER ROOM */
 
             document.addEventListener("DOMContentLoaded", function() {
@@ -776,6 +828,8 @@
                 });
 
             });
+            
+            @*
 
             /* CLOSE WHEN CLICK OUTSIDE */
 
@@ -794,6 +848,10 @@
                           
 
             });
+
+
+
+            *@
 
 
                                    /* HAUNTED CLASSROOM */

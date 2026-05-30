@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Task6.Models
@@ -17,14 +17,14 @@ namespace Task6.Models
         public int BrojOsoba { get; set; }
 
         [ForeignKey(nameof(Korisnik))]
-        public string KorisnikID { get; set; }
+        public string KorisnikID { get; set; } = null!;
 
-        public ApplicationUser Korisnik { get; set; }
+        public ApplicationUser Korisnik { get; set; } = null!;
 
         [ForeignKey("Termin")]
         public int TerminID { get; set; }
 
-        public Termin Termin { get; set; }
+        public Termin Termin { get; set; } = null!;
 
         public Rezervacija() { }
     }

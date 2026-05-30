@@ -1,0 +1,88 @@
+@model IEnumerable<Task6.Models.EscapeRoom>
+
+@{
+    ViewData["Title"] = "Escape Rooms";
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4">Dostupne Escape Sobe</h1>
+
+    <!-- Search and Filter -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <form method="get" class="d-flex gap-2">
+                <input type="text" name="searchTerm" class="form-control" placeholder="Pretraži sobe..." value="@ViewBag.SearchTerm" />
+                @{ var filter = (string)ViewBag.FilterTezina; }
+                <select name="filterTezina" class="form-select">
+                    @if (string.IsNullOrEmpty(filter))
+                    {
+                        <option value="" selected>Sve težine</option>
+                    }
+                    else
+                    {
+                        <option value="">Sve težine</option>
+                    }
+
+                    @if (filter == "Lagana")
+                    {
+                        <option value="Lagana" selected>Lagana</option>
+                    }
+                    else
+                    {
+                        <option value="Lagana">Lagana</option>
+                    }
+
+                    @if (filter == "Srednja")
+                    {
+                        <option value="Srednja" selected>Srednja</option>
+                    }
+                    else
+                    {
+                        <option value="Srednja">Srednja</option>
+                    }
+
+                    @if (filter == "Teska")
+                    {
+                        <option value="Teska" selected>Teška</option>
+                    }
+                    else
+                    {
+                        <option value="Teska">Teška</option>
+                    }
+                </select>
+                <button type="submit" class="btn btn-primary">Pretraži</button>
+                <a href="@Url.Action("Index")" class="btn btn-secondary">Obriši filter</a>
+            </form>
+        </div>
+    </div>
+
+    <!-- Rooms Grid -->
+    <div class="row">
+        @foreach (var room in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@room.Naziv</h5>
+                        <p class="card-text">@room.Opis</p>
+                        <div class="mb-2">
+                            <span class="badge bg-info">Težina: @room.Tezina</span>
+                            <span class="badge bg-success">Kapacitet: @room.Kapacitet osoba</span>
+                        </div>
+                        <p class="text-muted mb-3">Cijena: <strong>@room.Cijena KM</strong> po osobi</p>
+                        <a asp-controller="Room" asp-action="Details" asp-route-id="@room.RoomID" class="btn btn-primary w-100">
+                            Detalji i rezervacija
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info" role="alert">
+            Nema dostupnih soba prema vašim kriterijumima.
+        </div>
+    }
+</div>

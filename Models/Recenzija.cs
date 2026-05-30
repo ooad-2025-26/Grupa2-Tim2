@@ -1,3 +1,4 @@
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,25 +9,23 @@ namespace Task6.Models
         [Key]
         public int RecenzijaID { get; set; }
 
-        [Range(1, 5)]
-        public double Ocjena { get; set; }
-
-        [StringLength(300)]
-        public string Komentar { get; set; }
-
-        [Required]
         public DateTime Datum { get; set; }
 
-        [ForeignKey(nameof(Korisnik))]
-        public string KorisnikID { get; set; }
+        [Required]
+        [MaxLength(300)]
+        public string Komentar { get; set; } = string.Empty;
 
-        public ApplicationUser Korisnik { get; set; }
+        [Required]
+        public string KorisnikID { get; set; } = string.Empty;
 
-        [ForeignKey("EscapeRoom")]
+        [ForeignKey(nameof(KorisnikID))]
+        public virtual ApplicationUser Korisnik { get; set; } = null!;
+
+        public double Ocjena { get; set; }
+
         public int RoomID { get; set; }
 
-        public EscapeRoom EscapeRoom { get; set; }
-
-        public Recenzija() { }
+        [ForeignKey(nameof(RoomID))]
+        public virtual EscapeRoom EscapeRoom { get; set; } = null!;
     }
 }

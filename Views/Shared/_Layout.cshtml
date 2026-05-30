@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -11,7 +11,15 @@
 
 <body>
 
+    @using Microsoft.AspNetCore.Identity
+    @using Task6.Models
+    @inject SignInManager<ApplicationUser> SignInManager
+    @inject UserManager<ApplicationUser> UserManager
+
+    <!-- Authentication UI is rendered inside page-specific nav (e.g. Views/Home/Index.cshtml) -->
+
     @RenderBody()
+    @await RenderSectionAsync("Scripts", required: false)
 
 </body>
 </html>
