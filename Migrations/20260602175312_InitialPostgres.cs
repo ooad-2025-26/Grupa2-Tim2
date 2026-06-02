@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace Task6.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialIdentity : Migration
+    public partial class InitialPostgres : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,10 +16,10 @@ namespace Task6.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -29,24 +30,26 @@ namespace Task6.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Ime = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Prezime = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Uloga = table.Column<int>(type: "int", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Ime = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    Prezime = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    Uloga = table.Column<int>(type: "integer", nullable: false),
+                    ResetCode = table.Column<string>(type: "text", nullable: true),
+                    ResetCodeExpiry = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -57,13 +60,13 @@ namespace Task6.Migrations
                 name: "EscapeRooms",
                 columns: table => new
                 {
-                    RoomID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Naziv = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Opis = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    Tezina = table.Column<int>(type: "int", nullable: false),
-                    Kapacitet = table.Column<int>(type: "int", nullable: false),
-                    Cijena = table.Column<double>(type: "float", nullable: false)
+                    RoomID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Naziv = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Opis = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
+                    Tezina = table.Column<int>(type: "integer", nullable: false),
+                    Kapacitet = table.Column<int>(type: "integer", nullable: false),
+                    Cijena = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,12 +77,12 @@ namespace Task6.Migrations
                 name: "Obavijesti",
                 columns: table => new
                 {
-                    ObavijestID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Naslov = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Sadrzaj = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    Datum = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TipObavijesti = table.Column<int>(type: "int", nullable: false)
+                    ObavijestID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Naslov = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Sadrzaj = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
+                    Datum = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TipObavijesti = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -90,11 +93,11 @@ namespace Task6.Migrations
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RoleId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -111,11 +114,11 @@ namespace Task6.Migrations
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -132,10 +135,10 @@ namespace Task6.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    ProviderKey = table.Column<string>(type: "text", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -152,8 +155,8 @@ namespace Task6.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    RoleId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -176,10 +179,10 @@ namespace Task6.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -196,13 +199,13 @@ namespace Task6.Migrations
                 name: "Podrske",
                 columns: table => new
                 {
-                    PorukaID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Datum = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Sadrzaj = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    NaslovPoruke = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    KorisnikID = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    PorukaID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Datum = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Sadrzaj = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
+                    NaslovPoruke = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    KorisnikID = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -219,13 +222,13 @@ namespace Task6.Migrations
                 name: "Recenzije",
                 columns: table => new
                 {
-                    RecenzijaID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Ocjena = table.Column<double>(type: "float", nullable: false),
-                    Komentar = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    Datum = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    KorisnikID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoomID = table.Column<int>(type: "int", nullable: false)
+                    RecenzijaID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Datum = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Komentar = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
+                    KorisnikID = table.Column<string>(type: "text", nullable: false),
+                    Ocjena = table.Column<double>(type: "double precision", nullable: false),
+                    RoomID = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -248,12 +251,12 @@ namespace Task6.Migrations
                 name: "Termini",
                 columns: table => new
                 {
-                    TerminID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Datum = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Vrijeme = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Dostupnost = table.Column<bool>(type: "bit", nullable: false),
-                    RoomID = table.Column<int>(type: "int", nullable: false)
+                    TerminID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Datum = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Vrijeme = table.Column<string>(type: "text", nullable: false),
+                    Dostupnost = table.Column<bool>(type: "boolean", nullable: false),
+                    RoomID = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -270,13 +273,13 @@ namespace Task6.Migrations
                 name: "Rezervacije",
                 columns: table => new
                 {
-                    RezervacijaID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DatumKreiranja = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<bool>(type: "bit", nullable: false),
-                    BrojOsoba = table.Column<int>(type: "int", nullable: false),
-                    KorisnikID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TerminID = table.Column<int>(type: "int", nullable: false)
+                    RezervacijaID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    DatumKreiranja = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Status = table.Column<bool>(type: "boolean", nullable: false),
+                    BrojOsoba = table.Column<int>(type: "integer", nullable: false),
+                    KorisnikID = table.Column<string>(type: "text", nullable: false),
+                    TerminID = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -299,12 +302,12 @@ namespace Task6.Migrations
                 name: "Placanja",
                 columns: table => new
                 {
-                    PlacanjeID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Iznos = table.Column<double>(type: "float", nullable: false),
-                    Datum = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<bool>(type: "bit", nullable: false),
-                    RezervacijaID = table.Column<int>(type: "int", nullable: false)
+                    PlacanjeID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Iznos = table.Column<double>(type: "double precision", nullable: false),
+                    Datum = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Status = table.Column<bool>(type: "boolean", nullable: false),
+                    RezervacijaID = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -326,8 +329,7 @@ namespace Task6.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -353,8 +355,7 @@ namespace Task6.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Placanja_RezervacijaID",

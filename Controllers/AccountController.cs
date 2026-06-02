@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Task6.Models;
 using Task6.ViewModels;
+using Task6.Services;
 
 namespace Task6.Controllers
 {
@@ -12,15 +13,18 @@ namespace Task6.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<AccountController> _logger;
+        private readonly EmailService _emailService;
 
         public AccountController(
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            EmailService emailService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
+            _emailService = emailService;
         }
 
         // GET: /Account/Register
@@ -177,7 +181,16 @@ namespace Task6.Controllers
             await _userManager.UpdateAsync(user);
 
             // For now log the code to the debug output. In production send via email.
-            System.Diagnostics.Debug.WriteLine($"Password reset code for {email}: {code}");
+            await _emailService.SendEmailAsync(
+    email,
+    "The Last Key - Kod za promjenu lozinke",
+    $@"
+    <h2>The Last Key</h2>
+    <p>Vaš kod za promjenu lozinke je:</p>
+    <h1 style='color:#FE7F2D;'>{code}</h1>
+    <p>Kod važi 15 minuta.</p>
+    "
+);
 
             TempData["ResetEmail"] = email;
             return RedirectToAction(nameof(VerifyResetCode));

@@ -5,71 +5,94 @@
     var user = ViewBag.User as Task6.Models.ApplicationUser;
 }
 
-<div class="container mt-5">
-    <h1>Moj profil</h1>
+<div class="profile-page">
+    <div class="profile-container">
 
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="card-title">@user?.Ime @user?.Prezime</h5>
-            <p class="card-text"><strong>Email:</strong> @user?.Email</p>
-            <p class="card-text"><strong>Uloga:</strong> @user?.Uloga</p>
+        <div class="profile-header">
+            <div>
+                <p class="profile-small-title">THE LAST KEY</p>
+                <h1>Moj profil</h1>
+            </div>
+
+            <form asp-controller="Account" asp-action="Logout" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="logout-btn">Odjavi se</button>
+            </form>
+        </div>
+
+        <div class="profile-card">
+            <div class="profile-avatar">
+                @(user?.Ime?.Substring(0, 1))@(user?.Prezime?.Substring(0, 1))
+            </div>
+
+            <div class="profile-info">
+                <h2>@user?.Ime @user?.Prezime</h2>
+                <p><strong>Email:</strong> @user?.Email</p>
+                <p><strong>Uloga:</strong> @user?.Uloga</p>
+            </div>
+        </div>
+
+        <div class="reservations-section">
+            <h3>Moje rezervacije</h3>
+
+            @if (Model.Any())
+            {
+                <div class="profile-table-wrapper">
+                    <table class="profile-table">
+                        <thead>
+                            <tr>
+                                <th>Soba</th>
+                                <th>Datum</th>
+                                <th>Vrijeme</th>
+                                <th>Broj osoba</th>
+                                <th>Status</th>
+                                <th>Kreirano</th>
+                                <th>Akcije</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var reservation in Model)
+                            {
+                                <tr>
+                                    <td>@reservation.Termin.EscapeRoom.Naziv</td>
+                                    <td>@reservation.Termin.Datum.ToString("dd.MM.yyyy")</td>
+                                    <td>@reservation.Termin.Vrijeme</td>
+                                    <td>@reservation.BrojOsoba</td>
+                                    <td>
+                                        @if (reservation.Status)
+                                        {
+                                            <span class="status-badge status-ok">Potvrđena</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="status-badge status-cancel">Otkazana</span>
+                                        }
+                                    </td>
+                                    <td>@reservation.DatumKreiranja.ToString("dd.MM.yyyy HH:mm")</td>
+                                    <td class="action-buttons">
+                                        <a asp-action="Details" asp-route-id="@reservation.RezervacijaID" class="details-btn">Detalji</a>
+
+                                        @if (reservation.Termin.Datum > DateTime.UtcNow.AddHours(24) && reservation.Status)
+                                        {
+                                            <form asp-action="Cancel" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@reservation.RezervacijaID" />
+                                                <button type="submit" class="cancel-btn">Otkaži</button>
+                                            </form>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="empty-reservations">
+                    Nemate rezervacija.
+                </div>
+            }
         </div>
     </div>
-
-    <h3>Moje rezervacije</h3>
-
-    @if (Model.Any())
-    {
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Soba</th>
-                        <th>Datum</th>
-                        <th>Vrijeme</th>
-                        <th>Broj osoba</th>
-                        <th>Status</th>
-                        <th>Kreirano</th>
-                        <th>Akcije</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var reservation in Model)
-                    {
-                        <tr>
-                            <td>@reservation.Termin.EscapeRoom.Naziv</td>
-                            <td>@reservation.Termin.Datum.ToString("dd.MM.yyyy")</td>
-                            <td>@reservation.Termin.Vrijeme</td>
-                            <td>@reservation.BrojOsoba</td>
-                            <td>
-                                @if (reservation.Status)
-                                {
-                                    <span class="badge bg-success">Potvrđena</span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-warning">Otkazana</span>
-                                }
-                            </td>
-                            <td>@reservation.DatumKreiranja.ToString("dd.MM.yyyy HH:mm")</td>
-                            <td>
-                                <a asp-action="Details" asp-route-id="@reservation.RezervacijaID" class="btn btn-sm btn-info">Detalji</a>
-                                @if (reservation.Termin.Datum > DateTime.Now.AddHours(24) && reservation.Status)
-                                {
-                                    <form asp-action="Cancel" method="post" style="display:inline;">
-                                        <input type="hidden" name="id" value="@reservation.RezervacijaID" />
-                                        <button type="submit" class="btn btn-sm btn-danger">Otkaži</button>
-                                    </form>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
-    else
-    {
-        <div class="alert alert-info">Nemate rezervacija.</div>
-    }
 </div>

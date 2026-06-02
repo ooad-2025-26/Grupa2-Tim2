@@ -4,53 +4,49 @@
     ViewData["Title"] = "Registracija";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-lg">
-                <div class="card-body p-5">
-                    <h2 class="text-center mb-4">Registracija</h2>
-                    <form method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+<div class="auth-page">
+    <div class="login-card register-card">
+        <h2>Registracija</h2>
 
-                        <div class="mb-3">
-                            <label asp-for="Email" class="form-label"></label>
-                            <input asp-for="Email" class="form-control" placeholder="vas@email.com" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-                        <div class="mb-3">
-                            <label asp-for="Ime" class="form-label"></label>
-                            <input asp-for="Ime" class="form-control" placeholder="Vaše ime" />
-                            <span asp-validation-for="Ime" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Prezime" class="form-label"></label>
-                            <input asp-for="Prezime" class="form-control" placeholder="Vaše prezime" />
-                            <span asp-validation-for="Prezime" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Password" class="form-label"></label>
-                            <input asp-for="Password" class="form-control" placeholder="Lozinka" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-4">
-                            <label asp-for="ConfirmPassword" class="form-label"></label>
-                            <input asp-for="ConfirmPassword" class="form-control" placeholder="Potvrdite lozinku" />
-                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary w-100 mb-3">Registruj se</button>
-                    </form>
-
-                    <div class="text-center">
-                        <p>Već imate račun? <a asp-controller="Account" asp-action="Login">Prijavite se</a></p>
-                    </div>
-                </div>
+            <div class="mb-3">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" placeholder="vas@email.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+
+            <div class="mb-3">
+                <label asp-for="Ime"></label>
+                <input asp-for="Ime" class="form-control" placeholder="Vaše ime" />
+                <span asp-validation-for="Ime" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Prezime"></label>
+                <input asp-for="Prezime" class="form-control" placeholder="Vaše prezime" />
+                <span asp-validation-for="Prezime" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" placeholder="Lozinka" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="ConfirmPassword"></label>
+                <input asp-for="ConfirmPassword" class="form-control" placeholder="Potvrdite lozinku" type="password" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="login-btn">Registruj se</button>
+        </form>
+
+        <div class="register-link">
+            Već imate račun?
+            <a asp-controller="Account" asp-action="Login">Prijavite se</a>
         </div>
     </div>
 </div>

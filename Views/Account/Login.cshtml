@@ -4,43 +4,42 @@
     ViewData["Title"] = "Prijava";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-lg">
-                <div class="card-body p-5">
-                    <h2 class="text-center mb-4">Prijava</h2>
-                    <form method="post">
-                        @Html.AntiForgeryToken()
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+<div class="auth-page">
+    <div class="login-card">
+        <h2>Prijava</h2>
 
-                        <div class="mb-3">
-                            <label asp-for="Email" class="form-label"></label>
-                            <input asp-for="Email" class="form-control" placeholder="vas@email.com" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-                        <div class="mb-3">
-                            <label asp-for="Password" class="form-label"></label>
-                            <input asp-for="Password" class="form-control" placeholder="Lozinka" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-4">
-                            <div class="form-check">
-                                <input asp-for="RememberMe" class="form-check-input" />
-                                <label asp-for="RememberMe" class="form-check-label"></label>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary w-100 mb-3">Prijavite se</button>
-                    </form>
-
-                    <div class="text-center">
-                        <p>Nemate račun? <a asp-controller="Account" asp-action="Register">Registrujte se</a></p>
-                    </div>
-                </div>
+            <div class="mb-3">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" placeholder="vas@email.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+
+            <div class="mb-3">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" placeholder="Lozinka" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-check mb-4">
+                <input asp-for="RememberMe" class="form-check-input" />
+                <label asp-for="RememberMe" class="form-check-label">Zapamti me?</label>
+            </div>
+
+            <button type="submit" class="login-btn">Prijavite se</button>
+            <div class="forgot-password-link">
+                <a asp-controller="Account" asp-action="ForgotPassword">
+                    Zaboravili ste lozinku?
+                </a>
+            </div>
+        </form>
+
+        <div class="register-link">
+            Nemate račun?
+            <a asp-controller="Account" asp-action="Register">Registrujte se</a>
         </div>
     </div>
 </div>

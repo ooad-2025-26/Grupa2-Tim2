@@ -1778,3 +1778,435 @@ body {
         height: 240px;
     }
 }
+
+/* LOGIN */
+
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #F5FBE6;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 460px;
+    background: white;
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: 0 10px 35px rgba(35,61,77,0.15);
+}
+
+    .login-card h2 {
+        text-align: center;
+        color: #233D4D;
+        font-weight: 700;
+        margin-bottom: 30px;
+    }
+
+    .login-card label {
+        color: #233D4D;
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+
+.custom-input {
+    border: 2px solid #233D4D20;
+    border-radius: 12px;
+    padding: 12px;
+}
+
+    .custom-input:focus {
+        border-color: #FE7F2D;
+        box-shadow: 0 0 0 0.2rem rgba(254,127,45,0.25);
+    }
+
+.login-btn {
+    width: 100%;
+    border: none;
+    background: #FE7F2D;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 12px;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+
+    .login-btn:hover {
+        background: #e96f22;
+    }
+
+.register-link {
+    text-align: center;
+    margin-top: 20px;
+    color: #233D4D;
+}
+
+    .register-link a {
+        color: #FE7F2D;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+
+/* AUTH LOGIN/REGISTER - THE LAST KEY STYLE */
+
+.auth-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #233D4D 0%, #1d3340 55%, #F5FBE6 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 460px;
+    background: #F5FBE6;
+    border-radius: 28px;
+    padding: 45px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+    border: 3px solid rgba(254, 127, 45, 0.35);
+}
+
+    .login-card h2 {
+        color: #233D4D;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .login-card label {
+        color: #233D4D;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .login-card .form-control {
+        background: white;
+        border: 2px solid rgba(35, 61, 77, 0.25);
+        border-radius: 14px;
+        padding: 13px 15px;
+    }
+
+        .login-card .form-control:focus {
+            border-color: #FE7F2D;
+            box-shadow: 0 0 0 0.2rem rgba(254, 127, 45, 0.25);
+        }
+
+    .login-card .form-check-label {
+        color: #233D4D;
+        font-weight: 500;
+    }
+
+    .login-card .btn-primary,
+    .login-btn {
+        width: 100%;
+        background: #FE7F2D !important;
+        border: 2px solid #FE7F2D !important;
+        color: white !important;
+        border-radius: 30px;
+        padding: 13px;
+        font-weight: 800;
+        font-size: 16px;
+    }
+
+        .login-card .btn-primary:hover,
+        .login-btn:hover {
+            background: #233D4D !important;
+            border-color: #233D4D !important;
+        }
+
+    .login-card a {
+        color: #FE7F2D;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+        .login-card a:hover {
+            color: #233D4D;
+        }
+
+
+/* ===== AUTH FINAL FIX ===== */
+
+.auth-page {
+    min-height: 100vh !important;
+    width: 100% !important;
+    background: linear-gradient(135deg, #233D4D 0%, #233D4D 45%, #F5FBE6 100%) !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 40px 20px !important;
+}
+
+    .auth-page .login-card {
+        width: 100% !important;
+        max-width: 480px !important;
+        min-width: 360px !important;
+        background: #F5FBE6 !important;
+        border: 3px solid #FE7F2D !important;
+        border-radius: 28px !important;
+        padding: 45px !important;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.30) !important;
+    }
+
+        .auth-page .login-card h2 {
+            color: #233D4D !important;
+            font-size: 34px !important;
+            font-weight: 800 !important;
+            text-align: center !important;
+            margin-bottom: 30px !important;
+        }
+
+        .auth-page .login-card label {
+            color: #233D4D !important;
+            font-weight: 700 !important;
+            margin-bottom: 8px !important;
+        }
+
+        .auth-page .login-card .form-control {
+            width: 100% !important;
+            height: 48px !important;
+            background: white !important;
+            border: 2px solid rgba(35, 61, 77, 0.25) !important;
+            border-radius: 14px !important;
+            padding: 10px 14px !important;
+            font-size: 15px !important;
+        }
+
+            .auth-page .login-card .form-control:focus {
+                border-color: #FE7F2D !important;
+                box-shadow: 0 0 0 0.2rem rgba(254, 127, 45, 0.25) !important;
+            }
+
+        .auth-page .login-card .form-check {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+        }
+
+        .auth-page .login-card .form-check-label {
+            color: #233D4D !important;
+            font-weight: 500 !important;
+        }
+
+    .auth-page .login-btn {
+        width: 100% !important;
+        background: #FE7F2D !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 30px !important;
+        padding: 13px !important;
+        font-size: 17px !important;
+        font-weight: 800 !important;
+    }
+
+        .auth-page .login-btn:hover {
+            background: #233D4D !important;
+        }
+
+    .auth-page .register-link {
+        text-align: center !important;
+        margin-top: 22px !important;
+        color: #233D4D !important;
+    }
+
+        .auth-page .register-link a {
+            color: #FE7F2D !important;
+            font-weight: 800 !important;
+            text-decoration: none !important;
+        }
+
+    .auth-page .register-card {
+        max-width: 520px !important;
+    }
+
+/* ===== PROFILE PAGE ===== */
+
+.profile-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #233D4D 0%, #233D4D 50%, #F5FBE6 100%);
+    padding: 60px 20px;
+}
+
+.profile-container {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.profile-small-title {
+    color: #FE7F2D;
+    font-weight: 800;
+    letter-spacing: 6px;
+    margin-bottom: 6px;
+}
+
+.profile-header h1 {
+    color: #F5FBE6;
+    font-size: 42px;
+    font-weight: 900;
+    margin: 0;
+}
+
+.logout-btn {
+    background: #FE7F2D;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 13px 28px;
+    font-weight: 800;
+    transition: 0.3s;
+}
+
+    .logout-btn:hover {
+        background: #F5FBE6;
+        color: #233D4D;
+    }
+
+.profile-card {
+    background: #F5FBE6;
+    border: 3px solid #FE7F2D;
+    border-radius: 28px;
+    padding: 35px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    margin-bottom: 38px;
+}
+
+.profile-avatar {
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    background: #233D4D;
+    color: #FE7F2D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    font-weight: 900;
+}
+
+.profile-info h2 {
+    color: #233D4D;
+    font-size: 30px;
+    font-weight: 900;
+    margin-bottom: 12px;
+}
+
+.profile-info p {
+    color: #233D4D;
+    font-size: 17px;
+    margin-bottom: 8px;
+}
+
+.reservations-section h3 {
+    color: #F5FBE6;
+    font-size: 30px;
+    font-weight: 900;
+    margin-bottom: 18px;
+}
+
+.profile-table-wrapper {
+    background: #F5FBE6;
+    border-radius: 22px;
+    overflow-x: auto;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.20);
+}
+
+.profile-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .profile-table thead {
+        background: #233D4D;
+        color: #F5FBE6;
+    }
+
+    .profile-table th,
+    .profile-table td {
+        padding: 16px;
+        color: #233D4D;
+        border-bottom: 1px solid rgba(35,61,77,0.15);
+    }
+
+    .profile-table th {
+        color: #F5FBE6;
+        font-weight: 800;
+    }
+
+.status-badge {
+    padding: 7px 13px;
+    border-radius: 18px;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.status-ok {
+    background: #FE7F2D;
+    color: white;
+}
+
+.status-cancel {
+    background: #233D4D;
+    color: white;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.details-btn,
+.cancel-btn {
+    border: none;
+    border-radius: 18px;
+    padding: 8px 14px;
+    font-weight: 800;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.details-btn {
+    background: #233D4D;
+    color: white;
+}
+
+    .details-btn:hover {
+        background: #FE7F2D;
+        color: white;
+    }
+
+.cancel-btn {
+    background: #FE7F2D;
+    color: white;
+}
+
+    .cancel-btn:hover {
+        background: #233D4D;
+    }
+
+.empty-reservations {
+    background: #F5FBE6;
+    color: #233D4D;
+    border-left: 8px solid #FE7F2D;
+    border-radius: 18px;
+    padding: 22px;
+    font-size: 18px;
+    font-weight: 700;
+}
