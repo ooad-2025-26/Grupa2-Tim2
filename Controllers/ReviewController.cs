@@ -103,7 +103,7 @@ namespace Task6.Controllers
             {
                 model.KorisnikID = user.Id;
                 model.RoomID = roomId;
-                model.Datum = DateTime.Now;
+                model.Datum = DateTime.UtcNow;
 
                 _context.Recenzije.Add(model);
                 await _context.SaveChangesAsync();

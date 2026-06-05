@@ -53,9 +53,16 @@ namespace Task6.Controllers
 
             if (room == null) return NotFound();
 
-            // Calculate average rating and total reviews
+            var termini = await _context.Termini
+                .Where(t => t.RoomID == id && t.Dostupnost)
+                .OrderBy(t => t.Datum)
+                .ToListAsync();
+
+            ViewBag.Termini = termini;
+
             var avg = 0.0;
             var count = 0;
+
             if (room.Recenzije != null && room.Recenzije.Any())
             {
                 count = room.Recenzije.Count;
@@ -64,6 +71,7 @@ namespace Task6.Controllers
 
             ViewBag.AverageRating = avg;
             ViewBag.ReviewCount = count;
+
             return View(room);
         }
     }

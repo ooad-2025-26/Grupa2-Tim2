@@ -6,60 +6,108 @@
     var averageRating = (double)ViewBag.AverageRating;
 }
 
-<div class="container mt-5">
-    <h1>Recenzije za "@room.Naziv"</h1>
+<div class="reviews-page">
+    <div class="reviews-container">
 
-    <div class="mb-4">
-        <p class="h5">Prosječna ocjena: <span class="badge bg-success">@averageRating.ToString("F1") / 5.0</span></p>
-    </div>
-
-    <div class="mb-4">
-        @if (User.Identity.IsAuthenticated)
-        {
-            <a asp-controller="Review" asp-action="Create" asp-route-roomId="@ViewBag.RoomId" class="btn btn-primary">
-                Dodaj recenziju
+        <div class="reviews-header">
+            <a asp-controller="EscapeRooms"
+                   asp-action="Details"
+                   asp-route-id="@ViewBag.RoomId"
+                   class="reviews-back">
+                ← Nazad na detalje sobe
             </a>
+
+            <p class="reviews-subtitle">THE LAST KEY</p>
+            <h1>Recenzije za "@room.Naziv"</h1>
+            <p class="reviews-description">
+                Pogledajte utiske igrača i ocjene za ovu escape room sobu.
+            </p>
+
+            <div class="reviews-rating-box">
+                <span>⭐</span>
+                <div>
+                    <p>Prosječna ocjena</p>
+                    <h2>@averageRating.ToString("F1") / 5.0</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="reviews-actions">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="Review"
+                       asp-action="Create"
+                       asp-route-roomId="@ViewBag.RoomId"
+                       class="add-review-btn">
+                    + Dodaj recenziju
+                </a>
+            }
+            else
+            {
+                <div class="login-review-box">
+                    <a asp-controller="Account" asp-action="Login">Prijavite se</a>
+                    da dodate recenziju.
+                </div>
+            }
+        </div>
+
+        @if (Model.Any())
+        {
+            <div class="reviews-grid">
+                @foreach (var review in Model)
+                {
+                    <div class="review-modern-card">
+                        <div class="review-modern-header">
+                            <div class="review-user-box">
+                                <div class="review-avatar-modern">
+                                    @(review.Korisnik.Ime?.Substring(0, 1))@(review.Korisnik.Prezime?.Substring(0, 1))
+                                </div>
+
+                                <div>
+                                    <h3>@review.Korisnik.Ime @review.Korisnik.Prezime</h3>
+                                    <p>@review.Datum.ToString("dd.MM.yyyy HH:mm")</p>
+                                </div>
+                            </div>
+
+                            <div class="review-score">
+                                @review.Ocjena.ToString("F1") ⭐
+                            </div>
+                        </div>
+
+                        <p class="review-comment">
+                            @review.Komentar
+                        </p>
+
+                        @if (User.Identity?.Name == review.Korisnik.UserName || User.IsInRole("Admin"))
+                        {
+                            <div class="review-card-actions">
+                                <a asp-controller="Review"
+                                       asp-action="Edit"
+                                       asp-route-id="@review.RecenzijaID"
+                                       class="review-edit-btn">
+                                    Uredi
+                                </a>
+
+                                <a asp-controller="Review"
+                                       asp-action="Delete"
+                                       asp-route-id="@review.RecenzijaID"
+                                       class="review-delete-btn">
+                                    Obriši
+                                </a>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
         }
         else
         {
-            <p><a asp-controller="Account" asp-action="Login">Prijavite se</a> da dodate recenziju</p>
-        }
-    </div>
-
-    @if (Model.Any())
-    {
-        @foreach (var review in Model)
-        {
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h5 class="card-title">@review.Korisnik.Ime @review.Korisnik.Prezime</h5>
-                            <p class="text-muted small">@review.Datum.ToString("dd.MM.yyyy HH:mm")</p>
-                        </div>
-                        <div class="text-warning">
-                            <span class="h5">@review.Ocjena.ToString("F1") ⭐</span>
-                        </div>
-                    </div>
-                    <p class="card-text">@review.Komentar</p>
-
-                    @if (User.Identity?.Name == review.Korisnik.UserName || User.IsInRole("Admin"))
-                    {
-                        <a asp-controller="Review" asp-action="Edit" asp-route-id="@review.RecenzijaID" class="btn btn-sm btn-warning">Uredi</a>
-                        <a asp-controller="Review" asp-action="Delete" asp-route-id="@review.RecenzijaID" class="btn btn-sm btn-danger">Obriši</a>
-                    }
-                </div>
+            <div class="empty-reviews-card">
+                <div class="empty-icon">⭐</div>
+                <h2>Nema recenzija za ovu sobu</h2>
+                <p>Budite prvi koji će ostaviti recenziju i pomoći drugim igračima.</p>
             </div>
         }
-    }
-    else
-    {
-        <div class="alert alert-info" role="alert">
-            Nema recenzija za ovu sobu. Budite prvi koji će ostaviti recenziju!
-        </div>
-    }
 
-    <a asp-controller="Room" asp-action="Details" asp-route-id="@ViewBag.RoomId" class="btn btn-secondary mt-3">
-        Nazad na detalje sobe
-    </a>
+    </div>
 </div>

@@ -1,36 +1,79 @@
-@model Task6.Models.Recenzija 
+@model Task6.Models.Recenzija
 
 @{
     ViewData["Title"] = "Dodaj recenziju";
     var room = (Task6.Models.EscapeRoom)ViewBag.Room;
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h1>Dodaj recenziju za "@room.Naziv"</h1>
+<div class="review-create-page">
+    <div class="review-create-container">
 
-            <form method="post" class="mt-4">
+        <a asp-controller="Review"
+               asp-action="List"
+               asp-route-roomId="@room.RoomID"
+               class="review-create-back">
+            ← Nazad na recenzije
+        </a>
+
+        <div class="review-create-card">
+            <p class="review-create-subtitle">THE LAST KEY</p>
+
+            <h1>Dodaj recenziju</h1>
+
+            <p class="review-create-description">
+                Podijelite svoje iskustvo za sobu
+                <strong>"@room.Naziv"</strong>.
+            </p>
+
+            <form method="post" class="review-create-form">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="roomId" value="@room.RoomID" />
+
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-                <div class="mb-3">
-                    <label asp-for="Ocjena" class="form-label">Ocjena (1-5):</label>
-                    <input asp-for="Ocjena" type="number" class="form-control" min="1" max="5" step="0.5" required />
+                <div class="review-field">
+                    <label asp-for="Ocjena">
+                        Ocjena
+                    </label>
+
+                    <input asp-for="Ocjena"
+                           type="number"
+                           min="1"
+                           max="5"
+                           step="0.5"
+                           placeholder="Unesite ocjenu od 1 do 5"
+                           required />
+
                     <span asp-validation-for="Ocjena" class="text-danger"></span>
                 </div>
 
-                <div class="mb-3">
-                    <label asp-for="Komentar" class="form-label">Komentar:</label>
-                    <textarea asp-for="Komentar" class="form-control" rows="5" placeholder="Podijelite vašu iskustvo..."></textarea>
+                <div class="review-field">
+                    <label asp-for="Komentar">
+                        Komentar
+                    </label>
+
+                    <textarea asp-for="Komentar"
+                              rows="6"
+                              placeholder="Podijelite vaše iskustvo..."></textarea>
+
                     <span asp-validation-for="Komentar" class="text-danger"></span>
                 </div>
 
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary">Pošalji recenziju</button>
-                    <a asp-controller="Review" asp-action="List" asp-route-roomId="@ViewBag.RoomId" class="btn btn-secondary">Otkaži</a>
+                <div class="review-create-actions">
+                    <button type="submit" class="review-submit-btn">
+                        Pošalji recenziju
+                    </button>
+
+                    <a asp-controller="Review"
+                           asp-action="List"
+                           asp-route-roomId="@room.RoomID"
+                           class="review-cancel-btn">
+                        Otkaži
+                    </a>
                 </div>
             </form>
         </div>
+
     </div>
 </div>
 

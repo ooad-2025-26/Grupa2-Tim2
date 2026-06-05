@@ -27,8 +27,25 @@
 
             <div class="profile-info">
                 <h2>@user?.Ime @user?.Prezime</h2>
-                <p><strong>Email:</strong> @user?.Email</p>
-                <p><strong>Uloga:</strong> @user?.Uloga</p>
+
+                <p>
+                    <strong>Email:</strong>
+                    @user?.Email
+                </p>
+
+                <p>
+                    <strong>Uloga:</strong>
+                    @user?.Uloga
+                </p>
+
+                @if (user?.Uloga == Task6.Models.Uloga.Admin)
+                {
+                    <a asp-controller="Admin"
+                           asp-action="Dashboard"
+                           class="admin-profile-btn">
+                        Otvori Admin Panel
+                    </a>
+                }
             </div>
         </div>
 

@@ -2,96 +2,131 @@
     ViewData["Title"] = "Admin Panel";
 }
 
-<div class="container-fluid mt-5">
-    <h1 class="mb-4">Admin Panel</h1>
+<div class="admin-dashboard-page">
+    <div class="admin-dashboard-container">
 
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card text-white bg-primary">
-                <div class="card-body">
-                    <h5 class="card-title">Ukupno korisnika</h5>
-                    <h3>@ViewBag.Stats.TotalUsers</h3>
-                </div>
+        <div class="admin-dashboard-header">
+            <div>
+                <p class="admin-subtitle">THE LAST KEY</p>
+                <h1>Admin Panel</h1>
+                <p class="admin-description">
+                    Upravljanje korisnicima, sobama, terminima, rezervacijama i obavijestima.
+                </p>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-success">
-                <div class="card-body">
-                    <h5 class="card-title">Escape sobe</h5>
-                    <h3>@ViewBag.Stats.TotalRooms</h3>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-info">
-                <div class="card-body">
-                    <h5 class="card-title">Rezervacije</h5>
-                    <h3>@ViewBag.Stats.TotalReservations</h3>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-white bg-warning">
-                <div class="card-body">
-                    <h5 class="card-title">Neplaćanja</h5>
-                    <h3>@ViewBag.Stats.PendingPayments</h3>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="card text-white bg-secondary">
-                <div class="card-body">
-                    <h5 class="card-title">Recenzije</h5>
-                    <h3>@ViewBag.Stats.TotalReviews</h3>
-                </div>
-            </div>
+            <a asp-controller="Profil" asp-action="Index" class="admin-back-btn">
+                Moj profil
+            </a>
         </div>
-        <div class="col-md-6">
-            <div class="card text-white bg-dark">
-                <div class="card-body">
-                    <h5 class="card-title">Prosječna ocjena</h5>
-                    <h3>@ViewBag.Stats.AverageRating.ToString("F1") ⭐</h3>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header bg-dark text-white">
-                    <h5 class="mb-0">Brzine akcije</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <a asp-controller="Admin" asp-action="Rooms" class="btn btn-primary w-100">Upravljaj sobama</a>
-                        </div>
-                        <div class="col-md-3 mb-2">
-                            <a asp-controller="Admin" asp-action="Termini" class="btn btn-success w-100">Upravljaj terminima</a>
-                        </div>
-                        <div class="col-md-3 mb-2">
-                            <a asp-controller="Admin" asp-action="Reservations" class="btn btn-info w-100">Rezervacije</a>
-                        </div>
-                        <div class="col-md-3 mb-2">
-                            <a asp-controller="Admin" asp-action="Payments" class="btn btn-warning w-100">Plaćanja</a>
-                        </div>
+        <div class="admin-stats-grid">
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">👥</div>
+                <p>Ukupno korisnika</p>
+                <h2>@ViewBag.Stats.TotalUsers</h2>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">🚪</div>
+                <p>Escape sobe</p>
+                <h2>@ViewBag.Stats.TotalRooms</h2>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">📅</div>
+                <p>Rezervacije</p>
+                <h2>@ViewBag.Stats.TotalReservations</h2>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">💳</div>
+                <p>Neplaćanja</p>
+                <h2>@ViewBag.Stats.PendingPayments</h2>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">⭐</div>
+                <p>Recenzije</p>
+                <h2>@ViewBag.Stats.TotalReviews</h2>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">📊</div>
+                <p>Prosječna ocjena</p>
+                <h2>@ViewBag.Stats.AverageRating.ToString("F1")</h2>
+            </div>
+        </div>
+
+        <div class="admin-actions-panel">
+            <div class="admin-actions-header">
+                <p>Brze akcije</p>
+                <h2>Upravljanje sistemom</h2>
+            </div>
+
+            <div class="admin-actions-grid">
+                <a asp-controller="Admin" asp-action="Rooms" class="admin-action-card">
+                    <span>🚪</span>
+                    <div>
+                        <h3>Upravljaj sobama</h3>
+                        <p>Dodavanje, uređivanje i brisanje escape room soba.</p>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3 mb-2">
-                            <a asp-controller="Admin" asp-action="Reviews" class="btn btn-secondary w-100">Recenzije</a>
-                        </div>
-                        <div class="col-md-3 mb-2">
-                            <a asp-controller="Admin" asp-action="Notifications" class="btn btn-dark w-100">Obavijesti</a>
-                        </div>
-                        <div class="col-md-3 mb-2">
-                            <a asp-controller="Admin" asp-action="Support" class="btn btn-outline-primary w-100">Podrška</a>
-                        </div>
+                </a>
+
+                <a asp-controller="Admin" asp-action="Termini" class="admin-action-card">
+                    <span>📅</span>
+                    <div>
+                        <h3>Upravljaj terminima</h3>
+                        <p>Kreiranje i uređivanje dostupnih termina.</p>
                     </div>
-                </div>
+                </a>
+
+                <a asp-controller="Admin" asp-action="Reservations" class="admin-action-card">
+                    <span>🧾</span>
+                    <div>
+                        <h3>Rezervacije</h3>
+                        <p>Pregled svih korisničkih rezervacija.</p>
+                    </div>
+                </a>
+
+                <a asp-controller="Admin" asp-action="Payments" class="admin-action-card">
+                    <span>💳</span>
+                    <div>
+                        <h3>Plaćanja</h3>
+                        <p>Pregled plaćanja i neplaćenih rezervacija.</p>
+                    </div>
+                </a>
+
+                <a asp-controller="Admin" asp-action="Reviews" class="admin-action-card">
+                    <span>⭐</span>
+                    <div>
+                        <h3>Recenzije</h3>
+                        <p>Pregled i moderacija korisničkih recenzija.</p>
+                    </div>
+                </a>
+
+                <a asp-controller="Admin" asp-action="Notifications" class="admin-action-card">
+                    <span>🔔</span>
+                    <div>
+                        <h3>Obavijesti</h3>
+                        <p>Kreiranje obavijesti i slanje korisnicima.</p>
+                    </div>
+                </a>
+
+                <a asp-controller="Admin" asp-action="Support" class="admin-action-card">
+                    <span>🛟</span>
+                    <div>
+                        <h3>Podrška</h3>
+                        <p>Pregled korisničkih poruka podrške.</p>
+                    </div>
+                </a>
+
+                <a asp-controller="Admin" asp-action="Users" class="admin-action-card">
+                    <span>👤</span>
+                    <div>
+                        <h3>Korisnici</h3>
+                        <p>Pregled korisnika i promjena njihovih uloga.</p>
+                    </div>
+                </a>
             </div>
         </div>
     </div>

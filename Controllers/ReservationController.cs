@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Task6.Data;
 using Task6.Models;
+using Task6.Services;
 
 namespace Task6.Controllers
 {
@@ -14,14 +15,18 @@ namespace Task6.Controllers
     {
         private readonly EscapeRoomDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly EmailService _emailService;
 
-        public ReservationController(EscapeRoomDbContext context, UserManager<ApplicationUser> userManager)
+        public ReservationController(
+            EscapeRoomDbContext context,
+            UserManager<ApplicationUser> userManager,
+            EmailService emailService)
         {
             _context = context;
             _userManager = userManager;
+            _emailService = emailService;
         }
 
-        // GET: /Reservation/MyReservations
         public async Task<IActionResult> MyReservations()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -37,18 +42,17 @@ namespace Task6.Controllers
             return View(reservations);
         }
 
-        // POST: /Reservation/Book/5
         [HttpPost]
         public async Task<IActionResult> Book(int terminId, int brojOsoba)
         {
+          
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return Unauthorized();
 
-            // Use transaction to prevent double booking
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
-                // Reload the termin inside transaction with an update lock
                 var termin = await _context.Termini
+                    .Include(t => t.EscapeRoom)
                     .Where(t => t.TerminID == terminId)
                     .FirstOrDefaultAsync();
 
@@ -57,14 +61,14 @@ namespace Task6.Controllers
                     return BadRequest(new { message = "Termin nije dostupan." });
                 }
 
-                // Mark termin as occupied and create reservation
                 termin.Dostupnost = false;
+
                 var rez = new Rezervacija
                 {
                     KorisnikID = user.Id,
                     TerminID = termin.TerminID,
                     BrojOsoba = brojOsoba,
-                    DatumKreiranja = System.DateTime.Now,
+                    DatumKreiranja = System.DateTime.UtcNow,
                     Status = true
                 };
 
@@ -72,28 +76,77 @@ namespace Task6.Controllers
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
 
-                return Ok(new { message = "Rezervacija uspješna." });
+                if (!string.IsNullOrEmpty(user.Email))
+                {
+                    await _emailService.SendEmailAsync(
+                        user.Email,
+                        "The Last Key - Potvrda rezervacije",
+                        $@"
+                        <div style='font-family: Arial, sans-serif; padding: 20px;'>
+                            <h2 style='color:#233D4D;'>The Last Key</h2>
+                            <h3 style='color:#FE7F2D;'>Rezervacija uspješna</h3>
+                            <p>Poštovani/a {user.Ime}, vaša rezervacija je uspješno kreirana.</p>
+                            <p><strong>Soba:</strong> {termin.EscapeRoom.Naziv}</p>
+                            <p><strong>Datum:</strong> {termin.Datum:dd.MM.yyyy}</p>
+                            <p><strong>Vrijeme:</strong> {termin.Vrijeme}</p>
+                            <p><strong>Broj osoba:</strong> {brojOsoba}</p>
+                            <hr />
+                            <p style='font-size:13px; color:#777;'>
+                                Hvala što koristite The Last Key.
+                            </p>
+                        </div>
+                        "
+                    );
+                }
+
+                return RedirectToAction("MyReservations", "Reservation");
             }
         }
-
-        // POST: /Reservation/Cancel/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Cancel(int id)
         {
-            var rez = await _context.Rezervacije.Include(r => r.Termin).FirstOrDefaultAsync(r => r.RezervacijaID == id);
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return RedirectToAction("Login", "Account");
+
+            var rez = await _context.Rezervacije
+                .Include(r => r.Termin)
+                    .ThenInclude(t => t.EscapeRoom)
+                .Include(r => r.Korisnik)
+                .FirstOrDefaultAsync(r => r.RezervacijaID == id && r.KorisnikID == user.Id);
+
             if (rez == null) return NotFound();
 
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null || rez.KorisnikID != user.Id) return Unauthorized();
+            rez.Status = false;
 
-            rez.Status = false; // cancelled
             if (rez.Termin != null)
-            {
                 rez.Termin.Dostupnost = true;
-            }
 
             await _context.SaveChangesAsync();
-            return Ok(new { message = "Rezervacija otkazana." });
+           
+
+            if (!string.IsNullOrEmpty(rez.Korisnik.Email))
+            {
+                await _emailService.SendEmailAsync(
+                    rez.Korisnik.Email,
+                    "The Last Key - Rezervacija otkazana",
+                    $@"
+            <div style='font-family: Arial, sans-serif; padding: 20px;'>
+                <h2 style='color:#233D4D;'>The Last Key</h2>
+                <h3 style='color:#FE7F2D;'>Rezervacija otkazana</h3>
+                <p>Poštovani/a {rez.Korisnik.Ime}, vaša rezervacija je otkazana.</p>
+                <p><strong>Soba:</strong> {rez.Termin.EscapeRoom.Naziv}</p>
+                <p><strong>Datum:</strong> {rez.Termin.Datum:dd.MM.yyyy}</p>
+                <p><strong>Vrijeme:</strong> {rez.Termin.Vrijeme}</p>
+                <hr />
+                <p style='font-size:13px; color:#777;'>
+                    Ovo je automatska poruka sistema The Last Key.
+                </p>
+            </div>"
+                );
+            }
+
+            return RedirectToAction(nameof(MyReservations));
         }
     }
 }

@@ -7,7 +7,11 @@
 <div class="container-fluid mt-5">
     <h1 class="mb-4">Upravljanje obavijestima</h1>
 
-    <a asp-controller="Admin" asp-action="CreateNotification" class="btn btn-success mb-3">+ Nova obavijest</a>
+    <a asp-controller="Admin"
+           asp-action="CreateNotification"
+           class="btn btn-success mb-3">
+        + Nova obavijest
+    </a>
 
     <div class="table-responsive">
         <table class="table table-striped table-hover">
@@ -27,15 +31,30 @@
                     <tr>
                         <td>@notif.ObavijestID</td>
                         <td>@notif.Naslov</td>
-                        <td>@notif.Sadrzaj.Substring(0, Math.Min(30, notif.Sadrzaj.Length))...</td>
+                        <td>
+                            @(notif.Sadrzaj.Length > 30
+                                ? notif.Sadrzaj.Substring(0, 30) + "..."
+                                : notif.Sadrzaj)
+                        </td>
                         <td>@notif.TipObavijesti</td>
                         <td>@notif.Datum.ToString("dd.MM.yyyy HH:mm")</td>
                         <td>
-                            <a asp-controller="Admin" asp-action="EditNotification" asp-route-id="@notif.ObavijestID" 
-                               class="btn btn-sm btn-warning">Uredi</a>
-                            <form method="post" asp-controller="Admin" asp-action="DeleteNotification" class="d-inline">
+                            <a asp-controller="Admin"
+                                   asp-action="EditNotification"
+                                   asp-route-id="@notif.ObavijestID"
+                                   class="btn btn-sm btn-warning">
+                                Uredi
+                            </a>
+
+                            <form method="post"
+                                  asp-controller="Admin"
+                                  asp-action="DeleteNotification"
+                                  class="d-inline">
+                                @Html.AntiForgeryToken()
                                 <input type="hidden" name="id" value="@notif.ObavijestID" />
-                                <button type="submit" class="btn btn-sm btn-danger">Obriši</button>
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    Obriši
+                                </button>
                             </form>
                         </td>
                     </tr>

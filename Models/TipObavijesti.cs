@@ -2,8 +2,9 @@
 {
     public enum TipObavijesti
     {
-        Info,
-        Upozorenje,
-        Promocija
+        Novost,
+        Rezervacija,
+        Otkazivanje,
+        Popust
     }
 }

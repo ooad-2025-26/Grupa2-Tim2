@@ -1,0 +1,183 @@
+﻿@model Task6.Models.EscapeRoom
+
+@{
+    ViewData["Title"] = Model.Naziv;
+    var termini = (List<Task6.Models.Termin>)ViewBag.Termini;
+    var averageRating = (double)ViewBag.AverageRating;
+    var reviewCount = (int)ViewBag.ReviewCount;
+}
+
+
+<div class="room-details-page">
+
+    <div class="room-details-hero">
+        <div class="room-details-overlay"></div>
+
+        <div class="room-details-content">
+            <a asp-controller="Home" asp-action="Index" asp-fragment="rooms" class="room-back-link">
+                ← Nazad na sobe
+            </a>
+
+            <p class="room-small-title">THE LAST KEY ESCAPE ROOM</p>
+
+            <h1>@Model.Naziv</h1>
+
+            <p class="room-lead">
+                @Model.Opis
+            </p>
+
+            <div class="room-badges">
+                <span>🧩 Težina: @Model.Tezina</span>
+                <span>👥 Kapacitet: @Model.Kapacitet osoba</span>
+                <span>💰 @Model.Cijena KM po osobi</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="room-main-section">
+        <div class="room-main-grid">
+
+            <div class="room-info-area">
+
+                <div class="room-info-card">
+                    <h2>Opis sobe</h2>
+                    <p>@Model.Opis</p>
+
+                    <div class="room-feature-grid">
+                        <div>
+                            <span>🕵️</span>
+                            <h4>Misija</h4>
+                            <p>Pronađite tragove, riješite zagonetke i završite izazov prije isteka vremena.</p>
+                        </div>
+
+                        <div>
+                            <span>⏳</span>
+                            <h4>Vrijeme</h4>
+                            <p>Rezervišite dostupan termin i dođite najmanje 10 minuta ranije.</p>
+                        </div>
+
+                        <div>
+                            <span>🤝</span>
+                            <h4>Timski rad</h4>
+                            <p>Komunikacija i dobra organizacija su ključ uspješnog bijega.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="room-rating-card">
+                    <div>
+                        <p>Ocjena sobe</p>
+                        <h2>@averageRating.ToString("F1") / 5.0 ⭐</h2>
+                    </div>
+
+                    <span>@reviewCount recenzija</span>
+                </div>
+
+                <div class="room-reviews-card">
+                    <div class="room-section-title">
+                        <p>RECENZIJE</p>
+                        <h2>Utisci igrača</h2>
+                    </div>
+
+                    <div class="room-review-actions">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a asp-controller="Review"
+                                   asp-action="Create"
+                                   asp-route-roomId="@Model.RoomID"
+                                   class="room-outline-btn">
+                                Dodaj recenziju
+                            </a>
+                        }
+
+                        <a asp-controller="Review"
+                               asp-action="List"
+                               asp-route-roomId="@Model.RoomID"
+                               class="room-outline-btn secondary">
+                            Pogledaj sve recenzije
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="room-booking-area">
+                <div class="room-booking-card">
+                    <p class="booking-subtitle">REZERVACIJA</p>
+                    <h2>Rezerviši termin</h2>
+
+                    @if (termini.Any())
+                    {
+                        <form method="post"
+                              asp-controller="Reservation"
+                              asp-action="Book"
+                              class="booking-form">
+
+                            @Html.AntiForgeryToken()
+
+                            <div class="booking-field">
+                                <label for="terminSelect">Odaberite termin</label>
+
+                                <select id="terminSelect"
+                                        name="terminId"
+                                        required>
+
+                                    <option value="">
+                                        -- Odaberite termin --
+                                    </option>
+
+                                    @foreach (var termin in termini)
+                                    {
+                                        <option value="@termin.TerminID">
+                                            @termin.Datum.ToString("dd.MM.yyyy") @termin.Vrijeme
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="booking-field">
+                                <label for="brojOsoba">
+                                    Broj osoba (1-@Model.Kapacitet)
+                                </label>
+
+                                <input type="number"
+                                       id="brojOsoba"
+                                       name="brojOsoba"
+                                       min="1"
+                                       max="@Model.Kapacitet"
+                                       value="1"
+                                       required />
+                            </div>
+
+                            <div class="booking-note">
+                                ℹ Nakon rezervacije dobit ćete potvrdu na email.
+                            </div>
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <button type="submit" class="booking-submit-btn">
+                                    Rezerviši termin
+                                </button>
+                            }
+                            else
+                            {
+                                <a asp-controller="Account"
+                                       asp-action="Login"
+                                       class="booking-login-btn">
+                                    Prijavite se za rezervaciju
+                                </a>
+                            }
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="no-terms-box">
+                            Trenutno nema dostupnih termina za ovu sobu.
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

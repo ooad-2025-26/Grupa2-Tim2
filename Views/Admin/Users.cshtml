@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Task6.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Upravljanje korisnicima";
+}
+
+<div class="container-fluid mt-5">
+    <h1 class="mb-4">Upravljanje korisnicima</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Ime</th>
+                    <th>Prezime</th>
+                    <th>Email</th>
+                    <th>Uloga</th>
+                    <th>Akcija</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var korisnik in Model)
+                {
+                    <tr>
+                        <td>@korisnik.Ime</td>
+                        <td>@korisnik.Prezime</td>
+                        <td>@korisnik.Email</td>
+                        <td>@korisnik.Uloga</td>
+                        <td>
+                            <form method="post" asp-controller="Admin" asp-action="ChangeUserRole">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@korisnik.Id" />
+
+                                <select name="uloga" class="form-select d-inline w-auto">
+                                    <option value="Korisnik">Korisnik</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="Zaposlenik">Zaposlenik</option>
+                                </select>
+
+                                <button type="submit" class="btn btn-sm btn-warning">
+                                    Promijeni
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

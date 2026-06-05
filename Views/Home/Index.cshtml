@@ -7,19 +7,7 @@
 
 <body>
 
-    <!-- FLASHLIGHT INTRO -->
-
-    <div class="flashlight-intro">
-
-        <div class="flashlight-dark"></div>
-
-        <div class="flashlight-glow"></div>
-
-        <div class="loading-text">
-            Pronalazak posljednjeg ključa...
-        </div>
-
-    </div>
+   
 
     <!-- HERO -->
 
@@ -187,7 +175,10 @@
                             <span>⏱ 60 min</span>
                         </div>
 
-                        <a href="#" class="card-btn murder-btn">
+                        <a asp-controller="EscapeRooms"
+                               asp-action="Details"
+                               asp-route-id="1"
+                               class="card-btn">
                             Pregled sobe
                         </a>
 
@@ -216,7 +207,10 @@
                             <span>⏱ 45 min</span>
                         </div>
 
-                        <a href="#" class="card-btn classroom-btn">
+                        <a asp-controller="EscapeRooms"
+                               asp-action="Details"
+                               asp-route-id="2"
+                               class="card-btn">
                             Pregled sobe
                         </a>
 
@@ -244,11 +238,11 @@
                             <span>👥 3-6</span>
                             <span>⏱ 70 min</span>
                         </div>
-                        <a href="javascript:void(0)"
-                               class="card-btn outbreak-btn">
-
+                        <a asp-controller="EscapeRooms"
+                               asp-action="Details"
+                               asp-route-id="3"
+                               class="card-btn">
                             Pregled sobe
-
                         </a>
 
                     </div>
@@ -276,7 +270,10 @@
                             <span>⏱ 80 min</span>
                         </div>
 
-                        <a href="javascript:void(0)" class="card-btn magic-btn">
+                        <a asp-controller="EscapeRooms"
+                               asp-action="Details"
+                               asp-route-id="5"
+                               class="card-btn">
                             Pregled sobe
                         </a>
 
@@ -305,7 +302,10 @@
                             <span>⏱ 60 min</span>
                         </div>
 
-                        <a href="javascript:void(0)" class="card-btn haunted-btn">
+                        <a asp-controller="EscapeRooms"
+                               asp-action="Details"
+                               asp-route-id="6"
+                               class="card-btn">
                             Pregled sobe
                         </a>
 
