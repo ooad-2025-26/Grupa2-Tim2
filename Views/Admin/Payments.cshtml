@@ -19,14 +19,22 @@
                     <th>Akcije</th>
                 </tr>
             </thead>
+
             <tbody>
                 @foreach (var payment in Model)
                 {
                     <tr>
                         <td>@payment.PlacanjeID</td>
-                        <td>@payment.Rezervacija.Korisnik.Ime @payment.Rezervacija.Korisnik.Prezime</td>
+
+                        <td>
+                            @payment.Rezervacija.Korisnik.Ime
+                            @payment.Rezervacija.Korisnik.Prezime
+                        </td>
+
                         <td>@payment.Iznos</td>
+
                         <td>@payment.Datum.ToString("dd.MM.yyyy HH:mm")</td>
+
                         <td>
                             @if (payment.Status)
                             {
@@ -36,19 +44,30 @@
                             {
                                 <span class="badge bg-danger">Nije plaćeno</span>
                             }
-                        }
                         </td>
+
                         <td>
-                            <form method="post" asp-controller="Admin" asp-action="UpdatePaymentStatus" class="d-inline">
+                            <form method="post"
+                                  asp-controller="Admin"
+                                  asp-action="UpdatePaymentStatus"
+                                  class="d-inline">
+
+                                @Html.AntiForgeryToken()
+
                                 <input type="hidden" name="id" value="@payment.PlacanjeID" />
                                 <input type="hidden" name="status" value="@(!payment.Status)" />
+
                                 @if (payment.Status)
                                 {
-                                    <button type="submit" class="btn btn-sm btn-warning">Označi kao neplaćeno</button>
+                                    <button type="submit" class="btn btn-sm btn-warning">
+                                        Označi kao neplaćeno
+                                    </button>
                                 }
                                 else
                                 {
-                                    <button type="submit" class="btn btn-sm btn-success">Označi kao plaćeno</button>
+                                    <button type="submit" class="btn btn-sm btn-success">
+                                        Označi kao plaćeno
+                                    </button>
                                 }
                             </form>
                         </td>

@@ -6,7 +6,6 @@ using Task6.Models;
 
 namespace Task6.Controllers
 {
-    [Authorize]
     public class SupportController : Controller
     {
         private readonly EscapeRoomDbContext _context;
@@ -20,39 +19,57 @@ namespace Task6.Controllers
             _userManager = userManager;
         }
 
-        // GET: /Support/Contact
-        [AllowAnonymous]
-        public IActionResult Contact()
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Contact()
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
+            ViewBag.Email = user.Email;
+
             return View();
         }
 
-        // POST: /Support/Contact
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        [AllowAnonymous]
         public async Task<IActionResult> Contact(Podrska model)
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
+            ModelState.Remove("Korisnik");
+            ModelState.Remove("KorisnikID");
+            ModelState.Remove("Email");
+
             if (ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync(User);
-
                 var support = new Podrska
                 {
                     NaslovPoruke = model.NaslovPoruke,
                     Sadrzaj = model.Sadrzaj,
-                    Email = model.Email,
-                    Datum = DateTime.Now,
-                    KorisnikID = user?.Id
+                    Email = user.Email ?? "",
+                    Datum = DateTime.UtcNow,
+                    KorisnikID = user.Id,
+                    Odgovoreno = false,
+                    Odgovor = null,
+                    DatumOdgovora = null
                 };
 
                 _context.Podrske.Add(support);
                 await _context.SaveChangesAsync();
 
-                TempData["Success"] = "Vaša poruka je uspješno poslana! Uskoro ćemo vam odgovoriti.";
-                return RedirectToAction("Index", "Home");
+                TempData["SupportSuccess"] = "Vaša poruka je uspješno poslana! Odgovor ćete dobiti putem emaila.";
+
+                return RedirectToAction("Index", "Profil");
             }
 
+            ViewBag.Email = user.Email;
             return View(model);
         }
     }

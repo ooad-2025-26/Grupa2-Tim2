@@ -1,27 +1,36 @@
 @model IEnumerable<Task6.Models.EscapeRoom>
 
 @{
-    ViewData["Title"] = "Escape Rooms";
+    ViewData["Title"] = "Sve escape sobe";
+    var filter = ViewBag.FilterTezina as string;
 }
 
-<div class="container mt-5">
-    <h1 class="mb-4">Dostupne Escape Sobe</h1>
+<div class="rooms-filter-page">
 
-    <!-- Search and Filter -->
-    <div class="row mb-4">
-        <div class="col-md-8">
-            <form method="get" class="d-flex gap-2">
-                <input type="text" name="searchTerm" class="form-control" placeholder="Pretraži sobe..." value="@ViewBag.SearchTerm" />
-                @{ var filter = (string)ViewBag.FilterTezina; }
-                <select name="filterTezina" class="form-select">
-                    @if (string.IsNullOrEmpty(filter))
-                    {
-                        <option value="" selected>Sve težine</option>
-                    }
-                    else
-                    {
-                        <option value="">Sve težine</option>
-                    }
+    <div class="rooms-filter-container">
+
+        <div class="rooms-filter-header">
+            <p>THE LAST KEY</p>
+            <h1>Pronađi idealnu sobu</h1>
+            <span>
+                Filtrirajte sobe prema nazivu, težini, broju igrača i dostupnom datumu.
+            </span>
+        </div>
+
+        <form method="get" class="rooms-filter-card">
+
+            <div class="filter-field">
+                <label>Pretraga</label>
+                <input type="text"
+                       name="searchTerm"
+                       placeholder="Naziv ili opis sobe..."
+                       value="@ViewBag.SearchTerm" />
+            </div>
+
+            <div class="filter-field">
+                <label>Težina</label>
+                <select name="filterTezina">
+                    <option value="">Sve težine</option>
 
                     @if (filter == "Lagana")
                     {
@@ -50,39 +59,82 @@
                         <option value="Teska">Teška</option>
                     }
                 </select>
-                <button type="submit" class="btn btn-primary">Pretraži</button>
-                <a href="@Url.Action("Index")" class="btn btn-secondary">Obriši filter</a>
-            </form>
-        </div>
-    </div>
+            </div>
 
-    <!-- Rooms Grid -->
-    <div class="row">
-        @foreach (var room in Model)
+            <div class="filter-field">
+                <label>Broj igrača</label>
+                <input type="number"
+                       name="brojIgraca"
+                       min="1"
+                       placeholder="npr. 4"
+                       value="@ViewBag.BrojIgraca" />
+            </div>
+
+            <div class="filter-field">
+                <label>Željeni datum</label>
+                <input type="date"
+                       name="zeljeniDatum"
+                       value="@ViewBag.ZeljeniDatum" />
+            </div>
+
+            <div class="filter-actions">
+                <button type="submit">
+                    Pretraži
+                </button>
+
+                <a asp-controller="Room"
+                   asp-action="Index">
+                    Obriši filtere
+                </a>
+            </div>
+
+        </form>
+
+        <div class="rooms-results-header">
+            <h2>Rezultati pretrage</h2>
+            <p>Pronađeno: @Model.Count() soba</p>
+        </div>
+
+        @if (Model.Any())
         {
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">@room.Naziv</h5>
-                        <p class="card-text">@room.Opis</p>
-                        <div class="mb-2">
-                            <span class="badge bg-info">Težina: @room.Tezina</span>
-                            <span class="badge bg-success">Kapacitet: @room.Kapacitet osoba</span>
+            <div class="rooms-filter-grid">
+
+                @foreach (var room in Model)
+                {
+                    <div class="rooms-filter-card-room">
+
+                        <div class="room-card-top">
+                            <h3>@room.Naziv</h3>
+                            <span>@room.Tezina</span>
                         </div>
-                        <p class="text-muted mb-3">Cijena: <strong>@room.Cijena KM</strong> po osobi</p>
-                        <a asp-controller="Room" asp-action="Details" asp-route-id="@room.RoomID" class="btn btn-primary w-100">
-                            Detalji i rezervacija
+
+                        <p class="room-card-description">
+                            @room.Opis
+                        </p>
+
+                        <div class="room-card-info">
+                            <span>👥 do @room.Kapacitet osoba</span>
+                            <span>💰 @room.Cijena KM</span>
+                        </div>
+
+                        <a asp-controller="EscapeRooms"
+                           asp-action="Details"
+                           asp-route-id="@room.RoomID">
+                            Pregled sobe
                         </a>
+
                     </div>
-                </div>
+                }
+
             </div>
         }
+        else
+        {
+            <div class="rooms-empty-box">
+                Nema dostupnih soba prema odabranim kriterijima.
+            </div>
+        }
+
     </div>
 
-    @if (!Model.Any())
-    {
-        <div class="alert alert-info" role="alert">
-            Nema dostupnih soba prema vašim kriterijumima.
-        </div>
-    }
 </div>

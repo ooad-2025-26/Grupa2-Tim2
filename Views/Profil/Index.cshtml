@@ -28,26 +28,41 @@
             <div class="profile-info">
                 <h2>@user?.Ime @user?.Prezime</h2>
 
-                <p>
-                    <strong>Email:</strong>
-                    @user?.Email
-                </p>
-
-                <p>
-                    <strong>Uloga:</strong>
-                    @user?.Uloga
-                </p>
+                <p><strong>Email:</strong> @user?.Email</p>
+                <p><strong>Uloga:</strong> @user?.Uloga</p>
 
                 @if (user?.Uloga == Task6.Models.Uloga.Admin)
                 {
-                    <a asp-controller="Admin"
-                           asp-action="Dashboard"
-                           class="admin-profile-btn">
+                    <a asp-controller="Admin" asp-action="Dashboard" class="admin-profile-btn">
                         Otvori Admin Panel
                     </a>
                 }
+
+                @if (user?.Uloga == Task6.Models.Uloga.Zaposlenik)
+                {
+                    <a asp-controller="Zaposlenik" asp-action="Dashboard" class="admin-profile-btn">
+                        Otvori Zaposlenik Panel
+                    </a>
+                }
+
+                
             </div>
         </div>
+
+        @if (TempData["PaymentSuccess"] != null)
+        {
+            <div class="alert alert-success">@TempData["PaymentSuccess"]</div>
+        }
+
+        @if (TempData["PaymentError"] != null)
+        {
+            <div class="alert alert-danger">@TempData["PaymentError"]</div>
+        }
+
+        @if (TempData["PaymentInfo"] != null)
+        {
+            <div class="alert alert-info">@TempData["PaymentInfo"]</div>
+        }
 
         <div class="reservations-section">
             <h3>Moje rezervacije</h3>
@@ -67,6 +82,7 @@
                                 <th>Akcije</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             @foreach (var reservation in Model)
                             {
@@ -75,6 +91,7 @@
                                     <td>@reservation.Termin.Datum.ToString("dd.MM.yyyy")</td>
                                     <td>@reservation.Termin.Vrijeme</td>
                                     <td>@reservation.BrojOsoba</td>
+
                                     <td>
                                         @if (reservation.Status)
                                         {
@@ -85,13 +102,30 @@
                                             <span class="status-badge status-cancel">Otkazana</span>
                                         }
                                     </td>
+
                                     <td>@reservation.DatumKreiranja.ToString("dd.MM.yyyy HH:mm")</td>
+
                                     <td class="action-buttons">
-                                        <a asp-action="Details" asp-route-id="@reservation.RezervacijaID" class="details-btn">Detalji</a>
+                                        <a asp-controller="Reservation"
+                                           asp-action="Details"
+                                           asp-route-id="@reservation.RezervacijaID"
+                                           class="details-btn">
+                                            Detalji
+                                        </a>
+
+                                        @if (reservation.Status)
+                                        {
+                                            <a asp-controller="Payment"
+                                               asp-action="Pay"
+                                               asp-route-reservationId="@reservation.RezervacijaID"
+                                               class="details-btn">
+                                                Plati online
+                                            </a>
+                                        }
 
                                         @if (reservation.Termin.Datum > DateTime.UtcNow.AddHours(24) && reservation.Status)
                                         {
-                                            <form asp-action="Cancel" method="post">
+                                            <form asp-controller="Reservation" asp-action="Cancel" method="post">
                                                 @Html.AntiForgeryToken()
                                                 <input type="hidden" name="id" value="@reservation.RezervacijaID" />
                                                 <button type="submit" class="cancel-btn">Otkaži</button>

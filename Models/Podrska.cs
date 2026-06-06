@@ -10,7 +10,7 @@ namespace Task6.Models
 
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; } = null!;
 
         [Required]
         public DateTime Datum { get; set; }
@@ -23,11 +23,16 @@ namespace Task6.Models
         [StringLength(100)]
         public string NaslovPoruke { get; set; } = null!;
 
+        public bool Odgovoreno { get; set; } = false;
+
+        [StringLength(1000)]
+        public string? Odgovor { get; set; }
+
+        public DateTime? DatumOdgovora { get; set; }
+
         [ForeignKey(nameof(Korisnik))]
         public string KorisnikID { get; set; } = null!;
 
         public ApplicationUser Korisnik { get; set; } = null!;
-
-        public Podrska() { }
     }
 }

@@ -2,6 +2,7 @@
 
 @using Microsoft.AspNetCore.Identity
 @using Task6.Models
+@model IEnumerable<Task6.Models.EscapeRoom>
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -150,173 +151,68 @@
                 Svaka soba krije novu priču koju morate otkriti.
             </p>
 
+            <div class="all-rooms-link-wrapper">
+                <a asp-controller="Room"
+                   asp-action="Index"
+                   class="all-rooms-link">
+                    Pogledaj sve sobe →
+                </a>
+            </div>
+
+
+
             <!-- ESCAPE ROOM CARDS -->
 
             <div class="escape-cards">
 
-                <!-- CARD 1 -->
+                @foreach (var room in Model.Take(5))
+                {
+                    var imagePath = "/images/room-default.jpg";
 
-                <div class="escape-card">
+                    if (room.Naziv.Contains("Murder", StringComparison.OrdinalIgnoreCase))
+                        imagePath = "/images/murder1.webp";
+                    else if (room.Naziv.Contains("Classroom", StringComparison.OrdinalIgnoreCase))
+                        imagePath = "/images/classroom1.jpg";
+                    else if (room.Naziv.Contains("Lab", StringComparison.OrdinalIgnoreCase))
+                        imagePath = "/images/lab1.jpg";
+                    else if (room.Naziv.Contains("Magic", StringComparison.OrdinalIgnoreCase))
+                        imagePath = "/images/magic1.jpeg";
+                    else if (room.Naziv.Contains("Haunted", StringComparison.OrdinalIgnoreCase))
+                        imagePath = "/images/haunted1.jpg";
 
-                    <div class="card-image">
-                        <img src="/images/murder1.webp" alt="">
-                    </div>
+                    <div class="escape-card">
 
-                    <div class="card-content">
-
-                        <h3>The Murder Case</h3>
-
-                        <p>
-                            Istražite misteriozno ubistvo i pronađite posljednji dokaz prije nego vrijeme istekne.
-                        </p>
-
-                        <div class="card-info">
-                            <span>👥 2-6</span>
-                            <span>⏱ 60 min</span>
+                        <div class="card-image">
+                            <img src="@imagePath" alt="@room.Naziv">
                         </div>
 
-                        <a asp-controller="EscapeRooms"
+                        <div class="card-content">
+
+                            <h3>@room.Naziv</h3>
+
+                            <p>@room.Opis</p>
+
+                            <div class="card-info">
+                                <span>👥 do @room.Kapacitet osoba</span>
+                                <span>🧩 @room.Tezina</span>
+                            </div>
+
+                            <a asp-controller="EscapeRooms"
                                asp-action="Details"
-                               asp-route-id="1"
+                               asp-route-id="@room.RoomID"
                                class="card-btn">
-                            Pregled sobe
-                        </a>
+                                Pregled sobe
+                            </a>
 
-                    </div>
-
-                </div>
-
-                <!-- CARD 2 -->
-
-                <div class="escape-card">
-
-                    <div class="card-image">
-                        <img src="/images/classroom1.jpg" alt="">
-                    </div>
-
-                    <div class="card-content">
-
-                        <h3>Locked Classroom</h3>
-
-                        <p>
-                            Zaključani ste u staroj učionici punoj skrivenih poruka i tajnih prolaza.
-                        </p>
-
-                        <div class="card-info">
-                            <span>👥 2-5</span>
-                            <span>⏱ 45 min</span>
                         </div>
 
-                        <a asp-controller="EscapeRooms"
-                               asp-action="Details"
-                               asp-route-id="2"
-                               class="card-btn">
-                            Pregled sobe
-                        </a>
-
                     </div>
-
-                </div>
-
-                <!-- CARD 3 -->
-
-                <div class="escape-card">
-
-                    <div class="card-image">
-                        <img src="/images/lab1.jpg" alt="">
-                    </div>
-
-                    <div class="card-content">
-
-                        <h3>Outbreak Lab</h3>
-
-                        <p>
-                            Eksperiment je pošao po zlu. Pronađite antivirus prije širenja zaraze.
-                        </p>
-
-                        <div class="card-info">
-                            <span>👥 3-6</span>
-                            <span>⏱ 70 min</span>
-                        </div>
-                        <a asp-controller="EscapeRooms"
-                               asp-action="Details"
-                               asp-route-id="3"
-                               class="card-btn">
-                            Pregled sobe
-                        </a>
-
-                    </div>
-
-                </div>
-
-                <!-- CARD 4 -->
-
-                <div class="escape-card">
-
-                    <div class="card-image">
-                        <img src="/images/magic1.jpeg" alt="">
-                    </div>
-
-                    <div class="card-content">
-
-                        <h3>Magic Academy</h3>
-
-                        <p>
-                            Otkrijte zabranjene čarolije i pronađite drevni artefakt skriven u akademiji.
-                        </p>
-
-                        <div class="card-info">
-                            <span>👥 2-7</span>
-                            <span>⏱ 80 min</span>
-                        </div>
-
-                        <a asp-controller="EscapeRooms"
-                               asp-action="Details"
-                               asp-route-id="5"
-                               class="card-btn">
-                            Pregled sobe
-                        </a>
-
-                    </div>
-
-                </div>
-
-                <!-- CARD 5 -->
-
-                <div class="escape-card">
-
-                    <div class="card-image">
-                        <img src="/images/haunted1.jpg" alt="">
-                    </div>
-
-                    <div class="card-content">
-
-                        <h3>Haunted House</h3>
-
-                        <p>
-                            Zakoračite u napuštenu kuću punu mračnih tajni i skrivenih prolaza.
-                        </p>
-
-                        <div class="card-info">
-                            <span>👥 2-6</span>
-                            <span>⏱ 60 min</span>
-                        </div>
-
-                        <a asp-controller="EscapeRooms"
-                               asp-action="Details"
-                               asp-route-id="6"
-                               class="card-btn">
-                            Pregled sobe
-                        </a>
-
-                    </div>
-
-                </div>
+                }
 
             </div>
 
         </div>
-
+    </section>
     </section>
 
 
@@ -465,6 +361,25 @@
                 Za rezervacije, dodatne informacije ili podršku naš tim vam je uvijek na raspolaganju.
                 Posjetite nas na adresi ispod ili nas kontaktirajte direktno.
             </p>
+
+            <div class="question-link-container">
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Support"
+                       asp-action="Contact"
+                       class="support-question-link">
+                        Imate dodatnih pitanja?
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="Account"
+                       asp-action="Login"
+                       class="support-question-link">
+                        Imate dodatnih pitanja?
+                    </a>
+                }
+            </div>
 
             <div class="contact-wrapper">
 

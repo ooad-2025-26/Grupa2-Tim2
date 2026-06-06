@@ -157,6 +157,73 @@ namespace Task6.Controllers
             return View(placanja);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdatePaymentStatus(int id, bool status)
+        {
+            if (!await JeAdmin())
+                return RedirectToAction("Index", "Home");
+
+            var payment = await _context.Placanja
+                .Include(p => p.Rezervacija)
+                    .ThenInclude(r => r.Korisnik)
+                .Include(p => p.Rezervacija)
+                    .ThenInclude(r => r.Termin)
+                        .ThenInclude(t => t.EscapeRoom)
+                .FirstOrDefaultAsync(p => p.PlacanjeID == id);
+
+            if (payment == null)
+                return NotFound();
+
+            payment.Status = status;
+            payment.Datum = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            var korisnik = payment.Rezervacija.Korisnik;
+
+            if (!string.IsNullOrEmpty(korisnik.Email))
+            {
+                if (status)
+                {
+                    await _emailService.SendEmailAsync(
+                        korisnik.Email,
+                        "The Last Key - Plaćanje potvrđeno",
+                        $@"
+                        <div style='font-family: Arial, sans-serif; padding: 20px;'>
+                            <h2 style='color:#233D4D;'>The Last Key</h2>
+                            <h3 style='color:#28a745;'>Plaćanje potvrđeno</h3>
+                            <p>Poštovani/a {korisnik.Ime}, vaše plaćanje je označeno kao uspješno.</p>
+                            <p><strong>Soba:</strong> {payment.Rezervacija.Termin.EscapeRoom.Naziv}</p>
+                            <p><strong>Datum:</strong> {payment.Rezervacija.Termin.Datum:dd.MM.yyyy}</p>
+                            <p><strong>Vrijeme:</strong> {payment.Rezervacija.Termin.Vrijeme}</p>
+                            <p><strong>Iznos:</strong> {payment.Iznos} KM</p>
+                        </div>"
+                    );
+                }
+                else
+                {
+                    await _emailService.SendEmailAsync(
+                        korisnik.Email,
+                        "The Last Key - Plaćanje nije potvrđeno",
+                        $@"
+                        <div style='font-family: Arial, sans-serif; padding: 20px;'>
+                            <h2 style='color:#233D4D;'>The Last Key</h2>
+                            <h3 style='color:#dc3545;'>Plaćanje nije potvrđeno</h3>
+                            <p>Poštovani/a {korisnik.Ime}, vaše plaćanje za rezervaciju nije potvrđeno.</p>
+                            <p>Molimo vas da pokušate ponovo izvršiti online plaćanje.</p>
+                            <p><strong>Soba:</strong> {payment.Rezervacija.Termin.EscapeRoom.Naziv}</p>
+                            <p><strong>Datum:</strong> {payment.Rezervacija.Termin.Datum:dd.MM.yyyy}</p>
+                            <p><strong>Vrijeme:</strong> {payment.Rezervacija.Termin.Vrijeme}</p>
+                            <p><strong>Iznos:</strong> {payment.Iznos} KM</p>
+                        </div>"
+                    );
+                }
+            }
+
+            return RedirectToAction(nameof(Payments));
+        }
+
         public async Task<IActionResult> Reviews()
         {
             if (!await JeAdmin())
@@ -298,6 +365,7 @@ namespace Task6.Controllers
 
             return View(obavijest);
         }
+
         public async Task<IActionResult> Termini()
         {
             if (!await JeAdmin())
@@ -309,6 +377,7 @@ namespace Task6.Controllers
 
             return View(termini);
         }
+
         [HttpGet]
         public async Task<IActionResult> CreateTermin()
         {
@@ -319,6 +388,7 @@ namespace Task6.Controllers
 
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateTermin(Termin termin)
@@ -341,6 +411,7 @@ namespace Task6.Controllers
             ViewBag.Rooms = await _context.EscapeRooms.ToListAsync();
             return View(termin);
         }
+
         [HttpGet]
         public async Task<IActionResult> EditTermin(int id)
         {
@@ -396,6 +467,7 @@ namespace Task6.Controllers
 
             return RedirectToAction(nameof(Termini));
         }
+
         public async Task<IActionResult> Users()
         {
             if (!await JeAdmin())
@@ -405,6 +477,7 @@ namespace Task6.Controllers
 
             return View(korisnici);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangeUserRole(string id, Uloga uloga)
@@ -424,6 +497,7 @@ namespace Task6.Controllers
 
             return RedirectToAction(nameof(Users));
         }
+
         public async Task<IActionResult> ReservationDetails(int id)
         {
             if (!await JeAdmin())
@@ -446,9 +520,91 @@ namespace Task6.Controllers
             if (!await JeAdmin())
                 return RedirectToAction("Index", "Home");
 
-            var podrske = await _context.Podrske.ToListAsync();
+            var upiti = await _context.Podrske
+                .Include(p => p.Korisnik)
+                .OrderByDescending(p => p.Datum)
+                .ToListAsync();
 
-            return View(podrske);
+            return View(upiti);
+        }
+
+        public async Task<IActionResult> SupportDetails(int id)
+        {
+            if (!await JeAdmin())
+                return RedirectToAction("Index", "Home");
+
+            var upit = await _context.Podrske
+                .Include(p => p.Korisnik)
+                .FirstOrDefaultAsync(p => p.PorukaID == id);
+
+            if (upit == null)
+                return NotFound();
+
+            return View(upit);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ReplySupport(int id, string odgovor)
+        {
+            if (!await JeAdmin())
+                return RedirectToAction("Index", "Home");
+
+            var upit = await _context.Podrske
+                .Include(p => p.Korisnik)
+                .FirstOrDefaultAsync(p => p.PorukaID == id);
+
+            if (upit == null)
+                return NotFound();
+
+            if (string.IsNullOrWhiteSpace(odgovor))
+            {
+                TempData["SupportError"] = "Odgovor ne može biti prazan.";
+                return RedirectToAction(nameof(SupportDetails), new { id });
+            }
+
+            upit.Odgovor = odgovor;
+            upit.Odgovoreno = true;
+            upit.DatumOdgovora = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            await _emailService.SendEmailAsync(
+                upit.Email,
+                "The Last Key - Odgovor na vaš upit",
+                $@"
+        <div style='font-family: Arial, sans-serif; padding: 20px;'>
+            <h2 style='color:#233D4D;'>The Last Key</h2>
+            <h3 style='color:#FE7F2D;'>Odgovor na vaš upit</h3>
+            <p>Poštovani/a {upit.Korisnik?.Ime},</p>
+            <p><strong>Vaš upit:</strong> {upit.NaslovPoruke}</p>
+            <p>{upit.Odgovor}</p>
+            <hr />
+            <p style='font-size:13px; color:#777;'>
+                Hvala što koristite The Last Key.
+            </p>
+        </div>"
+            );
+
+            return RedirectToAction(nameof(SupportDetails), new { id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteSupport(int id)
+        {
+            if (!await JeAdmin())
+                return RedirectToAction("Index", "Home");
+
+            var upit = await _context.Podrske.FindAsync(id);
+
+            if (upit == null)
+                return NotFound();
+
+            _context.Podrske.Remove(upit);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Support));
         }
     }
 }
