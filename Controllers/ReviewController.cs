@@ -44,6 +44,8 @@ namespace Task6.Controllers
             return View(reviews);
         }
 
+
+        /*
         // GET: /Review/Create/5
         public async Task<IActionResult> Create(int roomId)
         {
@@ -73,6 +75,53 @@ namespace Task6.Controllers
             return View();
         }
 
+        */
+
+
+
+        // GET: /Review/Create/5
+        public async Task<IActionResult> Create(int roomId)
+        {
+            var room = await _context.EscapeRooms.FindAsync(roomId);
+            if (room == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Provjera da li je korisnik imao zavrsenu rezervaciju za ovu sobu
+            var hasCompletedReservation = await _context.Rezervacije
+                .Include(r => r.Termin)
+                .AnyAsync(r => r.KorisnikID == user.Id && r.Termin.RoomID == roomId && r.Status == true && r.Termin.Datum < DateTime.UtcNow);
+
+            if (!hasCompletedReservation)
+            {
+                TempData["Error"] = "Možete ostaviti recenziju samo ako ste imali završenu rezervaciju za ovu sobu.";
+                return RedirectToAction(nameof(List), new { roomId = roomId });
+            }
+
+            // Provjera da li je korisnik već dao recenziju za ovu sobu
+            var existingReview = await _context.Recenzije
+                .FirstOrDefaultAsync(r => r.RoomID == roomId && r.KorisnikID == user.Id);
+
+            if (existingReview != null)
+            {
+                TempData["Message"] = "Već ste dali recenziju za ovu sobu!";
+                return RedirectToAction(nameof(List), new { roomId = roomId });
+            }
+
+            ViewBag.Room = room;
+            return View();
+        }
+
+
+
+        /*
         // POST: /Review/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -88,6 +137,131 @@ namespace Task6.Controllers
             if (room == null)
             {
                 return NotFound();
+            }
+
+            // Provjera duplikata
+            var existingReview = await _context.Recenzije
+                .FirstOrDefaultAsync(r => r.RoomID == roomId && r.KorisnikID == user.Id);
+
+            if (existingReview != null)
+            {
+                return RedirectToAction(nameof(List), new { roomId = roomId });
+            }
+
+            if (ModelState.IsValid)
+            {
+                model.KorisnikID = user.Id;
+                model.RoomID = roomId;
+                model.Datum = DateTime.UtcNow;
+
+                _context.Recenzije.Add(model);
+                await _context.SaveChangesAsync();
+
+                TempData["Success"] = "Recenzija je uspješno kreirana!";
+                return RedirectToAction(nameof(List), new { roomId = roomId });
+            }
+
+            ViewBag.Room = room;
+            return View(model);
+        }
+
+        */
+
+        /*
+         // POST: /Review/Create
+         [HttpPost]
+         [ValidateAntiForgeryToken]
+         public async Task<IActionResult> Create(int roomId, Recenzija model)
+         {
+             var user = await _userManager.GetUserAsync(User);
+             if (user == null)
+             {
+                 return RedirectToAction("Login", "Account");
+             }
+
+             var room = await _context.EscapeRooms.FindAsync(roomId);
+             if (room == null)
+             {
+                 return NotFound();
+             }
+
+             // Provjera da li je korisnik imao završenu rezervaciju za ovu sobu
+             var hasCompletedReservation = await _context.Rezervacije
+                 .Include(r => r.Termin)
+                 .AnyAsync(r =>
+                     r.KorisnikID == user.Id &&
+                     r.Termin.RoomID == roomId &&
+                     r.Status &&
+                     r.Termin.Datum < DateTime.Now);
+
+             if (!hasCompletedReservation)
+             {
+                 TempData["Error"] = "Možete ostaviti recenziju samo ako ste imali završenu rezervaciju za ovu sobu.";
+                 return RedirectToAction(nameof(List), new { roomId });
+             }
+
+             // Provjera duplikata
+             var existingReview = await _context.Recenzije
+                 .FirstOrDefaultAsync(r => r.RoomID == roomId && r.KorisnikID == user.Id);
+
+             if (existingReview != null)
+             {
+                 TempData["Error"] = "Već ste ostavili recenziju za ovu sobu.";
+                 return RedirectToAction(nameof(List), new { roomId });
+             }
+
+             if (ModelState.IsValid)
+             {
+                 model.KorisnikID = user.Id;
+                 model.RoomID = roomId;
+                 model.Datum = DateTime.UtcNow;
+
+                 _context.Recenzije.Add(model);
+                 await _context.SaveChangesAsync();
+
+                 TempData["Success"] = "Recenzija je uspješno kreirana!";
+                 return RedirectToAction(nameof(List), new { roomId });
+             }
+
+             ViewBag.Room = room;
+             return View(model);
+         }
+
+         */
+
+
+
+
+        // POST: /Review/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(int roomId, Recenzija model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var room = await _context.EscapeRooms.FindAsync(roomId);
+            if (room == null)
+            {
+                return NotFound();
+            }
+
+            // Provjera da li je korisnik imao završenu rezervaciju za ovu sobu
+            var hasCompletedReservation = await _context.Rezervacije
+                .Include(r => r.Termin)
+                .AnyAsync(r =>
+                    r.KorisnikID == user.Id &&
+                    r.Termin.RoomID == roomId &&
+                    r.Status &&
+                    r.Termin.Datum < DateTime.UtcNow);
+
+            if (!hasCompletedReservation)
+            {
+                TempData["Error"] = "Možete ostaviti recenziju samo ako ste imali završenu rezervaciju za ovu sobu.";
+                return RedirectToAction(nameof(List), new { roomId });
             }
 
             // Provjera duplikata
@@ -164,7 +338,7 @@ namespace Task6.Controllers
             {
                 review.Ocjena = model.Ocjena;
                 review.Komentar = model.Komentar;
-                review.Datum = DateTime.Now;
+                review.Datum = DateTime.UtcNow;
 
                 _context.Update(review);
                 await _context.SaveChangesAsync();
@@ -223,6 +397,8 @@ namespace Task6.Controllers
             return RedirectToAction(nameof(List), new { roomId = roomId });
         }
 
+        
+        
         // GET: /Review/MyReviews
         public async Task<IActionResult> MyReviews()
         {
@@ -232,6 +408,8 @@ namespace Task6.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+
+
             var reviews = await _context.Recenzije
                 .Where(r => r.KorisnikID == user.Id)
                 .Include(r => r.EscapeRoom)
@@ -240,5 +418,9 @@ namespace Task6.Controllers
 
             return View(reviews);
         }
+
+
+
+        
     }
 }

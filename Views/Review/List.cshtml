@@ -9,6 +9,21 @@
 <div class="reviews-page">
     <div class="reviews-container">
 
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger" style="background:#ffe0e0;color:#b00;padding:12px 18px;border-radius:8px;margin-bottom:18px;">
+                @TempData["Error"]
+            </div>
+        }
+
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert alert-warning" style="background:#fff3cd;color:#856404;padding:12px 18px;border-radius:8px;margin-bottom:18px;">
+                @TempData["Message"]
+            </div>
+        }
+
+
         <div class="reviews-header">
             <a asp-controller="EscapeRooms"
                    asp-action="Details"
