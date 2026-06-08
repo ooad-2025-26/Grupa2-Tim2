@@ -1,0 +1,133 @@
+@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<div class="admin-dashboard-page">
+    <div class="admin-dashboard-container">
+
+        <div class="admin-dashboard-header">
+            <div>
+                <p class="admin-subtitle">THE LAST KEY</p>
+                <h1>Admin Panel</h1>
+                <p class="admin-description">
+                    Upravljanje korisnicima, sobama, terminima, rezervacijama i obavijestima.
+                </p>
+            </div>
+
+            <a asp-controller="Profil" asp-action="Index" class="admin-back-btn">
+                Moj profil
+            </a>
+        </div>
+
+        <div class="admin-stats-grid">
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">👥</div>
+                <p>Ukupno korisnika</p>
+                <h2>@ViewBag.Stats.TotalUsers</h2>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">🚪</div>
+                <p>Escape sobe</p>
+                <h2>@ViewBag.Stats.TotalRooms</h2>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">📅</div>
+                <p>Rezervacije</p>
+                <h2>@ViewBag.Stats.TotalReservations</h2>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">💳</div>
+                <p>Neplaćanja</p>
+                <h2>@ViewBag.Stats.PendingPayments</h2>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">⭐</div>
+                <p>Recenzije</p>
+                <h2>@ViewBag.Stats.TotalReviews</h2>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">📊</div>
+                <p>Prosječna ocjena</p>
+                <h2>@ViewBag.Stats.AverageRating.ToString("F1")</h2>
+            </div>
+        </div>
+
+        <div class="admin-actions-panel">
+            <div class="admin-actions-header">
+                <p>Brze akcije</p>
+                <h2>Upravljanje sistemom</h2>
+            </div>
+
+            <div class="admin-actions-grid">
+                <a asp-controller="Admin" asp-action="Rooms" class="admin-action-card">
+                    <span>🚪</span>
+                    <div>
+                        <h3>Upravljaj sobama</h3>
+                        <p>Dodavanje, uređivanje i brisanje escape room soba.</p>
+                    </div>
+                </a>
+
+                <a asp-controller="Admin" asp-action="Termini" class="admin-action-card">
+                    <span>📅</span>
+                    <div>
+                        <h3>Upravljaj terminima</h3>
+                        <p>Kreiranje i uređivanje dostupnih termina.</p>
+                    </div>
+                </a>
+
+                <a asp-controller="Admin" asp-action="Reservations" class="admin-action-card">
+                    <span>🧾</span>
+                    <div>
+                        <h3>Rezervacije</h3>
+                        <p>Pregled svih korisničkih rezervacija.</p>
+                    </div>
+                </a>
+
+                <a asp-controller="Admin" asp-action="Payments" class="admin-action-card">
+                    <span>💳</span>
+                    <div>
+                        <h3>Plaćanja</h3>
+                        <p>Pregled plaćanja i neplaćenih rezervacija.</p>
+                    </div>
+                </a>
+
+                <a asp-controller="Admin" asp-action="Reviews" class="admin-action-card">
+                    <span>⭐</span>
+                    <div>
+                        <h3>Recenzije</h3>
+                        <p>Pregled i moderacija korisničkih recenzija.</p>
+                    </div>
+                </a>
+
+                <a asp-controller="Admin" asp-action="Notifications" class="admin-action-card">
+                    <span>🔔</span>
+                    <div>
+                        <h3>Obavijesti</h3>
+                        <p>Kreiranje obavijesti i slanje korisnicima.</p>
+                    </div>
+                </a>
+
+                <a asp-controller="Admin" asp-action="Support" class="admin-action-card">
+                    <span>🛟</span>
+                    <div>
+                        <h3>Podrška</h3>
+                        <p>Pregled korisničkih poruka podrške.</p>
+                    </div>
+                </a>
+
+                <a asp-controller="Admin" asp-action="Users" class="admin-action-card">
+                    <span>👤</span>
+                    <div>
+                        <h3>Korisnici</h3>
+                        <p>Pregled korisnika i promjena njihovih uloga.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,146 @@
+@model Task6.Models.EscapeRoom
+
+@{
+    ViewData["Title"] = Model.Naziv;
+    var termini = (List<Task6.Models.Termin>)ViewBag.Termini;
+    var averageRating = (double)ViewBag.AverageRating;
+    var reviewCount = (int)ViewBag.ReviewCount;
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>@Model.Naziv</h1>
+
+            <div class="mb-3">
+                <span class="badge bg-info">Težina: @Model.Tezina</span>
+                <span class="badge bg-success">Kapacitet: @Model.Kapacitet osoba</span>
+            </div>
+
+            <p class="lead">@Model.Opis</p>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Prosječna ocjena</h5>
+                    <p class="h4">
+                        @averageRating.ToString("F1") / 5.0 ⭐
+                        (@reviewCount recenzija)
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Cijena</h5>
+                    <p class="h4 text-success">@Model.Cijena KM po osobi</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card sticky-top" style="top:20px;">
+                <div class="card-body">
+
+                    <h5 class="card-title">Dostupni termini</h5>
+
+                    @if (termini.Any())
+                    {
+                        <form method="post"
+                              asp-controller="Reservation"
+                              asp-action="Book">
+
+                            @Html.AntiForgeryToken()
+
+                            <div class="mb-3">
+                                <label for="terminSelect" class="form-label">
+                                    Odaberite termin:
+                                </label>
+
+                                <select id="terminSelect"
+                                        name="terminId"
+                                        class="form-select"
+                                        required>
+
+                                    <option value="">
+                                        -- Odaberite termin --
+                                    </option>
+
+                                    @foreach (var termin in termini)
+                                    {
+                                        <option value="@termin.TerminID">
+                                            @termin.Datum.ToString("dd.MM.yyyy")
+                                            @termin.Vrijeme
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="brojOsoba" class="form-label">
+                                    Broj osoba (1-@Model.Kapacitet):
+                                </label>
+
+                                <input type="number"
+                                       id="brojOsoba"
+                                       name="brojOsoba"
+                                       class="form-control"
+                                       min="1"
+                                       max="@Model.Kapacitet"
+                                       value="1"
+                                       required />
+                            </div>
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <button type="submit"
+                                        class="btn btn-success w-100">
+                                    Rezerviraj
+                                </button>
+                            }
+                            else
+                            {
+                                <a asp-controller="Account"
+                                       asp-action="Login"
+                                       class="btn btn-primary w-100">
+                                    Prijavite se za rezervaciju
+                                </a>
+                            }
+                        </form>
+                    }
+                    else
+                    {
+                        <p class="text-muted">
+                            Nema dostupnih termina u sljedećih 30 dana.
+                        </p>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-12">
+
+            <h3 class="mb-4">Recenzije</h3>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="Review"
+                       asp-action="Create"
+                       asp-route-roomId="@Model.RoomID"
+                       class="btn btn-outline-primary mb-3">
+                    Dodaj recenziju
+                </a>
+            }
+
+            <a asp-controller="Review"
+                   asp-action="List"
+                   asp-route-roomId="@Model.RoomID"
+                   class="btn btn-outline-secondary mb-3">
+                Pogledaj sve recenzije
+            </a>
+
+        </div>
+    </div>
+</div>

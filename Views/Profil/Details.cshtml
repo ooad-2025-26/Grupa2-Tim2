@@ -1,0 +1,29 @@
+@model Task6.Models.Rezervacija
+
+@{
+    ViewData["Title"] = "Detalji rezervacije";
+}
+
+<div class="container mt-5">
+    <h1>Detalji rezervacije</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">@Model.Termin.EscapeRoom.Naziv</h5>
+            <p><strong>Datum:</strong> @Model.Termin.Datum.ToString("dd.MM.yyyy")</p>
+            <p><strong>Vrijeme:</strong> @Model.Termin.Vrijeme</p>
+            <p><strong>Broj osoba:</strong> @Model.BrojOsoba</p>
+            <p><strong>Status:</strong> @(Model.Status ? "Potvrđena" : "Otkazana")</p>
+            <p><strong>Kreirano:</strong> @Model.DatumKreiranja.ToString("dd.MM.yyyy HH:mm")</p>
+
+            <a asp-action="Index" class="btn btn-secondary">Nazad</a>
+            @if (Model.Termin.Datum > DateTime.Now.AddHours(24) && Model.Status)
+            {
+                <form asp-action="Cancel" method="post" style="display:inline;">
+                    <input type="hidden" name="id" value="@Model.RezervacijaID" />
+                    <button type="submit" class="btn btn-danger">Otkaži rezervaciju</button>
+                </form>
+            }
+        </div>
+    </div>
+</div>

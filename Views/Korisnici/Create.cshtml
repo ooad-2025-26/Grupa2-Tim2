@@ -1,0 +1,55 @@
+﻿@model Task6.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Dodaj korisnika";
+}
+
+<h1 style="color:white; margin-bottom:20px;">Dodaj korisnika</h1>
+
+<form asp-action="Create" method="post"
+      style="max-width:500px; background-color:#1e1e1e; padding:30px; border-radius:15px;">
+
+    <div asp-validation-summary="All"
+         style="color:#ff6b6b; margin-bottom:20px;">
+    </div>
+
+    <div style="margin-bottom:15px;">
+        <label style="color:white;">Ime</label>
+        <input asp-for="Ime" class="form-control" />
+    </div>
+
+    <div style="margin-bottom:15px;">
+        <label style="color:white;">Prezime</label>
+        <input asp-for="Prezime" class="form-control" />
+    </div>
+
+    <div style="margin-bottom:15px;">
+        <label style="color:white;">Email</label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+
+    <div style="margin-bottom:15px;">
+        <label style="color:white;">Lozinka</label>
+        <input name="lozinka" type="password" class="form-control" />
+
+        <small style="color:lightgray;">
+            Lozinka mora sadržavati veliko slovo, malo slovo,
+            broj i specijalni znak.
+        </small>
+    </div>
+
+    <div style="margin-bottom:25px;">
+        <label style="color:white;">Uloga</label>
+
+        <select asp-for="Uloga" class="form-control">
+            <option value="0">Korisnik</option>
+            <option value="1">Administrator</option>
+            <option value="2">Zaposlenik</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-light">
+        Spasi
+    </button>
+
+</form>

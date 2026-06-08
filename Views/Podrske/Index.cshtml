@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Task6.Models.Podrska>
+
+<h1>Podrska</h1>
+
+<p>
+    <a asp-action="Create">Nova poruka</a>
+</p>
+
+<table class="table">
+
+    <tr>
+        <th>Naslov</th>
+        <th>Email</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.NaslovPoruke</td>
+            <td>@item.Email</td>
+        </tr>
+    }
+
+</table>

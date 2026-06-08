@@ -1,0 +1,105 @@
+﻿@{
+    ViewData["Title"] = "Zaposlenik Panel";
+}
+
+<div class="admin-dashboard-page">
+    <div class="admin-dashboard-container">
+
+        <div class="admin-dashboard-header">
+            <div>
+                <p class="admin-subtitle">THE LAST KEY</p>
+                <h1>Zaposlenik Panel</h1>
+                <p class="admin-description">
+                    Pregled i upravljanje sobama, terminima, rezervacijama, recenzijama, obavijestima i podrškom.
+                </p>
+            </div>
+
+            <a asp-controller="Profil" asp-action="Index" class="admin-back-btn">
+                Moj profil
+            </a>
+        </div>
+
+        <div class="admin-stats-grid">
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">🚪</div>
+                <p>Escape sobe</p>
+                <h2>@ViewBag.Stats.TotalRooms</h2>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">📅</div>
+                <p>Rezervacije</p>
+                <h2>@ViewBag.Stats.TotalReservations</h2>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">⭐</div>
+                <p>Recenzije</p>
+                <h2>@ViewBag.Stats.TotalReviews</h2>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon">🛟</div>
+                <p>Poruke podrške</p>
+                <h2>@ViewBag.Stats.TotalSupport</h2>
+            </div>
+        </div>
+
+        <div class="admin-actions-panel">
+            <div class="admin-actions-header">
+                <p>Brze akcije</p>
+                <h2>Radni panel zaposlenika</h2>
+            </div>
+
+            <div class="admin-actions-grid">
+                <a asp-controller="Zaposlenik" asp-action="Rooms" class="admin-action-card">
+                    <span>🚪</span>
+                    <div>
+                        <h3>Upravljaj sobama</h3>
+                        <p>Pregled escape room soba.</p>
+                    </div>
+                </a>
+
+                <a asp-controller="Zaposlenik" asp-action="Termini" class="admin-action-card">
+                    <span>📅</span>
+                    <div>
+                        <h3>Upravljaj terminima</h3>
+                        <p>Pregled dostupnih termina.</p>
+                    </div>
+                </a>
+
+                <a asp-controller="Zaposlenik" asp-action="Reservations" class="admin-action-card">
+                    <span>🧾</span>
+                    <div>
+                        <h3>Rezervacije</h3>
+                        <p>Pregled svih korisničkih rezervacija.</p>
+                    </div>
+                </a>
+
+                <a asp-controller="Zaposlenik" asp-action="Reviews" class="admin-action-card">
+                    <span>⭐</span>
+                    <div>
+                        <h3>Recenzije</h3>
+                        <p>Pregled korisničkih recenzija.</p>
+                    </div>
+                </a>
+
+                <a asp-controller="Zaposlenik" asp-action="Notifications" class="admin-action-card">
+                    <span>🔔</span>
+                    <div>
+                        <h3>Obavijesti</h3>
+                        <p>Pregled obavijesti za korisnike.</p>
+                    </div>
+                </a>
+
+                <a asp-controller="Zaposlenik" asp-action="Support" class="admin-action-card">
+                    <span>🛟</span>
+                    <div>
+                        <h3>Podrška</h3>
+                        <p>Pregled korisničkih poruka podrške.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
