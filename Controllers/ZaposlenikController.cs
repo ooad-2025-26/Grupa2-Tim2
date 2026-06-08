@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Task6.Data;
 using Task6.Models;
@@ -6,6 +7,7 @@ using Task6.Services;
 
 namespace Task6.Controllers
 {
+    [Authorize]
     public class ZaposlenikController : Controller
     {
         private readonly EscapeRoomDbContext _context;

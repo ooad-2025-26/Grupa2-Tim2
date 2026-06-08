@@ -75,7 +75,7 @@ namespace Task6.Controllers
             if (user == null || rez.KorisnikID != user.Id) return Unauthorized();
 
             // Allow cancellation only if more than 24 hours remain
-            if (rez.Termin != null && rez.Termin.Datum <= DateTime.Now.AddHours(24))
+            if (rez.Termin != null && rez.Termin.Datum <= DateTime.UtcNow.AddHours(24))
             {
                 return BadRequest();
             }
