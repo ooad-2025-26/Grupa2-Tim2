@@ -4,79 +4,84 @@
     ViewData["Title"] = "Dodatna pitanja";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="question-page">
+    <div class="question-card">
 
-            <h1 class="mb-4">Dodatna pitanja</h1>
+        <a asp-controller="Profil"
+               asp-action="Index"
+               class="back-profile-btn">
+            ← Nazad na profil
+        </a>
 
-            <p class="lead mb-4">
-                Imate dodatno pitanje vezano za rezervaciju, plaćanje ili escape room?
-                Pošaljite nam upit i odgovor ćete dobiti putem emaila.
-            </p>
+        <p class="profile-small-title">THE LAST KEY</p>
+        <h1>Dodatna pitanja</h1>
 
-            @if (TempData["SupportSuccess"] != null)
-            {
-                <div class="alert alert-success">
-                    @TempData["SupportSuccess"]
-                </div>
-            }
+        <p class="question-subtitle">
+            Imate dodatno pitanje vezano za rezervaciju, plaćanje ili escape room?
+            Pošaljite nam upit i odgovor ćete dobiti putem emaila.
+        </p>
 
-            <form asp-controller="Support"
-                  asp-action="Contact"
-                  method="post"
-                  class="card p-4 shadow-sm">
+        @if (TempData["SupportSuccess"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["SupportSuccess"]
+            </div>
+        }
 
-                @Html.AntiForgeryToken()
+        <form asp-controller="Support"
+              asp-action="Contact"
+              method="post"
+              class="question-form">
 
-                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+            @Html.AntiForgeryToken()
 
-                <div class="mb-3">
-                    <label asp-for="NaslovPoruke" class="form-label">Naslov pitanja</label>
-                    <input asp-for="NaslovPoruke"
-                           class="form-control"
-                           placeholder="Tema pitanja"
-                           maxlength="100"
-                           required />
-                    <span asp-validation-for="NaslovPoruke" class="text-danger"></span>
-                </div>
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
-                <div class="mb-3">
-                    <label asp-for="Email" class="form-label">Email</label>
-                    <input asp-for="Email"
-                           class="form-control"
-                           type="email"
-                           value="@ViewBag.Email"
-                           placeholder="vas@email.com"
-                           readonly />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
+            <div class="mb-3">
+                <label asp-for="NaslovPoruke" class="form-label">Naslov pitanja</label>
+                <input asp-for="NaslovPoruke"
+                       class="form-control"
+                       placeholder="Tema pitanja"
+                       maxlength="100"
+                       required />
+                <span asp-validation-for="NaslovPoruke" class="text-danger"></span>
+            </div>
 
-                <div class="mb-3">
-                    <label asp-for="Sadrzaj" class="form-label">Vaše pitanje</label>
-                    <textarea asp-for="Sadrzaj"
-                              class="form-control"
-                              rows="5"
-                              maxlength="500"
-                              placeholder="Napišite vaše pitanje..."
-                              required></textarea>
-                    <span asp-validation-for="Sadrzaj" class="text-danger"></span>
-                </div>
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email"
+                       class="form-control"
+                       type="email"
+                       value="@ViewBag.Email"
+                       placeholder="vas@email.com"
+                       readonly />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
 
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary">
-                        Pošalji pitanje
-                    </button>
+            <div class="mb-3">
+                <label asp-for="Sadrzaj" class="form-label">Vaše pitanje</label>
+                <textarea asp-for="Sadrzaj"
+                          class="form-control"
+                          rows="5"
+                          maxlength="500"
+                          placeholder="Napišite vaše pitanje..."
+                          required></textarea>
+                <span asp-validation-for="Sadrzaj" class="text-danger"></span>
+            </div>
 
-                    <a asp-controller="Profil"
+            <div class="d-flex gap-2">
+                <button type="submit" class="question-submit-btn">
+                    Pošalji pitanje
+                </button>
+
+                <a asp-controller="Profil"
                        asp-action="Index"
-                       class="btn btn-secondary">
-                        Otkaži
-                    </a>
-                </div>
-            </form>
+                       class="question-cancel-btn">
+                    Otkaži
+                </a>
+            </div>
+        </form>
 
-        </div>
     </div>
 </div>
 

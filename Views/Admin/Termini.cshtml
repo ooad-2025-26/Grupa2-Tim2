@@ -4,68 +4,86 @@
     ViewData["Title"] = "Upravljanje terminima";
 }
 
-<div class="container-fluid mt-5">
-    <h1 class="mb-4">Upravljanje terminima</h1>
+<div class="admin-page">
 
-    <a asp-controller="Admin" asp-action="CreateTermin" class="btn btn-success mb-3">
+    <div class="admin-header">
+        <div>
+            <p class="profile-small-title">THE LAST KEY</p>
+            <h1>Upravljanje terminima</h1>
+        </div>
+
+        <a asp-controller="Admin"
+               asp-action="Dashboard"
+               class="home-btn">
+            Admin panel
+        </a>
+    </div>
+
+    <a asp-controller="Admin"
+           asp-action="CreateTermin"
+           class="admin-add-btn">
         + Novi termin
     </a>
 
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Soba</th>
-                    <th>Datum</th>
-                    <th>Vrijeme</th>
-                    <th>Dostupnost</th>
-                    <th>Akcije</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var termin in Model)
-                {
-                    <tr>
-                        <td>@termin.TerminID</td>
-                        <td>@termin.EscapeRoom.Naziv</td>
-                        <td>@termin.Datum.ToString("dd.MM.yyyy")</td>
-                        <td>@termin.Vrijeme</td>
-                        <td>
-                            @if (termin.Dostupnost)
-                            {
-                                <span class="badge bg-success">Dostupan</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-danger">Zauzet</span>
-                            }
-                        </td>
-                        <td>
-                            <a asp-controller="Admin"
-                                   asp-action="EditTermin"
-                                   asp-route-id="@termin.TerminID"
-                                   class="btn btn-sm btn-warning">
-                                Uredi
-                            </a>
-
-                            <a asp-controller="Admin"
-                                   asp-action="DeleteTermin"
-                                   asp-route-id="@termin.TerminID"
-                                   class="btn btn-sm btn-danger">
-                                Obriši
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-
-    @if (!Model.Any())
+    @if (Model.Any())
     {
-        <div class="alert alert-info" role="alert">
+        <div class="admin-table-box">
+            <table class="table admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Soba</th>
+                        <th>Datum</th>
+                        <th>Vrijeme</th>
+                        <th>Dostupnost</th>
+                        <th>Akcije</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var termin in Model)
+                    {
+                        <tr>
+                            <td>@termin.TerminID</td>
+                            <td>@termin.EscapeRoom.Naziv</td>
+                            <td>@termin.Datum.ToString("dd.MM.yyyy")</td>
+                            <td>@termin.Vrijeme</td>
+                            <td>
+                                @if (termin.Dostupnost)
+                                {
+                                    <span class="status-badge status-ok">Dostupan</span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge status-cancel">Zauzet</span>
+                                }
+                            </td>
+                            <td>
+                                <a asp-controller="Admin"
+                                       asp-action="EditTermin"
+                                       asp-route-id="@termin.TerminID"
+                                       class="admin-edit-btn">
+                                    Uredi
+                                </a>
+
+                                <a asp-controller="Admin"
+                                       asp-action="DeleteTermin"
+                                       asp-route-id="@termin.TerminID"
+                                       class="admin-delete-btn">
+                                    Obriši
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
             Nema termina.
         </div>
     }
+
 </div>

@@ -4,50 +4,77 @@
     ViewData["Title"] = "Upravljanje sobama";
 }
 
-<div class="container-fluid mt-5">
-    <h1 class="mb-4">Upravljanje Escape Sobama</h1>
+<div class="admin-page">
+    <div class="admin-header">
+        <div>
+            <p class="profile-small-title">THE LAST KEY</p>
+            <h1>Upravljanje Escape Sobama</h1>
+        </div>
 
-    <a asp-controller="Admin" asp-action="CreateRoom" class="btn btn-success mb-3">+ Nova soba</a>
-
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Naziv</th>
-                    <th>Opis</th>
-                    <th>Težina</th>
-                    <th>Kapacitet</th>
-                    <th>Cijena (KM)</th>
-                    <th>Akcije</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var room in Model)
-                {
-                    <tr>
-                        <td>@room.RoomID</td>
-                        <td>@room.Naziv</td>
-                        <td>@room.Opis.Substring(0, Math.Min(30, room.Opis.Length))...</td>
-                        <td>@room.Tezina</td>
-                        <td>@room.Kapacitet</td>
-                        <td>@room.Cijena</td>
-                        <td>
-                            <a asp-controller="Admin" asp-action="EditRoom" asp-route-id="@room.RoomID" 
-                               class="btn btn-sm btn-warning">Uredi</a>
-                            <a asp-controller="Admin" asp-action="DeleteRoom" asp-route-id="@room.RoomID" 
-                               class="btn btn-sm btn-danger">Obriši</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <a asp-controller="Admin"
+               asp-action="Dashboard"
+               class="home-btn">
+            Admin panel
+        </a>
     </div>
 
-    @if (!Model.Any())
+    <a asp-controller="Admin"
+           asp-action="CreateRoom"
+           class="admin-add-btn">
+        + Nova soba
+    </a>
+
+    @if (Model.Any())
     {
-        <div class="alert alert-info" role="alert">
-            Nema registrovanih soba. <a asp-controller="Admin" asp-action="CreateRoom">Kreiraj prvu sobu</a>
+        <div class="admin-table-box">
+            <table class="table admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Naziv</th>
+                        <th>Opis</th>
+                        <th>Težina</th>
+                        <th>Kapacitet</th>
+                        <th>Cijena (KM)</th>
+                        <th>Akcije</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var room in Model)
+                    {
+                        <tr>
+                            <td>@room.RoomID</td>
+                            <td>@room.Naziv</td>
+                            <td>@room.Opis.Substring(0, Math.Min(30, room.Opis.Length))...</td>
+                            <td>@room.Tezina</td>
+                            <td>@room.Kapacitet</td>
+                            <td>@room.Cijena</td>
+                            <td>
+                                <a asp-controller="Admin"
+                                       asp-action="EditRoom"
+                                       asp-route-id="@room.RoomID"
+                                       class="admin-edit-btn">
+                                    Uredi
+                                </a>
+
+                                <a asp-controller="Admin"
+                                       asp-action="DeleteRoom"
+                                       asp-route-id="@room.RoomID"
+                                       class="admin-delete-btn">
+                                    Obriši
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            Nema registrovanih soba.
         </div>
     }
 </div>

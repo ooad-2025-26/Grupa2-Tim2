@@ -4,13 +4,25 @@
     ViewData["Title"] = "Nova obavijest";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="admin-page">
 
+    <div class="admin-header">
+        <div>
+            <p class="profile-small-title">THE LAST KEY</p>
             <h1>Nova obavijest</h1>
+        </div>
 
-            <form method="post" class="card p-4 mt-4">
+        <a asp-controller="Admin"
+               asp-action="Dashboard"
+               class="home-btn">
+            Admin panel
+        </a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <form method="post" class="admin-form-card">
                 @Html.AntiForgeryToken()
 
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
@@ -23,11 +35,13 @@
 
                 <div class="mb-3">
                     <label asp-for="Sadrzaj" class="form-label"></label>
-                    <textarea asp-for="Sadrzaj" class="form-control" rows="5"></textarea>
+                    <textarea asp-for="Sadrzaj"
+                              class="form-control"
+                              rows="5"></textarea>
                     <span asp-validation-for="Sadrzaj" class="text-danger"></span>
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-4">
                     <label asp-for="TipObavijesti" class="form-label"></label>
                     <select asp-for="TipObavijesti" class="form-select">
                         <option value="Novost">Novost</option>
@@ -39,11 +53,13 @@
                 </div>
 
                 <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-success">
+                    <button type="submit" class="admin-add-btn">
                         Kreiraj obavijest
                     </button>
 
-                    <a asp-controller="Admin" asp-action="Notifications" class="btn btn-secondary">
+                    <a asp-controller="Admin"
+                           asp-action="Notifications"
+                           class="admin-edit-btn">
                         Otkaži
                     </a>
                 </div>
@@ -51,6 +67,7 @@
 
         </div>
     </div>
+
 </div>
 
 @section Scripts {

@@ -4,83 +4,98 @@
     ViewData["Title"] = "Upravljanje plaćanjima";
 }
 
-<div class="container-fluid mt-5">
-    <h1 class="mb-4">Upravljanje plaćanjima</h1>
+<div class="admin-page">
 
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Korisnik</th>
-                    <th>Iznos (KM)</th>
-                    <th>Datum</th>
-                    <th>Status</th>
-                    <th>Akcije</th>
-                </tr>
-            </thead>
+    <div class="admin-header">
+        <div>
+            <p class="profile-small-title">THE LAST KEY</p>
+            <h1>Upravljanje plaćanjima</h1>
+        </div>
 
-            <tbody>
-                @foreach (var payment in Model)
-                {
+        <a asp-controller="Admin"
+               asp-action="Dashboard"
+               class="home-btn">
+            Admin panel
+        </a>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="admin-table-box">
+            <table class="table admin-table">
+                <thead>
                     <tr>
-                        <td>@payment.PlacanjeID</td>
+                        <th>ID</th>
+                        <th>Korisnik</th>
+                        <th>Iznos (KM)</th>
+                        <th>Datum</th>
+                        <th>Status</th>
+                        <th>Akcije</th>
+                    </tr>
+                </thead>
 
-                        <td>
-                            @payment.Rezervacija.Korisnik.Ime
-                            @payment.Rezervacija.Korisnik.Prezime
-                        </td>
+                <tbody>
+                    @foreach (var payment in Model)
+                    {
+                        <tr>
+                            <td>@payment.PlacanjeID</td>
 
-                        <td>@payment.Iznos</td>
+                            <td>
+                                @payment.Rezervacija.Korisnik.Ime
+                                @payment.Rezervacija.Korisnik.Prezime
+                            </td>
 
-                        <td>@payment.Datum.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>@payment.Iznos</td>
 
-                        <td>
-                            @if (payment.Status)
-                            {
-                                <span class="badge bg-success">Plaćeno</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-danger">Nije plaćeno</span>
-                            }
-                        </td>
+                            <td>@payment.Datum.ToString("dd.MM.yyyy HH:mm")</td>
 
-                        <td>
-                            <form method="post"
-                                  asp-controller="Admin"
-                                  asp-action="UpdatePaymentStatus"
-                                  class="d-inline">
-
-                                @Html.AntiForgeryToken()
-
-                                <input type="hidden" name="id" value="@payment.PlacanjeID" />
-                                <input type="hidden" name="status" value="@(!payment.Status)" />
-
+                            <td>
                                 @if (payment.Status)
                                 {
-                                    <button type="submit" class="btn btn-sm btn-warning">
-                                        Označi kao neplaćeno
-                                    </button>
+                                    <span class="status-badge status-ok">Plaćeno</span>
                                 }
                                 else
                                 {
-                                    <button type="submit" class="btn btn-sm btn-success">
-                                        Označi kao plaćeno
-                                    </button>
+                                    <span class="status-badge status-cancel">Nije plaćeno</span>
                                 }
-                            </form>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                            </td>
 
-    @if (!Model.Any())
+                            <td>
+                                <form method="post"
+                                      asp-controller="Admin"
+                                      asp-action="UpdatePaymentStatus"
+                                      class="d-inline">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <input type="hidden" name="id" value="@payment.PlacanjeID" />
+                                    <input type="hidden" name="status" value="@(!payment.Status)" />
+
+                                    @if (payment.Status)
+                                    {
+                                        <button type="submit" class="admin-edit-btn">
+                                            Označi kao neplaćeno
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit" class="admin-delete-btn">
+                                            Označi kao plaćeno
+                                        </button>
+                                    }
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
     {
-        <div class="alert alert-info" role="alert">
+        <div class="empty-reservations">
             Nema plaćanja.
         </div>
     }
+
 </div>

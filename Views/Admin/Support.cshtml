@@ -4,73 +4,89 @@
     ViewData["Title"] = "Upiti korisnika";
 }
 
-<div class="container-fluid mt-5">
-    <h1 class="mb-4">Upiti korisnika</h1>
+<div class="admin-page">
 
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Korisnik</th>
-                    <th>Email</th>
-                    <th>Naslov</th>
-                    <th>Datum</th>
-                    <th>Stanje</th>
-                    <th>Akcije</th>
-                </tr>
-            </thead>
+    <div class="admin-header">
+        <div>
+            <p class="profile-small-title">THE LAST KEY</p>
+            <h1>Upiti korisnika</h1>
+        </div>
 
-            <tbody>
-                @foreach (var support in Model)
-                {
-                    <tr>
-                        <td>@support.PorukaID</td>
-                        <td>@support.Korisnik?.Ime @support.Korisnik?.Prezime</td>
-                        <td>@support.Email</td>
-                        <td>@support.NaslovPoruke</td>
-                        <td>@support.Datum.ToString("dd.MM.yyyy HH:mm")</td>
-
-                        <td>
-                            @if (support.Odgovoreno)
-                            {
-                                <span class="badge bg-success">Odgovoreno</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-warning">Neodgovoreno</span>
-                            }
-                        </td>
-
-                        <td>
-                            <a asp-controller="Admin"
-                               asp-action="SupportDetails"
-                               asp-route-id="@support.PorukaID"
-                               class="btn btn-sm btn-info">
-                                Pregled
-                            </a>
-
-                            <form asp-controller="Admin"
-                                  asp-action="DeleteSupport"
-                                  method="post"
-                                  style="display:inline;">
-                                @Html.AntiForgeryToken()
-                                <input type="hidden" name="id" value="@support.PorukaID" />
-                                <button type="submit" class="btn btn-sm btn-danger">
-                                    Obriši
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <a asp-controller="Admin"
+               asp-action="Dashboard"
+               class="home-btn">
+            Admin panel
+        </a>
     </div>
 
-    @if (!Model.Any())
+    @if (Model.Any())
     {
-        <div class="alert alert-info">
+        <div class="admin-table-box">
+            <table class="table admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Korisnik</th>
+                        <th>Email</th>
+                        <th>Naslov</th>
+                        <th>Datum</th>
+                        <th>Stanje</th>
+                        <th>Akcije</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var support in Model)
+                    {
+                        <tr>
+                            <td>@support.PorukaID</td>
+                            <td>@support.Korisnik?.Ime @support.Korisnik?.Prezime</td>
+                            <td>@support.Email</td>
+                            <td>@support.NaslovPoruke</td>
+                            <td>@support.Datum.ToString("dd.MM.yyyy HH:mm")</td>
+
+                            <td>
+                                @if (support.Odgovoreno)
+                                {
+                                    <span class="status-badge status-ok">Odgovoreno</span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge status-cancel">Neodgovoreno</span>
+                                }
+                            </td>
+
+                            <td>
+                                <a asp-controller="Admin"
+                                       asp-action="SupportDetails"
+                                       asp-route-id="@support.PorukaID"
+                                       class="admin-edit-btn">
+                                    Pregled
+                                </a>
+
+                                <form asp-controller="Admin"
+                                      asp-action="DeleteSupport"
+                                      method="post"
+                                      style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@support.PorukaID" />
+
+                                    <button type="submit" class="admin-delete-btn">
+                                        Obriši
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="empty-reservations">
             Nema upita korisnika.
         </div>
     }
+
 </div>

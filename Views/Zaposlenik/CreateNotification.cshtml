@@ -4,53 +4,92 @@
     ViewData["Title"] = "Nova obavijest";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="admin-page">
 
+    <div class="admin-header">
+        <div>
+            <p class="profile-small-title">THE LAST KEY</p>
             <h1>Nova obavijest</h1>
+        </div>
 
-            <form method="post" class="card p-4 mt-4">
+        <a asp-controller="Zaposlenik"
+               asp-action="Dashboard"
+               class="home-btn">
+            Zaposlenik panel
+        </a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <form method="post" class="admin-form-card">
                 @Html.AntiForgeryToken()
 
-                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3"></div>
 
                 <div class="mb-3">
-                    <label asp-for="Naslov" class="form-label"></label>
-                    <input asp-for="Naslov" class="form-control" />
-                    <span asp-validation-for="Naslov" class="text-danger"></span>
+                    <label asp-for="Naslov" class="form-label">
+                        Naslov
+                    </label>
+
+                    <input asp-for="Naslov"
+                           class="form-control"
+                           placeholder="Unesite naslov obavijesti" />
+
+                    <span asp-validation-for="Naslov"
+                          class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="Sadrzaj" class="form-label"></label>
-                    <textarea asp-for="Sadrzaj" class="form-control" rows="5"></textarea>
-                    <span asp-validation-for="Sadrzaj" class="text-danger"></span>
+                    <label asp-for="Sadrzaj" class="form-label">
+                        Sadržaj
+                    </label>
+
+                    <textarea asp-for="Sadrzaj"
+                              class="form-control"
+                              rows="6"
+                              placeholder="Unesite sadržaj obavijesti"></textarea>
+
+                    <span asp-validation-for="Sadrzaj"
+                          class="text-danger"></span>
                 </div>
 
-                <div class="mb-3">
-                    <label asp-for="TipObavijesti" class="form-label"></label>
-                    <select asp-for="TipObavijesti" class="form-select">
+                <div class="mb-4">
+                    <label asp-for="TipObavijesti" class="form-label">
+                        Tip obavijesti
+                    </label>
+
+                    <select asp-for="TipObavijesti"
+                            class="form-select">
                         <option value="Novost">Novost</option>
                         <option value="Popust">Popust</option>
                         <option value="Rezervacija">Rezervacija</option>
                         <option value="Otkazivanje">Otkazivanje</option>
                     </select>
-                    <span asp-validation-for="TipObavijesti" class="text-danger"></span>
+
+                    <span asp-validation-for="TipObavijesti"
+                          class="text-danger"></span>
                 </div>
 
                 <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-success">
+                    <button type="submit"
+                            class="admin-add-btn">
                         Kreiraj obavijest
                     </button>
 
-                    <a asp-controller="Zaposlenik" asp-action="Notifications" class="btn btn-secondary">
+                    <a asp-controller="Zaposlenik"
+                           asp-action="Notifications"
+                           class="admin-edit-btn">
                         Otkaži
                     </a>
                 </div>
+
             </form>
 
         </div>
     </div>
+
 </div>
 
 @section Scripts {

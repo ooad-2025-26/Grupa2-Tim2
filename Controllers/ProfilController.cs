@@ -36,6 +36,12 @@ namespace Task6.Controllers
                 .Where(r => r.KorisnikID == user.Id)
                 .OrderByDescending(r => r.DatumKreiranja)
                 .ToListAsync();
+            var placeneRezervacije = await _context.Placanja
+    .Where(p => p.Status)
+    .Select(p => p.RezervacijaID)
+    .ToListAsync();
+
+            ViewBag.PlaceneRezervacije = placeneRezervacije; 
 
             ViewBag.User = user;
             return View(rezervacije);

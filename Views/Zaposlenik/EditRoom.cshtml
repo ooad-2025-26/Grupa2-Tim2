@@ -4,61 +4,124 @@
     ViewData["Title"] = "Uredi sobu";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h1>Uredi Escape sobu</h1>
+<div class="admin-page">
 
-            <form method="post" class="card p-4 mt-4">
+    <div class="admin-header">
+        <div>
+            <p class="profile-small-title">THE LAST KEY</p>
+            <h1>Uredi Escape sobu</h1>
+        </div>
+
+        <a asp-controller="Zaposlenik"
+               asp-action="Dashboard"
+               class="home-btn">
+            Zaposlenik panel
+        </a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <form method="post" class="admin-form-card">
                 @Html.AntiForgeryToken()
 
                 <input type="hidden" asp-for="RoomID" />
 
-                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3"></div>
 
                 <div class="mb-3">
-                    <label asp-for="Naziv" class="form-label"></label>
-                    <input asp-for="Naziv" class="form-control" placeholder="Naziv sobe" />
-                    <span asp-validation-for="Naziv" class="text-danger"></span>
+                    <label asp-for="Naziv" class="form-label">
+                        Naziv sobe
+                    </label>
+
+                    <input asp-for="Naziv"
+                           class="form-control"
+                           placeholder="Naziv sobe" />
+
+                    <span asp-validation-for="Naziv"
+                          class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="Opis" class="form-label"></label>
-                    <textarea asp-for="Opis" class="form-control" rows="4" placeholder="Opis sobe"></textarea>
-                    <span asp-validation-for="Opis" class="text-danger"></span>
+                    <label asp-for="Opis" class="form-label">
+                        Opis
+                    </label>
+
+                    <textarea asp-for="Opis"
+                              class="form-control"
+                              rows="5"
+                              placeholder="Opis sobe"></textarea>
+
+                    <span asp-validation-for="Opis"
+                          class="text-danger"></span>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label asp-for="Tezina" class="form-label"></label>
-                        <select asp-for="Tezina" class="form-select">
+                        <label asp-for="Tezina" class="form-label">
+                            Težina
+                        </label>
+
+                        <select asp-for="Tezina"
+                                class="form-select">
                             <option value="Lagana">Lagana</option>
                             <option value="Srednja">Srednja</option>
                             <option value="Teska">Teška</option>
                         </select>
-                        <span asp-validation-for="Tezina" class="text-danger"></span>
+
+                        <span asp-validation-for="Tezina"
+                              class="text-danger"></span>
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label asp-for="Kapacitet" class="form-label"></label>
-                        <input asp-for="Kapacitet" type="number" class="form-control" min="1" max="20" />
-                        <span asp-validation-for="Kapacitet" class="text-danger"></span>
+                        <label asp-for="Kapacitet" class="form-label">
+                            Kapacitet
+                        </label>
+
+                        <input asp-for="Kapacitet"
+                               type="number"
+                               class="form-control"
+                               min="1"
+                               max="20" />
+
+                        <span asp-validation-for="Kapacitet"
+                              class="text-danger"></span>
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label asp-for="Cijena" class="form-label"></label>
-                    <input asp-for="Cijena" type="number" class="form-control" step="0.01" />
-                    <span asp-validation-for="Cijena" class="text-danger"></span>
+                <div class="mb-4">
+                    <label asp-for="Cijena" class="form-label">
+                        Cijena (KM)
+                    </label>
+
+                    <input asp-for="Cijena"
+                           type="number"
+                           class="form-control"
+                           step="0.01" />
+
+                    <span asp-validation-for="Cijena"
+                          class="text-danger"></span>
                 </div>
 
                 <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-warning">Sačuvaj izmjene</button>
-                    <a asp-controller="Zaposlenik" asp-action="Rooms" class="btn btn-secondary">Otkaži</a>
+                    <button type="submit"
+                            class="admin-add-btn">
+                        Sačuvaj izmjene
+                    </button>
+
+                    <a asp-controller="Zaposlenik"
+                           asp-action="Rooms"
+                           class="admin-edit-btn">
+                        Otkaži
+                    </a>
                 </div>
+
             </form>
+
         </div>
     </div>
+
 </div>
 
 @section Scripts {

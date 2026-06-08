@@ -12,7 +12,14 @@
             <div>
                 <p class="profile-small-title">THE LAST KEY</p>
                 <h1>Moj profil</h1>
+
             </div>
+            <a asp-controller="Home"
+                   asp-action="Index"
+                   class="home-btn">
+                Početna
+            </a>
+
 
             <form asp-controller="Account" asp-action="Logout" method="post">
                 @Html.AntiForgeryToken()
@@ -66,6 +73,9 @@
 
         <div class="reservations-section">
             <h3>Moje rezervacije</h3>
+            @{
+                var placeneRezervacije = ViewBag.PlaceneRezervacije as List<int> ?? new List<int>();
+            }
 
             @if (Model.Any())
             {
@@ -112,13 +122,13 @@
                                            class="details-btn">
                                             Detalji
                                         </a>
-
-                                        @if (reservation.Status)
+                                       
+                                        @if (!placeneRezervacije.Contains(reservation.RezervacijaID))
                                         {
                                             <a asp-controller="Payment"
-                                               asp-action="Pay"
-                                               asp-route-reservationId="@reservation.RezervacijaID"
-                                               class="details-btn">
+                                                   asp-action="Pay"
+                                                   asp-route-reservationId="@reservation.RezervacijaID"
+                                                   class="details-btn">
                                                 Plati online
                                             </a>
                                         }

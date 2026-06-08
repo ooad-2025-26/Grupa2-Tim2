@@ -3,60 +3,67 @@
 @{
     ViewData["Title"] = "Detalji rezervacije";
     var placanje = ViewBag.Placanje as Task6.Models.Placanje;
-    var iznos = Model.BrojOsoba * Model.Termin.EscapeRoom.Cijena;
+    var ukupno = Model.BrojOsoba * Model.Termin.EscapeRoom.Cijena;
 }
 
-<div class="container mt-5">
-    <h1>Detalji rezervacije</h1>
+<div class="reservation-details-page">
+    <div class="reservation-details-card">
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">@Model.Termin.EscapeRoom.Naziv</h5>
+        <a asp-controller="Profil"
+               asp-action="Index"
+               class="back-profile-btn">
+            ← Nazad na profil
+        </a>
 
-            <p><strong>Datum:</strong> @Model.Termin.Datum.ToString("dd.MM.yyyy")</p>
-            <p><strong>Vrijeme:</strong> @Model.Termin.Vrijeme</p>
-            <p><strong>Broj osoba:</strong> @Model.BrojOsoba</p>
-            <p><strong>Cijena po osobi:</strong> @Model.Termin.EscapeRoom.Cijena KM</p>
-            <p><strong>Ukupno:</strong> @iznos KM</p>
-            <p><strong>Status rezervacije:</strong> @(Model.Status ? "Potvrđena" : "Otkazana")</p>
-            <p><strong>Kreirano:</strong> @Model.DatumKreiranja.ToString("dd.MM.yyyy HH:mm")</p>
+        <p class="profile-small-title">THE LAST KEY</p>
+        <h1>Detalji rezervacije</h1>
 
-            <p>
-                <strong>Status plaćanja:</strong>
-                @if (placanje != null && placanje.Status)
-                {
-                    <span class="badge bg-success">Plaćeno</span>
-                }
-                else
-                {
-                    <span class="badge bg-danger">Nije plaćeno</span>
-                }
-            </p>
+        <h2>@Model.Termin.EscapeRoom.Naziv</h2>
 
-            <a asp-controller="Profil" asp-action="Index" class="btn btn-secondary">
-                Nazad na profil
-            </a>
+        <div class="reservation-info-grid">
+            <div><strong>Datum:</strong> @Model.Termin.Datum.ToString("dd.MM.yyyy")</div>
+            <div><strong>Vrijeme:</strong> @Model.Termin.Vrijeme</div>
+            <div><strong>Broj osoba:</strong> @Model.BrojOsoba</div>
+            <div><strong>Cijena po osobi:</strong> @Model.Termin.EscapeRoom.Cijena KM</div>
+            <div><strong>Ukupno:</strong> @ukupno KM</div>
+            <div><strong>Kreirano:</strong> @Model.DatumKreiranja.ToString("dd.MM.yyyy HH:mm")</div>
+        </div>
 
-            @if (Model.Status && (placanje == null || !placanje.Status))
+        <div class="reservation-status-row">
+            <span>Status rezervacije:</span>
+
+            @if (Model.Status)
+            {
+                <span class="status-badge status-ok">Potvrđena</span>
+            }
+            else
+            {
+                <span class="status-badge status-cancel">Otkazana</span>
+            }
+        </div>
+
+        <div class="reservation-status-row">
+            <span>Status plaćanja:</span>
+
+            @if (placanje != null && placanje.Status)
+            {
+                <span class="status-badge status-ok">Plaćeno</span>
+            }
+            else
+            {
+                <span class="status-badge status-cancel">Nije plaćeno</span>
+            }
+        </div>
+
+        <div class="reservation-details-actions">
+            @if (placanje == null || !placanje.Status)
             {
                 <a asp-controller="Payment"
-                   asp-action="Pay"
-                   asp-route-reservationId="@Model.RezervacijaID"
-                   class="btn btn-success">
+                       asp-action="Pay"
+                       asp-route-reservationId="@Model.RezervacijaID"
+                       class="details-btn">
                     Plati online
                 </a>
-            }
-
-            @if (Model.Termin.Datum > DateTime.UtcNow.AddHours(24) && Model.Status)
-            {
-                <form asp-controller="Reservation"
-                      asp-action="Cancel"
-                      method="post"
-                      style="display:inline;">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="id" value="@Model.RezervacijaID" />
-                    <button type="submit" class="btn btn-danger">Otkaži rezervaciju</button>
-                </form>
             }
         </div>
     </div>

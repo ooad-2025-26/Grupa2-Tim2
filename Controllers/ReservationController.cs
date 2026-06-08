@@ -37,6 +37,13 @@ namespace Task6.Controllers
                 .OrderByDescending(r => r.DatumKreiranja)
                 .ToListAsync();
 
+            var placeneRezervacije = await _context.Placanja
+                .Where(p => p.Status)
+                .Select(p => p.RezervacijaID)
+                .ToListAsync();
+
+            ViewBag.PlaceneRezervacije = placeneRezervacije;
+
             return View(reservations);
         }
 

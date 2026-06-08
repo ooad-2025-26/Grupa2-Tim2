@@ -4,26 +4,53 @@
     ViewData["Title"] = "Detalji rezervacije";
 }
 
-<div class="container mt-5">
-    <h1>Detalji rezervacije</h1>
+<div class="admin-page">
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">@Model.Termin.EscapeRoom.Naziv</h5>
-            <p><strong>Datum:</strong> @Model.Termin.Datum.ToString("dd.MM.yyyy")</p>
-            <p><strong>Vrijeme:</strong> @Model.Termin.Vrijeme</p>
-            <p><strong>Broj osoba:</strong> @Model.BrojOsoba</p>
-            <p><strong>Status:</strong> @(Model.Status ? "Potvrđena" : "Otkazana")</p>
-            <p><strong>Kreirano:</strong> @Model.DatumKreiranja.ToString("dd.MM.yyyy HH:mm")</p>
+    <div class="admin-header">
+        <div>
+            <p class="profile-small-title">THE LAST KEY</p>
+            <h1>Detalji rezervacije</h1>
+        </div>
 
-            <a asp-action="Index" class="btn btn-secondary">Nazad</a>
-            @if (Model.Termin.Datum > DateTime.Now.AddHours(24) && Model.Status)
+        <a asp-controller="Admin"
+               asp-action="Reservations"
+               class="home-btn">
+            Nazad na rezervacije
+        </a>
+    </div>
+
+    <div class="reservation-details-card">
+
+        <h2>@Model.Termin.EscapeRoom.Naziv</h2>
+
+        <div class="reservation-info-grid">
+            <div><strong>ID:</strong> @Model.RezervacijaID</div>
+            <div><strong>Datum:</strong> @Model.Termin.Datum.ToString("dd.MM.yyyy")</div>
+            <div><strong>Vrijeme:</strong> @Model.Termin.Vrijeme</div>
+            <div><strong>Broj osoba:</strong> @Model.BrojOsoba</div>
+            <div><strong>Status:</strong> @(Model.Status ? "Potvrđena" : "Otkazana")</div>
+            <div><strong>Kreirano:</strong> @Model.DatumKreiranja.ToString("dd.MM.yyyy HH:mm")</div>
+        </div>
+
+        <div class="reservation-details-actions">
+            <a asp-controller="Admin"
+                   asp-action="Reservations"
+                   class="admin-edit-btn">
+                Nazad na rezervacije
+            </a>
+
+            @if (Model.Termin.Datum > DateTime.UtcNow.AddHours(24) && Model.Status)
             {
                 <form asp-action="Cancel" method="post" style="display:inline;">
+                    @Html.AntiForgeryToken()
                     <input type="hidden" name="id" value="@Model.RezervacijaID" />
-                    <button type="submit" class="btn btn-danger">Otkaži rezervaciju</button>
+                    <button type="submit" class="admin-delete-btn">
+                        Otkaži rezervaciju
+                    </button>
                 </form>
             }
         </div>
+
     </div>
+
 </div>

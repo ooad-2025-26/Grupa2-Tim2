@@ -4,22 +4,88 @@
     ViewData["Title"] = "Detalji rezervacije";
 }
 
-<div class="container mt-5">
-    <h1>Detalji rezervacije</h1>
+<div class="admin-page">
 
-    <div class="card p-4 mt-4">
-        <p><strong>ID:</strong> @Model.RezervacijaID</p>
-        <p><strong>Korisnik:</strong> @Model.Korisnik.Ime @Model.Korisnik.Prezime</p>
-        <p><strong>Email:</strong> @Model.Korisnik.Email</p>
-        <p><strong>Soba:</strong> @Model.Termin.EscapeRoom.Naziv</p>
-        <p><strong>Datum:</strong> @Model.Termin.Datum.ToString("dd.MM.yyyy")</p>
-        <p><strong>Vrijeme:</strong> @Model.Termin.Vrijeme</p>
-        <p><strong>Broj osoba:</strong> @Model.BrojOsoba</p>
-        <p><strong>Status:</strong> @(Model.Status ? "Potvrđena" : "Otkazana")</p>
-        <p><strong>Kreirana:</strong> @Model.DatumKreiranja.ToString("dd.MM.yyyy HH:mm")</p>
+    <div class="admin-header">
+        <div>
+            <p class="profile-small-title">THE LAST KEY</p>
+            <h1>Detalji rezervacije</h1>
+        </div>
 
-        <a asp-controller="Admin" asp-action="Reservations" class="btn btn-secondary mt-3">
-            Nazad na rezervacije
-        </a>
     </div>
+
+    <div class="admin-form-card">
+
+        <div class="row">
+
+            <div class="col-md-6 mb-3">
+                <strong>ID rezervacije</strong>
+                <p>@Model.RezervacijaID</p>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Status</strong>
+                <p>
+                    @if (Model.Status)
+                    {
+                        <span class="status-badge status-ok">
+                            Potvrđena
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="status-badge status-cancel">
+                            Otkazana
+                        </span>
+                    }
+                </p>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Korisnik</strong>
+                <p>@Model.Korisnik.Ime @Model.Korisnik.Prezime</p>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Email</strong>
+                <p>@Model.Korisnik.Email</p>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Escape soba</strong>
+                <p>@Model.Termin.EscapeRoom.Naziv</p>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Broj osoba</strong>
+                <p>@Model.BrojOsoba</p>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Datum</strong>
+                <p>@Model.Termin.Datum.ToString("dd.MM.yyyy")</p>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <strong>Vrijeme</strong>
+                <p>@Model.Termin.Vrijeme</p>
+            </div>
+
+            <div class="col-md-12">
+                <strong>Kreirana</strong>
+                <p>@Model.DatumKreiranja.ToString("dd.MM.yyyy HH:mm")</p>
+            </div>
+
+        </div>
+
+        <div class="mt-4">
+            <a asp-controller="Zaposlenik"
+                   asp-action="Reservations"
+                   class="admin-edit-btn">
+                Nazad na rezervacije
+            </a>
+        </div>
+
+    </div>
+
 </div>

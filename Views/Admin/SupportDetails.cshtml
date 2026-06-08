@@ -4,65 +4,120 @@
     ViewData["Title"] = "Detalji upita";
 }
 
-<div class="container mt-5">
-    <h1>Detalji upita</h1>
+<div class="admin-page">
 
-    <div class="card p-4">
-        <p><strong>Korisnik:</strong> @Model.Korisnik?.Ime @Model.Korisnik?.Prezime</p>
-        <p><strong>Email:</strong> @Model.Email</p>
-        <p><strong>Naslov:</strong> @Model.NaslovPoruke</p>
-        <p><strong>Datum:</strong> @Model.Datum.ToString("dd.MM.yyyy HH:mm")</p>
+    <div class="admin-header">
+        <div>
+            <p class="profile-small-title">THE LAST KEY</p>
+            <h1>Detalji upita</h1>
+        </div>
 
-        <hr />
+        <a asp-controller="Admin"
+               asp-action="Support"
+               class="home-btn">
+            Nazad na upite
+        </a>
+    </div>
 
-        <h4>Poruka</h4>
-        <p>@Model.Sadrzaj</p>
+    <div class="admin-form-card">
 
-        <hr />
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <p><strong>Korisnik:</strong> @Model.Korisnik?.Ime @Model.Korisnik?.Prezime</p>
+                <p><strong>Email:</strong> @Model.Email</p>
+            </div>
 
-        <p>
+            <div class="col-md-6">
+                <p><strong>Naslov:</strong> @Model.NaslovPoruke</p>
+                <p><strong>Datum:</strong> @Model.Datum.ToString("dd.MM.yyyy HH:mm")</p>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label fw-bold">Poruka korisnika</label>
+
+            <div style="
+                background:#F5FBE6;
+                border-left:5px solid #FE7F2D;
+                padding:20px;
+                border-radius:12px;
+                color:#233D4D;">
+                @Model.Sadrzaj
+            </div>
+        </div>
+
+        <div class="mb-4">
             <strong>Status:</strong>
+
             @if (Model.Odgovoreno)
             {
-                <span class="badge bg-success">Odgovoreno</span>
+                <span class="status-badge status-ok">
+                    Odgovoreno
+                </span>
             }
             else
             {
-                <span class="badge bg-warning">Neodgovoreno</span>
+                <span class="status-badge status-cancel">
+                    Neodgovoreno
+                </span>
             }
-        </p>
+        </div>
 
         @if (!string.IsNullOrWhiteSpace(Model.Odgovor))
         {
-            <h4>Poslani odgovor</h4>
-            <div class="alert alert-success">
-                @Model.Odgovor
+            <div class="mb-4">
+
+                <label class="form-label fw-bold">
+                    Poslani odgovor
+                </label>
+
+                <div style="
+                    background:#eaf8ef;
+                    border-left:5px solid #28a745;
+                    padding:20px;
+                    border-radius:12px;">
+                    @Model.Odgovor
+                </div>
+
+                <div class="mt-2">
+                    <strong>Datum odgovora:</strong>
+                    @Model.DatumOdgovora?.ToString("dd.MM.yyyy HH:mm")
+                </div>
+
             </div>
-            <p><strong>Datum odgovora:</strong> @Model.DatumOdgovora?.ToString("dd.MM.yyyy HH:mm")</p>
         }
 
         @if (!Model.Odgovoreno)
         {
-            <form asp-controller="Admin" asp-action="ReplySupport" method="post">
+            <form asp-controller="Admin"
+                  asp-action="ReplySupport"
+                  method="post">
+
                 @Html.AntiForgeryToken()
 
-                <input type="hidden" name="id" value="@Model.PorukaID" />
+                <input type="hidden"
+                       name="id"
+                       value="@Model.PorukaID" />
 
-                <div class="mb-3">
-                    <label class="form-label">Odgovor korisniku</label>
-                    <textarea name="odgovor" class="form-control" rows="5" required></textarea>
+                <div class="mb-4">
+                    <label class="form-label fw-bold">
+                        Odgovor korisniku
+                    </label>
+
+                    <textarea name="odgovor"
+                              class="form-control"
+                              rows="6"
+                              required
+                              placeholder="Unesite odgovor korisniku..."></textarea>
                 </div>
 
-                <button type="submit" class="btn btn-success">
+                <button type="submit" class="admin-add-btn">
                     Pošalji odgovor
                 </button>
+
             </form>
         }
 
-        <hr />
-
-        <a asp-controller="Admin" asp-action="Support" class="btn btn-secondary">
-            Nazad
-        </a>
     </div>
+
 </div>

@@ -53,9 +53,19 @@ namespace Task6.Controllers
 
             if (room == null) return NotFound();
 
+            var sada = DateTime.UtcNow;
+            var danas = sada.Date;
+            var trenutnoVrijeme = sada.ToString("HH:mm");
+
             var termini = await _context.Termini
-                .Where(t => t.RoomID == id && t.Dostupnost)
+                .Where(t => t.RoomID == id
+                    && t.Dostupnost
+                    && (
+                        t.Datum.Date > danas ||
+                        (t.Datum.Date == danas && string.Compare(t.Vrijeme, trenutnoVrijeme) > 0)
+                    ))
                 .OrderBy(t => t.Datum)
+                .ThenBy(t => t.Vrijeme)
                 .ToListAsync();
 
             ViewBag.Termini = termini;
