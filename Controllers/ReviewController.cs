@@ -26,6 +26,8 @@ namespace Task6.Controllers
         public async Task<IActionResult> List(int roomId)
         {
             var room = await _context.EscapeRooms.FindAsync(roomId);
+
+
             if (room == null)
             {
                 return NotFound();
@@ -91,12 +93,6 @@ namespace Task6.Controllers
 
 
 
-      
-
-      
-
-
-
 
         // POST: /Review/Create
         [HttpPost]
@@ -136,15 +132,24 @@ namespace Task6.Controllers
 
             if (existingReview != null)
             {
-                return RedirectToAction(nameof(List), new { roomId = roomId });
+                TempData["Error"] = "Već ste ostavili recenziju za ovu sobu.";
+                return RedirectToAction(nameof(List), new { roomId });
             }
+
+            // Postavi polja koja forma ne šalje, PRIJE validacije
+            model.KorisnikID = user.Id;
+            model.RoomID = roomId;
+            model.Datum = DateTime.UtcNow;
+
+            // Ukloni validaciju za navigaciona polja koja se ne popunjavaju iz forme
+            ModelState.Remove(nameof(Recenzija.Korisnik));
+            ModelState.Remove(nameof(Recenzija.EscapeRoom));
+            ModelState.Remove(nameof(Recenzija.KorisnikID));
+            ModelState.Remove(nameof(Recenzija.Datum));
+            ModelState.Remove(nameof(Recenzija.RoomID));
 
             if (ModelState.IsValid)
             {
-                model.KorisnikID = user.Id;
-                model.RoomID = roomId;
-                model.Datum = DateTime.UtcNow;
-
                 _context.Recenzije.Add(model);
                 await _context.SaveChangesAsync();
 
@@ -155,6 +160,7 @@ namespace Task6.Controllers
             ViewBag.Room = room;
             return View(model);
         }
+
 
         // GET: /Review/Edit/5
         public async Task<IActionResult> Edit(int id)
