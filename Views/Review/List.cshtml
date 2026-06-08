@@ -92,23 +92,25 @@
                         <p class="review-comment">
                             @review.Komentar
                         </p>
-
-                        @if (User.Identity?.Name == review.Korisnik.UserName || User.IsInRole("Admin"))
+                        @if (User.Identity?.Name == review.Korisnik.UserName ||
+                            User.IsInRole("Admin") ||
+                            User.IsInRole("Zaposlenik"))
                         {
                             <div class="review-card-actions">
-                                <a asp-controller="Review"
-                                       asp-action="Edit"
-                                       asp-route-id="@review.RecenzijaID"
-                                       class="review-edit-btn">
-                                    Uredi
-                                </a>
+                                <form asp-controller="Review"
+                                      asp-action="Delete"
+                                      asp-route-id="@review.RecenzijaID"
+                                      method="post"
+                                      style="display:inline;">
 
-                                <a asp-controller="Review"
-                                       asp-action="Delete"
-                                       asp-route-id="@review.RecenzijaID"
-                                       class="review-delete-btn">
-                                    Obriši
-                                </a>
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit"
+                                            class="review-delete-btn"
+                                            onclick="return confirmDelete(event, this.form)">
+                                            Obriši
+                                    </button>
+                                </form>
                             </div>
                         }
                     </div>
@@ -123,6 +125,29 @@
                 <p>Budite prvi koji će ostaviti recenziju i pomoći drugim igračima.</p>
             </div>
         }
+
+        <script>
+                    function confirmDelete(event, form) {
+                        event.preventDefault();
+
+                        Swal.fire({
+                            title: 'Obrisati recenziju?',
+                            text: 'Ova akcija se ne može poništiti.',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Obriši',
+                            cancelButtonText: 'Odustani',
+                            confirmButtonColor: '#c94a4a',
+                            cancelButtonColor: '#1f4f54'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });
+
+                        return false;
+                    }
+        </script>
 
     </div>
 </div>

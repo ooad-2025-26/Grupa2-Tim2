@@ -2879,9 +2879,19 @@ body {
 }
 
 .review-delete-btn {
-    background: #dc3545;
+    background: #c94a4a;
     color: white;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: 0.2s;
 }
+
+    .review-delete-btn:hover {
+        background: #a83b3b;
+    }
 
 .empty-reviews-card {
     text-align: center;

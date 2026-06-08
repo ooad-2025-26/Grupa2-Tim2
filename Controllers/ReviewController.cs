@@ -21,6 +21,8 @@ namespace Task6.Controllers
             _userManager = userManager;
         }
 
+        /*
+
         // GET: /Review/List/5
         [AllowAnonymous]
         public async Task<IActionResult> List(int roomId)
@@ -46,8 +48,37 @@ namespace Task6.Controllers
             return View(reviews);
         }
 
+        */
+        // GET: /Review/List/5
+        [AllowAnonymous]
+        public async Task<IActionResult> List(int roomId)
+        {
+            var room = await _context.EscapeRooms.FindAsync(roomId);
+            if (room == null)
+            {
+                return NotFound();
+            }
 
-     
+            var reviews = await _context.Recenzije
+                .Where(r => r.RoomID == roomId)
+                .Include(r => r.Korisnik)
+                .OrderByDescending(r => r.Datum)
+                .ToListAsync();
+
+            ViewBag.Room = room;
+            ViewBag.RoomId = roomId;
+            ViewBag.AverageRating = reviews.Any()
+                ? reviews.Average(r => r.Ocjena)
+                : 0;
+
+            // Zadrži TempData poruke nakon redirekta
+            if (TempData["Error"] != null) TempData.Keep("Error");
+            if (TempData["Message"] != null) TempData.Keep("Message");
+            if (TempData["Success"] != null) TempData.Keep("Success");
+
+            return View(reviews);
+        }
+
 
 
 
@@ -161,7 +192,7 @@ namespace Task6.Controllers
             return View(model);
         }
 
-
+        /* OBRISATI
         // GET: /Review/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
@@ -183,6 +214,9 @@ namespace Task6.Controllers
             ViewBag.Room = review.EscapeRoom;
             return View(review);
         }
+        */
+
+        /* obrisati
 
         // POST: /Review/Edit/5
         [HttpPost]
@@ -223,6 +257,9 @@ namespace Task6.Controllers
             return View(review);
         }
 
+        */
+
+        /* OBRISATI
         // GET: /Review/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
@@ -244,10 +281,13 @@ namespace Task6.Controllers
             return View(review);
         }
 
+        */
+
+
         // POST: /Review/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var review = await _context.Recenzije.FindAsync(id);
             if (review == null)
@@ -269,8 +309,8 @@ namespace Task6.Controllers
             return RedirectToAction(nameof(List), new { roomId = roomId });
         }
 
-        
-        
+
+
         // GET: /Review/MyReviews
         public async Task<IActionResult> MyReviews()
         {
