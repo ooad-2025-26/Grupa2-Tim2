@@ -16,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<SupabaseStorageService>();
 
 builder.Services.AddDbContext<EscapeRoomDbContext>(options =>
     options.UseNpgsql(

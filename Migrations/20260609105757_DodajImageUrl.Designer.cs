@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Task6.Data;
@@ -11,9 +12,11 @@ using Task6.Data;
 namespace Task6.Migrations
 {
     [DbContext(typeof(EscapeRoomDbContext))]
-    partial class EscapeRoomDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260609105757_DodajImageUrl")]
+    partial class DodajImageUrl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

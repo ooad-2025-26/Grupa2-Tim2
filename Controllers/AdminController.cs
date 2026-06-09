@@ -12,11 +12,13 @@ namespace Task6.Controllers
     {
         private readonly EscapeRoomDbContext _context;
         private readonly EmailService _emailService;
+        private readonly SupabaseStorageService _storageService;
 
-        public AdminController(EscapeRoomDbContext context, EmailService emailService)
+        public AdminController(EscapeRoomDbContext context, EmailService emailService, SupabaseStorageService storageService)
         {
             _context = context;
             _emailService = emailService;
+            _storageService = storageService;
         }
 
         private async Task<bool> JeAdmin()
@@ -69,13 +71,37 @@ namespace Task6.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateRoom(EscapeRoom room)
+        public async Task<IActionResult> CreateRoom(EscapeRoom room, IFormFile? imageFile)
         {
             if (!await JeAdmin())
                 return RedirectToAction("Index", "Home");
 
             if (ModelState.IsValid)
             {
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    var allowedTypes = new[] { "image/jpeg", "image/png", "image/webp", "image/jpg" };
+                    if (!allowedTypes.Contains(imageFile.ContentType.ToLower()))
+                    {
+                        ModelState.AddModelError("ImageUrl", "Dozvoljeni formati: JPG, PNG, WEBP");
+                        return View(room);
+                    }
+
+                    if (imageFile.Length > 5 * 1024 * 1024)
+                    {
+                        ModelState.AddModelError("ImageUrl", "Slika ne smije biti veća od 5MB");
+                        return View(room);
+                    }
+
+                    var imageUrl = await _storageService.UploadImageAsync(
+                        imageFile.OpenReadStream(),
+                        imageFile.FileName,
+                        imageFile.ContentType
+                    );
+
+                    room.ImageUrl = imageUrl;
+                }
+
                 _context.EscapeRooms.Add(room);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Rooms));
@@ -100,13 +126,49 @@ namespace Task6.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditRoom(EscapeRoom room)
+        public async Task<IActionResult> EditRoom(EscapeRoom room, IFormFile? imageFile)
         {
             if (!await JeAdmin())
                 return RedirectToAction("Index", "Home");
 
             if (ModelState.IsValid)
             {
+                var existingRoom = await _context.EscapeRooms.AsNoTracking().FirstOrDefaultAsync(r => r.RoomID == room.RoomID);
+                if (existingRoom == null) return NotFound();
+
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    var allowedTypes = new[] { "image/jpeg", "image/png", "image/webp", "image/jpg" };
+                    if (!allowedTypes.Contains(imageFile.ContentType.ToLower()))
+                    {
+                        ModelState.AddModelError("ImageUrl", "Dozvoljeni formati: JPG, PNG, WEBP");
+                        return View(room);
+                    }
+
+                    if (imageFile.Length > 5 * 1024 * 1024)
+                    {
+                        ModelState.AddModelError("ImageUrl", "Slika ne smije biti veća od 5MB");
+                        return View(room);
+                    }
+
+                    if (!string.IsNullOrEmpty(existingRoom.ImageUrl))
+                    {
+                        await _storageService.DeleteImageAsync(existingRoom.ImageUrl);
+                    }
+
+                    var imageUrl = await _storageService.UploadImageAsync(
+                        imageFile.OpenReadStream(),
+                        imageFile.FileName,
+                        imageFile.ContentType
+                    );
+
+                    room.ImageUrl = imageUrl;
+                }
+                else
+                {
+                    room.ImageUrl = existingRoom.ImageUrl;
+                }
+
                 _context.EscapeRooms.Update(room);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Rooms));
@@ -125,6 +187,11 @@ namespace Task6.Controllers
 
             if (room == null)
                 return NotFound();
+
+            if (!string.IsNullOrEmpty(room.ImageUrl))
+            {
+                await _storageService.DeleteImageAsync(room.ImageUrl);
+            }
 
             _context.EscapeRooms.Remove(room);
             await _context.SaveChangesAsync();

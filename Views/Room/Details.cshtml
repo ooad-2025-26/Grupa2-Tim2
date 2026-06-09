@@ -5,12 +5,40 @@
     var termini = (List<Task6.Models.Termin>)ViewBag.Termini;
     var averageRating = (double)ViewBag.AverageRating;
     var reviewCount = (int)ViewBag.ReviewCount;
+
+    var detailImage = "";
+    if (!string.IsNullOrEmpty(Model.ImageUrl))
+    {
+        detailImage = Model.ImageUrl;
+    }
+    else
+    {
+        if (Model.Naziv.Contains("Murder", StringComparison.OrdinalIgnoreCase))
+            detailImage = "/images/murder1.webp";
+        else if (Model.Naziv.Contains("Classroom", StringComparison.OrdinalIgnoreCase))
+            detailImage = "/images/classroom1.jpg";
+        else if (Model.Naziv.Contains("Lab", StringComparison.OrdinalIgnoreCase))
+            detailImage = "/images/lab1.jpg";
+        else if (Model.Naziv.Contains("Magic", StringComparison.OrdinalIgnoreCase))
+            detailImage = "/images/magic1.jpeg";
+        else if (Model.Naziv.Contains("Haunted", StringComparison.OrdinalIgnoreCase))
+            detailImage = "/images/haunted1.jpg";
+        else
+            detailImage = "/images/outbreak-lab.jpeg";
+    }
 }
 
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-8">
             <h1>@Model.Naziv</h1>
+
+            @if (!string.IsNullOrEmpty(detailImage))
+            {
+                <div class="mb-3">
+                    <img src="@detailImage" alt="@Model.Naziv" class="img-fluid" style="border-radius:8px; max-height:400px; width:100%; object-fit:cover;" />
+                </div>
+            }
 
             <div class="mb-3">
                 <span class="badge bg-info">Težina: @Model.Tezina</span>

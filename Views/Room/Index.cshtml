@@ -74,6 +74,7 @@
                 <label>Željeni datum</label>
                 <input type="date"
                        name="zeljeniDatum"
+                       min="@DateTime.Now.ToString("yyyy-MM-dd")"
                        value="@ViewBag.ZeljeniDatum" />
             </div>
 
@@ -102,6 +103,36 @@
                 @foreach (var room in Model)
                 {
                     <div class="rooms-filter-card-room">
+
+                        @{
+                            var roomImage = "";
+                            if (!string.IsNullOrEmpty(room.ImageUrl))
+                            {
+                                roomImage = room.ImageUrl;
+                            }
+                            else
+                            {
+                                if (room.Naziv.Contains("Murder", StringComparison.OrdinalIgnoreCase))
+                                    roomImage = "/images/murder1.webp";
+                                else if (room.Naziv.Contains("Classroom", StringComparison.OrdinalIgnoreCase))
+                                    roomImage = "/images/classroom1.jpg";
+                                else if (room.Naziv.Contains("Lab", StringComparison.OrdinalIgnoreCase))
+                                    roomImage = "/images/lab1.jpg";
+                                else if (room.Naziv.Contains("Magic", StringComparison.OrdinalIgnoreCase))
+                                    roomImage = "/images/magic1.jpeg";
+                                else if (room.Naziv.Contains("Haunted", StringComparison.OrdinalIgnoreCase))
+                                    roomImage = "/images/haunted1.jpg";
+                                else
+                                    roomImage = "/images/outbreak-lab.jpeg";
+                            }
+                        }
+
+                        @if (!string.IsNullOrEmpty(roomImage))
+                        {
+                            <div style="margin-bottom:12px;">
+                                <img src="@roomImage" alt="@room.Naziv" style="width:100%;height:180px;object-fit:cover;border-radius:8px 8px 0 0;" />
+                            </div>
+                        }
 
                         <div class="room-card-top">
                             <h3>@room.Naziv</h3>

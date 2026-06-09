@@ -5,12 +5,33 @@
     var termini = (List<Task6.Models.Termin>)ViewBag.Termini;
     var averageRating = (double)ViewBag.AverageRating;
     var reviewCount = (int)ViewBag.ReviewCount;
+
+    var heroImage = "";
+    if (!string.IsNullOrEmpty(Model.ImageUrl))
+    {
+        heroImage = Model.ImageUrl;
+    }
+    else
+    {
+        if (Model.Naziv.Contains("Murder", StringComparison.OrdinalIgnoreCase))
+            heroImage = "/images/murder1.webp";
+        else if (Model.Naziv.Contains("Classroom", StringComparison.OrdinalIgnoreCase))
+            heroImage = "/images/classroom1.jpg";
+        else if (Model.Naziv.Contains("Lab", StringComparison.OrdinalIgnoreCase))
+            heroImage = "/images/lab1.jpg";
+        else if (Model.Naziv.Contains("Magic", StringComparison.OrdinalIgnoreCase))
+            heroImage = "/images/magic1.jpeg";
+        else if (Model.Naziv.Contains("Haunted", StringComparison.OrdinalIgnoreCase))
+            heroImage = "/images/haunted1.jpg";
+        else
+            heroImage = "/images/outbreak-lab.jpeg";
+    }
 }
 
 
 <div class="room-details-page">
 
-    <div class="room-details-hero">
+    <div class="room-details-hero" style="background-image:url('@heroImage');background-size:cover;background-position:center;">
         <div class="room-details-overlay"></div>
 
         <div class="room-details-content">

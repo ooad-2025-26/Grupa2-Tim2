@@ -22,6 +22,9 @@ namespace Task6.Models
 
         public double Cijena { get; set; }
 
+        [MaxLength(500)]
+        public string? ImageUrl { get; set; }
+
         // Navigation property for related reviews (recenzije)
         public virtual ICollection<Recenzija> Recenzije { get; set; } = new List<Recenzija>();
 

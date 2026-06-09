@@ -167,18 +167,27 @@
 
                 @foreach (var room in Model.Take(5))
                 {
-                    var imagePath = "/images/room-default.jpg";
+                    var imagePath = "";
 
-                    if (room.Naziv.Contains("Murder", StringComparison.OrdinalIgnoreCase))
-                        imagePath = "/images/murder1.webp";
-                    else if (room.Naziv.Contains("Classroom", StringComparison.OrdinalIgnoreCase))
-                        imagePath = "/images/classroom1.jpg";
-                    else if (room.Naziv.Contains("Lab", StringComparison.OrdinalIgnoreCase))
-                        imagePath = "/images/lab1.jpg";
-                    else if (room.Naziv.Contains("Magic", StringComparison.OrdinalIgnoreCase))
-                        imagePath = "/images/magic1.jpeg";
-                    else if (room.Naziv.Contains("Haunted", StringComparison.OrdinalIgnoreCase))
-                        imagePath = "/images/haunted1.jpg";
+                    if (!string.IsNullOrEmpty(room.ImageUrl))
+                    {
+                        imagePath = room.ImageUrl;
+                    }
+                    else
+                    {
+                        if (room.Naziv.Contains("Murder", StringComparison.OrdinalIgnoreCase))
+                            imagePath = "/images/murder1.webp";
+                        else if (room.Naziv.Contains("Classroom", StringComparison.OrdinalIgnoreCase))
+                            imagePath = "/images/classroom1.jpg";
+                        else if (room.Naziv.Contains("Lab", StringComparison.OrdinalIgnoreCase))
+                            imagePath = "/images/lab1.jpg";
+                        else if (room.Naziv.Contains("Magic", StringComparison.OrdinalIgnoreCase))
+                            imagePath = "/images/magic1.jpeg";
+                        else if (room.Naziv.Contains("Haunted", StringComparison.OrdinalIgnoreCase))
+                            imagePath = "/images/haunted1.jpg";
+                        else
+                            imagePath = "/images/outbreak-lab.jpeg";
+                    }
 
                     <div class="escape-card">
 
