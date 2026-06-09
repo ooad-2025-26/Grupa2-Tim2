@@ -23,8 +23,8 @@
             <ul class="nav-links">
                 <li><a href="#about">O NAMA</a></li>
                 <li><a href="#rooms">SOBE</a></li>
-                <li><a href="#contact">KONTAKT I PODRŠKA</a></li>
-                <a href="#faq">ČESTA PITANJA</a>
+                <li><a href="#faq">ČESTA PITANJA</a></li>
+                <a href="#contact">KONTAKT I PODRŠKA</a>
             </ul>
 
             <div class="nav-buttons">
@@ -350,7 +350,30 @@
 
         </div>
 
+    <div class="question-link-container" style="text-align:center; margin-top:35px;">
+
+        @if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            <a asp-controller="Support"
+               asp-action="Contact"
+               asp-route-source="faq"
+               class="support-question-link">
+                Pitaj odmah
+            </a>
+        }
+        else
+        {
+            <a asp-controller="Account"
+               asp-action="Login"
+               class="support-question-link">
+                Pitajte odmah
+            </a>
+        }
+
+    </div>
+
     </section>
+
 
     <!-- CONTACT SECTION -->
 
@@ -376,6 +399,7 @@
             {
                 <a asp-controller="Support"
                    asp-action="Contact"
+                   asp-route-source="contact"
                    class="support-question-link">
                     Kontaktirajte nas
                 </a>

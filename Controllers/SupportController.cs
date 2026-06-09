@@ -21,8 +21,10 @@ namespace Task6.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Contact()
+        public async Task<IActionResult> Contact(string source)
         {
+            ViewBag.Source = source;
+
             var user = await _userManager.GetUserAsync(User);
 
             if (user == null)

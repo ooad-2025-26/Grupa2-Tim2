@@ -56,12 +56,13 @@
         </div>
 
         <div class="reservation-details-actions">
-            @if (placanje == null || !placanje.Status)
+            @if ((placanje == null || !placanje.Status)
+    && Model.Termin.Datum >= DateTime.Today)
             {
                 <a asp-controller="Payment"
-                       asp-action="Pay"
-                       asp-route-reservationId="@Model.RezervacijaID"
-                       class="details-btn">
+                   asp-action="Pay"
+                   asp-route-reservationId="@Model.RezervacijaID"
+                   class="details-btn">
                     Plati online
                 </a>
             }
