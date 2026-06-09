@@ -85,6 +85,14 @@ namespace Task6.Controllers
                 if (termin == null || !termin.Dostupnost)
                     return BadRequest(new { message = "Termin nije dostupan." });
 
+                var datumIVrijeme = termin.Datum.Date.Add(TimeSpan.Parse(termin.Vrijeme));
+
+                if (datumIVrijeme <= DateTime.UtcNow)
+                {
+                    TempData["ReservationError"] = "Odabrani termin je već prošao.";
+                    return RedirectToAction("Details", "EscapeRooms", new { id = termin.RoomID });
+                }
+
                 termin.Dostupnost = false;
 
                 var rez = new Rezervacija

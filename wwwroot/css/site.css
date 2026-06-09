@@ -428,25 +428,24 @@ body {
 ========================= */
 
 .escape-cards {
-    margin-top: 70px;
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch;
     width: 100%;
-    gap: 14px;
-    flex-wrap: nowrap;
+    max-width: 1500px;
+    margin: 55px auto 0 auto;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 24px;
     opacity: 0;
     visibility: hidden;
     transform: translateY(50px);
-    transition: 0.6s ease;
+    transition: all 0.6s ease;
 }
 
-    .rooms-hover-title:hover + .rooms-text + .escape-cards,
-    .escape-cards:hover {
+    .escape-cards.show-rooms {
         opacity: 1;
         visibility: visible;
         transform: translateY(0);
     }
+
 
 .escape-card {
     width: 23%;
@@ -757,35 +756,40 @@ body {
 /* CARDS */
 
 .contact-card {
-    background: rgba(255,255,255,0.78);
-    backdrop-filter: blur(6px);
-    width: 300px;
-    height: 120px;
-    padding: 22px 26px;
+    background: #ffffff;
+    padding: 20px;
     border-radius: 24px;
+    border: 2px solid rgba(254,127,45,0.15);
     box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    text-align: left;
-    transition: 0.3s;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    transition: all 0.3s ease;
+    width: 300px;
+    height: 150px;
 }
 
     .contact-card:hover {
-        transform: translateY(-6px);
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.12);
     }
 
     .contact-card h3 {
         color: #FE7F2D;
-        margin-bottom: 18px;
-        font-size: 24px;
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 15px;
     }
 
-    .contact-card p {
-        color: #4f616b;
-        line-height: 1.8;
-        font-size: 16px;
-    }
+.contact-main {
+    color: #233D4D;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.contact-secondary {
+    color: #5C6C74;
+    font-size: 14px;
+    margin: 0;
+}
 
 /* MAPA */
 
@@ -2385,6 +2389,18 @@ body {
     padding: 60px 7%;
 }
 
+.room-details-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1;
+}
+
+.room-details-content {
+    position: relative;
+    z-index: 2;
+}
+
 .room-details-content {
     max-width: 900px;
     position: relative;
@@ -3081,15 +3097,8 @@ body {
         text-decoration: underline;
     }
 
-.escape-cards {
-    opacity: 1 !important;
-    visibility: visible !important;
-}
 
-.escape-card {
-    opacity: 1 !important;
-    visibility: visible !important;
-}
+
 .escape-cards {
     width: 100%;
     max-width: 1500px;
@@ -3097,9 +3106,18 @@ body {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 24px;
-    opacity: 1 !important;
-    visibility: visible !important;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(40px);
+    transition: all .6s ease;
 }
+
+    .rooms-hover-title:hover + .rooms-text + .escape-cards,
+    .escape-cards:hover {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
 
 .escape-card {
     width: 100%;
@@ -3107,8 +3125,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    opacity: 1 !important;
-    visibility: visible !important;
+   
 }
 
 .card-image {
@@ -4039,3 +4056,43 @@ body {
             border-color: #FE7F2D;
             box-shadow: 0 0 0 0.2rem rgba(254,127,45,0.25);
         }
+
+
+.escape-cards {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateY(50px) !important;
+    transition: all 0.6s ease !important;
+}
+
+    .rooms-hover-container:has(.rooms-hover-title:hover) .escape-cards,
+    .escape-cards:hover {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) !important;
+    }
+
+    /*NOVI ZA DUGME*/
+
+.question-link-container {
+    text-align: center;
+    margin: 35px 0 50px;
+}
+
+.support-question-link {
+    display: inline-block;
+    background: #FE7F2D;
+    color: white;
+    text-decoration: none;
+    padding: 16px 34px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+    .support-question-link:hover {
+        background: #233D4D;
+        color: white;
+        transform: translateY(-3px);
+    }

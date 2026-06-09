@@ -136,7 +136,7 @@
 
     <section id="rooms" class="rooms-section">
 
-        <div class="rooms-content">
+        <div class="rooms-content rooms-hover-container">
 
             <p class="rooms-subtitle">
                 AKTIVNE SOBE
@@ -371,24 +371,26 @@
                 Posjetite nas na adresi ispod ili nas kontaktirajte direktno.
             </p>
 
-            <div class="question-link-container">
-                @if (User.Identity != null && User.Identity.IsAuthenticated)
-                {
-                    <a asp-controller="Support"
-                       asp-action="Contact"
-                       class="support-question-link">
-                        Imate dodatnih pitanja?
-                    </a>
-                }
-                else
-                {
-                    <a asp-controller="Account"
-                       asp-action="Login"
-                       class="support-question-link">
-                        Imate dodatnih pitanja?
-                    </a>
-                }
-            </div>
+        <div class="question-link-container">
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="Support"
+                   asp-action="Contact"
+                   class="support-question-link">
+                    Imate dodatnih pitanja?
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Account"
+                   asp-action="Login"
+                   class="support-question-link">
+                    Kontaktirajte nas
+                </a>
+            }
+        </div>
+
+           
 
             <div class="contact-wrapper">
 
@@ -398,27 +400,35 @@
 
                     <!-- ADRESA -->
 
-                    <div class="contact-card">
+                <div class="contact-card">
 
-                        <h3>📍 Adresa</h3>
+                    <h3>📍 Adresa</h3>
 
-                        <p>Kralja Tvrtka 6</p>
+                    <p class="contact-main">
+                        Fra Anđela Zvizdovića 3
+                    </p>
 
-                        <p>Sarajevo, Bosna i Hercegovina</p>
+                    <p class="contact-secondary">
+                        Sarajevo, Bosna i Hercegovina
+                    </p>
 
-                    </div>
+                </div>
 
                     <!-- KONTAKT -->
 
-                    <div class="contact-card">
+                <div class="contact-card">
 
-                        <h3>Kontakt</h3>
+                    <h3>📞 Kontakt</h3>
 
-                        <p>📞 +387 61 234 567</p>
+                    <p class="contact-main">
+                        +387 61 234 567
+                    </p>
 
-                        <p>✉ support@thelastkey.ba</p>
+                    <p class="contact-secondary">
+                        thelastkey71000@gmail.com
+                    </p>
 
-                    </div>
+                </div>
 
                 </div>
 
@@ -2452,6 +2462,7 @@
         </div>
 
     </div>
+
 
 
 </body>

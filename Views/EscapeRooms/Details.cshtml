@@ -137,20 +137,32 @@
                             @Html.AntiForgeryToken()
 
                             <div class="booking-field">
+                                <label for="datumRezervacije">Odaberite datum</label>
+
+                                <input type="date"
+                                       id="datumRezervacije"
+                                       class="form-control"
+                                       min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                                       required />
+                            </div>
+
+                            <div class="booking-field">
                                 <label for="terminSelect">Odaberite termin</label>
 
                                 <select id="terminSelect"
                                         name="terminId"
-                                        required>
+                                        required
+                                        disabled>
 
                                     <option value="">
-                                        -- Odaberite termin --
+                                        Prvo odaberite datum
                                     </option>
 
                                     @foreach (var termin in termini)
                                     {
-                                        <option value="@termin.TerminID">
-                                            @termin.Datum.ToString("dd.MM.yyyy") @termin.Vrijeme
+                                        <option value="@termin.TerminID"
+                                                data-date="@termin.Datum.ToString("yyyy-MM-dd")">
+                                            @termin.Vrijeme
                                         </option>
                                     }
                                 </select>
@@ -202,3 +214,41 @@
         </div>
     </div>
 </div>
+<script>
+    const datumInput = document.getElementById("datumRezervacije");
+    const terminSelect = document.getElementById("terminSelect");
+
+    if (datumInput && terminSelect) {
+        const sviTermini = Array.from(terminSelect.options).slice(1);
+
+        datumInput.addEventListener("change", function () {
+            const odabraniDatum = this.value;
+
+            terminSelect.innerHTML = "";
+
+            const defaultOption = document.createElement("option");
+            defaultOption.value = "";
+            defaultOption.textContent = "-- Odaberite termin --";
+            terminSelect.appendChild(defaultOption);
+
+            const filtriraniTermini = sviTermini.filter(option =>
+                option.getAttribute("data-date") === odabraniDatum
+            );
+
+            if (filtriraniTermini.length === 0) {
+                const noOption = document.createElement("option");
+                noOption.value = "";
+                noOption.textContent = "Nema dostupnih termina za ovaj datum";
+                terminSelect.appendChild(noOption);
+                terminSelect.disabled = true;
+                return;
+            }
+
+            filtriraniTermini.forEach(option => {
+                terminSelect.appendChild(option.cloneNode(true));
+            });
+
+            terminSelect.disabled = false;
+        });
+    }
+</script>
