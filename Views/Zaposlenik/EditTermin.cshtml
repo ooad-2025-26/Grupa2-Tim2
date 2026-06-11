@@ -25,6 +25,8 @@
             <form method="post" class="admin-form-card">
                 @Html.AntiForgeryToken()
 
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
                 <input type="hidden" asp-for="TerminID" />
 
                 <div class="mb-3">
@@ -46,6 +48,7 @@
 
                     <input asp-for="Datum"
                            type="date"
+                           min="@DateTime.Now.ToString("yyyy-MM-dd")"
                            class="form-control" />
                 </div>
 
@@ -88,3 +91,26 @@
     </div>
 
 </div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var datumInput = document.getElementById('Datum');
+            var vrijemeInput = document.getElementById('Vrijeme');
+
+            var danas = '@DateTime.Now.ToString("yyyy-MM-dd")';
+            var sada = '@DateTime.Now.ToString("HH:mm")';
+
+            function azurirajMinVrijeme() {
+                if (datumInput.value === danas) {
+                    vrijemeInput.min = sada;
+                } else {
+                    vrijemeInput.removeAttribute('min');
+                }
+            }
+
+            datumInput.addEventListener('change', azurirajMinVrijeme);
+            azurirajMinVrijeme();
+        });
+    </script>
+}

@@ -16,33 +16,6 @@ namespace Task6.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
-        {
-            var sobe = _context.EscapeRooms.ToList();
-
-            return View(sobe);
-        }
-
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Create(EscapeRoom room)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.EscapeRooms.Add(room);
-
-                _context.SaveChanges();
-
-                return RedirectToAction(nameof(Index));
-            }
-
-            return View(room);
-        }
-
         // GET: /EscapeRoom/Details/5
         public async Task<IActionResult> Details(int id)
         {

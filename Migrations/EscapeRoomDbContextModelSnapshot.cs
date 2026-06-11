@@ -248,6 +248,15 @@ namespace Task6.Migrations
                     b.Property<double>("Cijena")
                         .HasColumnType("double precision");
 
+                    b.Property<DateTime?>("DiscountEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("DiscountPercent")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("DiscountStart")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("ImageUrl")
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");

@@ -15,6 +15,8 @@ namespace Task6.Controllers
         private readonly ILogger<AccountController> _logger;
         private readonly EmailService _emailService;
 
+        private const string DbErrorMessage = "Došlo je do problema sa bazom podataka. Pokušajte ponovo kasnije.";
+
         public AccountController(
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
@@ -52,13 +54,23 @@ namespace Task6.Controllers
                     Uloga = Uloga.Korisnik
                 };
 
-                var result = await _userManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
+                IdentityResult result;
+                try
                 {
-                    await _userManager.AddToRoleAsync(user, "Korisnik");
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    result = await _userManager.CreateAsync(user, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(user, "Korisnik");
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Greška u bazi podataka prilikom registracije korisnika {Email}", model.Email);
+                    ModelState.AddModelError(string.Empty, DbErrorMessage);
+                    return View(model);
                 }
 
                 foreach (var error in result.Errors)
@@ -90,16 +102,28 @@ namespace Task6.Controllers
 
             if (ModelState.IsValid)
             {
-                // Try to locate user by email and sign in using their username to avoid mismatch
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null)
+                ApplicationUser? user;
+                Microsoft.AspNetCore.Identity.SignInResult result;
+                try
                 {
-                    _logger.LogInformation("Login failed: no user found with email {Email}", model.Email);
-                    ModelState.AddModelError(string.Empty, "Pogrešna kombinacija korisničkog imena i lozinke.");
+                    // Try to locate user by email and sign in using their username to avoid mismatch
+                    user = await _userManager.FindByEmailAsync(model.Email);
+                    if (user == null)
+                    {
+                        _logger.LogInformation("Login failed: no user found with email {Email}", model.Email);
+                        ModelState.AddModelError(string.Empty, "Pogrešna kombinacija korisničkog imena i lozinke.");
+                        return View(model);
+                    }
+
+                    result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Greška u bazi podataka prilikom prijave korisnika {Email}", model.Email);
+                    ModelState.AddModelError(string.Empty, DbErrorMessage);
                     return View(model);
                 }
 
-                var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
                 _logger.LogInformation("PasswordSignInAsync result for {Email}: Succeeded={Succeeded}, IsLockedOut={LockedOut}, RequiresTwoFactor={TwoFactor}", model.Email, result.Succeeded, result.IsLockedOut, result.RequiresTwoFactor);
 
                 if (result.Succeeded)
@@ -150,9 +174,11 @@ namespace Task6.Controllers
 
         // GET: /Account/ForgotPassword
         [HttpGet]
-        public IActionResult ForgotPassword()
+        [ActionName("ForgotPassword")]
+        public IActionResult ForgotPasswordGet(string? email = null)
         {
-            return View();
+            ViewBag.Email = email;
+            return View("ForgotPassword");
         }
 
         // POST: /Account/ForgotPassword
@@ -160,17 +186,29 @@ namespace Task6.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(string email)
         {
+            ViewBag.Email = email;
+
             if (string.IsNullOrWhiteSpace(email))
             {
                 ModelState.AddModelError(string.Empty, "Email je obavezan.");
                 return View();
             }
 
-            var user = await _userManager.FindByEmailAsync(email);
+            ApplicationUser? user;
+            try
+            {
+                user = await _userManager.FindByEmailAsync(email);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Greška u bazi podataka prilikom pretrage korisnika sa emailom {Email}", email);
+                ModelState.AddModelError(string.Empty, DbErrorMessage);
+                return View();
+            }
+
             if (user == null)
             {
-                // Don't reveal that the user does not exist
-                ModelState.AddModelError(string.Empty, "Ako korisnik postoji, poslan je kod na email.");
+                ModelState.AddModelError(string.Empty, "Korisnički račun sa ovim emailom ne postoji.");
                 return View();
             }
 
@@ -178,19 +216,29 @@ namespace Task6.Controllers
             var code = rand.Next(100000, 999999).ToString();
             user.ResetCode = code;
             user.ResetCodeExpiry = DateTime.UtcNow.AddMinutes(15);
-            await _userManager.UpdateAsync(user);
 
-            // For now log the code to the debug output. In production send via email.
-            await _emailService.SendEmailAsync(
-    email,
-    "The Last Key - Kod za promjenu lozinke",
-    $@"
-    <h2>The Last Key</h2>
-    <p>Vaš kod za promjenu lozinke je:</p>
-    <h1 style='color:#FE7F2D;'>{code}</h1>
-    <p>Kod važi 15 minuta.</p>
-    "
-);
+            try
+            {
+                await _userManager.UpdateAsync(user);
+
+                // For now log the code to the debug output. In production send via email.
+                await _emailService.SendEmailAsync(
+        email,
+        "The Last Key - Kod za promjenu lozinke",
+        $@"
+        <h2>The Last Key</h2>
+        <p>Vaš kod za promjenu lozinke je:</p>
+        <h1 style='color:#FE7F2D;'>{code}</h1>
+        <p>Kod važi 15 minuta.</p>
+        "
+    );
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Greška u bazi podataka prilikom slanja koda za promjenu lozinke za email {Email}", email);
+                ModelState.AddModelError(string.Empty, DbErrorMessage);
+                return View();
+            }
 
             TempData["ResetEmail"] = email;
             return RedirectToAction(nameof(VerifyResetCode));
@@ -216,7 +264,19 @@ namespace Task6.Controllers
                 return View();
             }
 
-            var user = await _userManager.FindByEmailAsync(email);
+            ApplicationUser? user;
+            try
+            {
+                user = await _userManager.FindByEmailAsync(email);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Greška u bazi podataka prilikom provjere koda za email {Email}", email);
+                ModelState.AddModelError(string.Empty, DbErrorMessage);
+                ViewBag.Email = email;
+                return View();
+            }
+
             if (user == null || user.ResetCode != code || user.ResetCodeExpiry == null || user.ResetCodeExpiry < DateTime.UtcNow)
             {
                 ModelState.AddModelError(string.Empty, "Neispravan ili istekao kod.");
@@ -256,19 +316,30 @@ namespace Task6.Controllers
                 return View();
             }
 
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user == null || user.ResetCode != code)
-                return RedirectToAction(nameof(ForgotPassword));
-
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
-
-            if (result.Succeeded)
+            ApplicationUser? user;
+            IdentityResult result;
+            try
             {
-                user.ResetCode = null;
-                user.ResetCodeExpiry = null;
-                await _userManager.UpdateAsync(user);
-                return RedirectToAction(nameof(Login));
+                user = await _userManager.FindByEmailAsync(email);
+                if (user == null || user.ResetCode != code)
+                    return RedirectToAction(nameof(ForgotPassword));
+
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+
+                if (result.Succeeded)
+                {
+                    user.ResetCode = null;
+                    user.ResetCodeExpiry = null;
+                    await _userManager.UpdateAsync(user);
+                    return RedirectToAction(nameof(Login));
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Greška u bazi podataka prilikom postavljanja nove lozinke za email {Email}", email);
+                ModelState.AddModelError(string.Empty, DbErrorMessage);
+                return View();
             }
 
             foreach (var err in result.Errors)

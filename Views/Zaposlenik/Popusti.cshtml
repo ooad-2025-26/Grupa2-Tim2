@@ -1,0 +1,71 @@
+@model Task6.ViewModels.DiscountViewModel
+
+@{
+    ViewData["Title"] = "Postavi popust";
+}
+
+<div class="admin-page">
+
+    <div class="admin-header">
+        <div>
+            <p class="profile-small-title">THE LAST KEY</p>
+            <h1>Postavi popust</h1>
+        </div>
+
+        <a asp-controller="Zaposlenik"
+               asp-action="Dashboard"
+               class="home-btn">
+            Zaposlenik panel
+        </a>
+    </div>
+
+    @if (TempData["DiscountSuccess"] != null)
+    {
+        <div class="alert alert-success">@TempData["DiscountSuccess"]</div>
+    }
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <form asp-action="Popusti" method="post" class="admin-form-card">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label class="form-label">Odaberite sobe</label>
+                    <div class="discount-room-list">
+                        @foreach (var room in Model.Rooms)
+                        {
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="SelectedRoomIds" value="@room.Id" id="room_@room.Id" @(Model.SelectedRoomIds.Contains(room.Id) ? "checked" : "") />
+                                <label class="form-check-label" for="room_@room.Id">@room.Naziv</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Popust (%)</label>
+                        <input type="number" name="DiscountPercent" min="0" max="100" class="form-control" value="@Model.DiscountPercent" />
+                        <span asp-validation-for="DiscountPercent" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Početak</label>
+                        <input type="date" name="StartDate" class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Kraj</label>
+                        <input type="date" name="EndDate" class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
+                    </div>
+                </div>
+
+                <button type="submit" class="admin-add-btn">Primijeni popust</button>
+            </form>
+
+        </div>
+    </div>
+
+</div>

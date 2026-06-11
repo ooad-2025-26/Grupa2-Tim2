@@ -21,12 +21,6 @@
 
         <div class="admin-stats-grid">
             <div class="admin-stat-card">
-                <div class="admin-stat-icon">👥</div>
-                <p>Ukupno korisnika</p>
-                <h2>@ViewBag.Stats.TotalUsers</h2>
-            </div>
-
-            <div class="admin-stat-card">
                 <div class="admin-stat-icon">🚪</div>
                 <p>Escape sobe</p>
                 <h2>@ViewBag.Stats.TotalRooms</h2>
@@ -40,7 +34,7 @@
 
             <div class="admin-stat-card">
                 <div class="admin-stat-icon">💳</div>
-                <p>Neplaćanja</p>
+                <p>Plaćanja</p>
                 <h2>@ViewBag.Stats.PendingPayments</h2>
             </div>
 
@@ -54,6 +48,18 @@
                 <div class="admin-stat-icon">📊</div>
                 <p>Prosječna ocjena</p>
                 <h2>@ViewBag.Stats.AverageRating.ToString("F1")</h2>
+            </div>
+        </div>
+
+        <div class="admin-highlight-panel">
+            <div class="admin-highlight-card">
+                <div>
+                    <h2>Postavi popust odmah</h2>
+                    <p>Odaberi sobe, postavi postotak i vremenski period, te obavijesti sve korisnike o novoj ponudi.</p>
+                </div>
+                <a asp-controller="Admin" asp-action="Popusti" class="admin-add-btn">
+                    Kreiraj popust
+                </a>
             </div>
         </div>
 

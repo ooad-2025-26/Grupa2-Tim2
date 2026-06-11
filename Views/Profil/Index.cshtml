@@ -71,6 +71,16 @@
             <div class="alert alert-info">@TempData["PaymentInfo"]</div>
         }
 
+        @if (TempData["CancelSuccess"] != null)
+        {
+            <div class="alert alert-success">@TempData["CancelSuccess"]</div>
+        }
+
+        @if (TempData["CancelError"] != null)
+        {
+            <div class="alert alert-danger">@TempData["CancelError"]</div>
+        }
+
         <div class="reservations-section">
             <h3>Moje rezervacije</h3>
             @{
@@ -96,6 +106,13 @@
                         <tbody>
                             @foreach (var reservation in Model)
                             {
+                                var terminDateTime = reservation.Termin.Datum.Date;
+                                if (TimeSpan.TryParse(reservation.Termin.Vrijeme, out var terminVrijeme))
+                                {
+                                    terminDateTime = terminDateTime.Add(terminVrijeme);
+                                }
+                                var terminProsao = terminDateTime < DateTime.UtcNow;
+
                                 <tr>
                                     <td>@reservation.Termin.EscapeRoom.Naziv</td>
                                     <td>@reservation.Termin.Datum.ToString("dd.MM.yyyy")</td>
@@ -122,24 +139,23 @@
                                            class="details-btn">
                                             Detalji
                                         </a>
-                                       
-                                        @if (!placeneRezervacije.Contains(reservation.RezervacijaID)
-                                            && reservation.Termin.Datum >= DateTime.Today)
+
+                                        @if (!placeneRezervacije.Contains(reservation.RezervacijaID) && !terminProsao && reservation.Status)
                                         {
                                             <a asp-controller="Payment"
-                                               asp-action="Pay"
-                                               asp-route-reservationId="@reservation.RezervacijaID"
-                                               class="details-btn">
+                                                   asp-action="Pay"
+                                                   asp-route-reservationId="@reservation.RezervacijaID"
+                                                   class="details-btn">
                                                 Plati online
                                             </a>
                                         }
 
-                                        @if (reservation.Termin.Datum > DateTime.UtcNow.AddHours(24) && reservation.Status)
+                                        @if (!terminProsao && reservation.Status)
                                         {
                                             <form asp-controller="Reservation" asp-action="Cancel" method="post">
                                                 @Html.AntiForgeryToken()
                                                 <input type="hidden" name="id" value="@reservation.RezervacijaID" />
-                                                <button type="submit" class="cancel-btn">Otkaži</button>
+                                                <button type="submit" class="cancel-btn" onclick="return confirmCancelReservation(event, this.form)">Otkaži</button>
                                             </form>
                                         }
                                     </td>
@@ -158,3 +174,26 @@
         </div>
     </div>
 </div>
+
+<script>
+    function confirmCancelReservation(event, form) {
+        event.preventDefault();
+
+        Swal.fire({
+            title: 'Otkazati rezervaciju?',
+            text: 'Ova akcija se ne može poništiti.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Otkaži rezervaciju',
+            cancelButtonText: 'Odustani',
+            confirmButtonColor: '#c94a4a',
+            cancelButtonColor: '#1f4f54'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+
+        return false;
+    }
+</script>

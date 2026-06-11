@@ -50,7 +50,14 @@
             <div class="room-badges">
                 <span>🧩 Težina: @Model.Tezina</span>
                 <span>👥 Kapacitet: @Model.Kapacitet osoba</span>
-                <span>💰 @Model.Cijena KM po osobi</span>
+                @if (Model.IsDiscountActive())
+                {
+                    <span>💰 <s>@Model.Cijena</s> @Model.CurrentPrice KM po osobi</span>
+                }
+                else
+                {
+                    <span>💰 @Model.Cijena KM po osobi</span>
+                }
             </div>
         </div>
     </div>
@@ -137,13 +144,12 @@
                             @Html.AntiForgeryToken()
 
                             <div class="booking-field">
-                                <label for="datumRezervacije">Odaberite datum</label>
+                                <label for="terminDatum">Odaberite datum</label>
 
                                 <input type="date"
-                                       id="datumRezervacije"
-                                       class="form-control"
-                                       min="@DateTime.Today.ToString("yyyy-MM-dd")"
-                                       required />
+                                       id="terminDatum"
+                                       min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                       max="@DateTime.Now.AddDays(30).ToString("yyyy-MM-dd")" />
                             </div>
 
                             <div class="booking-field">
@@ -151,18 +157,16 @@
 
                                 <select id="terminSelect"
                                         name="terminId"
-                                        required
-                                        disabled>
+                                        required>
 
-                                    <option value="">
-                                        Prvo odaberite datum
+                                    <option value="" data-placeholder>
+                                        -- Prvo odaberite datum --
                                     </option>
 
                                     @foreach (var termin in termini)
                                     {
-                                        <option value="@termin.TerminID"
-                                                data-date="@termin.Datum.ToString("yyyy-MM-dd")">
-                                            @termin.Vrijeme
+                                        <option value="@termin.TerminID" data-datum="@termin.Datum.ToString("yyyy-MM-dd")" data-vrijeme="@termin.Vrijeme" hidden>
+                                            @termin.Datum.ToString("dd.MM.yyyy") @termin.Vrijeme
                                         </option>
                                     }
                                 </select>
@@ -214,41 +218,42 @@
         </div>
     </div>
 </div>
-<script>
-    const datumInput = document.getElementById("datumRezervacije");
-    const terminSelect = document.getElementById("terminSelect");
 
-    if (datumInput && terminSelect) {
-        const sviTermini = Array.from(terminSelect.options).slice(1);
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var datumInput = document.getElementById('terminDatum');
+            var terminSelect = document.getElementById('terminSelect');
 
-        datumInput.addEventListener("change", function () {
-            const odabraniDatum = this.value;
+            if (!datumInput || !terminSelect) return;
 
-            terminSelect.innerHTML = "";
+            var placeholder = terminSelect.querySelector('option[data-placeholder]');
+            var sviTermini = Array.from(terminSelect.querySelectorAll('option[data-datum]'));
 
-            const defaultOption = document.createElement("option");
-            defaultOption.value = "";
-            defaultOption.textContent = "-- Odaberite termin --";
-            terminSelect.appendChild(defaultOption);
+            var danasnjiDatum = '@DateTime.Now.ToString("yyyy-MM-dd")';
+            var trenutnoVrijeme = '@DateTime.Now.ToString("HH:mm")';
 
-            const filtriraniTermini = sviTermini.filter(option =>
-                option.getAttribute("data-date") === odabraniDatum
-            );
+            datumInput.addEventListener('change', function () {
+                var odabraniDatum = datumInput.value;
+                var imaTermina = false;
 
-            if (filtriraniTermini.length === 0) {
-                const noOption = document.createElement("option");
-                noOption.value = "";
-                noOption.textContent = "Nema dostupnih termina za ovaj datum";
-                terminSelect.appendChild(noOption);
-                terminSelect.disabled = true;
-                return;
-            }
+                sviTermini.forEach(function (opcija) {
+                    var prikazi = opcija.dataset.datum === odabraniDatum;
 
-            filtriraniTermini.forEach(option => {
-                terminSelect.appendChild(option.cloneNode(true));
+                    if (prikazi && odabraniDatum === danasnjiDatum) {
+                        prikazi = opcija.dataset.vrijeme > trenutnoVrijeme;
+                    }
+
+                    opcija.hidden = !prikazi;
+                    if (prikazi) imaTermina = true;
+                });
+
+                placeholder.textContent = imaTermina
+                    ? '-- Odaberite termin --'
+                    : 'Nema dostupnih termina za odabrani datum';
+
+                terminSelect.value = '';
             });
-
-            terminSelect.disabled = false;
         });
-    }
-</script>
+    </script>
+}

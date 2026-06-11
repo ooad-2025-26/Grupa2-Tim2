@@ -10,23 +10,17 @@
     <div class="rooms-filter-container">
 
         <div class="rooms-filter-header">
-
-            <div style="text-align:left; width:100%;">
-                <a asp-controller="Home"
-                   asp-action="Index"
-                   class="back-home-btn">
+            <div class="text-center mb-3">
+                <a asp-controller="Home" asp-action="Index" class="home-btn">
                     ← Nazad na početnu
                 </a>
             </div>
 
             <p>THE LAST KEY</p>
-
             <h1>Pronađi idealnu sobu</h1>
-
             <span>
                 Filtrirajte sobe prema nazivu, težini, broju igrača i dostupnom datumu.
             </span>
-
         </div>
 
         <form method="get" class="rooms-filter-card">
@@ -157,7 +151,16 @@
 
                         <div class="room-card-info">
                             <span>👥 do @room.Kapacitet osoba</span>
-                            <span>💰 @room.Cijena KM</span>
+                            <span>
+                                @if (room.IsDiscountActive())
+                                {
+                                    <span>💰 <s>@room.Cijena</s> @room.CurrentPrice KM</span>
+                                }
+                                else
+                                {
+                                    <span>💰 @room.Cijena KM</span>
+                                }
+                            </span>
                         </div>
 
                         <a asp-controller="EscapeRooms"

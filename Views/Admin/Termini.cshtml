@@ -25,6 +25,14 @@
         + Novi termin
     </a>
 
+    <div class="mb-3">
+        <input type="text"
+               id="terminSearch"
+               class="form-control"
+               style="max-width:300px;"
+               placeholder="Pretraži po nazivu sobe..." />
+    </div>
+
     @if (Model.Any())
     {
         <div class="admin-table-box">
@@ -87,3 +95,23 @@
     }
 
 </div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var searchInput = document.getElementById('terminSearch');
+            var rows = document.querySelectorAll('.admin-table tbody tr');
+
+            if (!searchInput) return;
+
+            searchInput.addEventListener('input', function () {
+                var query = searchInput.value.trim().toLowerCase();
+
+                rows.forEach(function (row) {
+                    var soba = row.children[1].textContent.trim().toLowerCase();
+                    row.style.display = soba.includes(query) ? '' : 'none';
+                });
+            });
+        });
+    </script>
+}

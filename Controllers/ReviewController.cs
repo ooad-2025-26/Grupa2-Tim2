@@ -71,11 +71,6 @@ namespace Task6.Controllers
                 ? reviews.Average(r => r.Ocjena)
                 : 0;
 
-            // Zadrži TempData poruke nakon redirekta
-            if (TempData["Error"] != null) TempData.Keep("Error");
-            if (TempData["Message"] != null) TempData.Keep("Message");
-            if (TempData["Success"] != null) TempData.Keep("Success");
-
             return View(reviews);
         }
 
@@ -97,6 +92,16 @@ namespace Task6.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            // Provjera da li je korisnik već dao recenziju za ovu sobu
+            var existingReview = await _context.Recenzije
+                .FirstOrDefaultAsync(r => r.RoomID == roomId && r.KorisnikID == user.Id);
+
+            if (existingReview != null)
+            {
+                TempData["Message"] = "Već ste dali recenziju za ovu sobu!";
+                return RedirectToAction(nameof(List), new { roomId = roomId });
+            }
+
             // Provjera da li je korisnik imao zavrsenu rezervaciju za ovu sobu
             var hasCompletedReservation = await _context.Rezervacije
                 .Include(r => r.Termin)
@@ -105,16 +110,6 @@ namespace Task6.Controllers
             if (!hasCompletedReservation)
             {
                 TempData["Error"] = "Možete ostaviti recenziju samo ako ste imali završenu rezervaciju za ovu sobu.";
-                return RedirectToAction(nameof(List), new { roomId = roomId });
-            }
-
-            // Provjera da li je korisnik već dao recenziju za ovu sobu
-            var existingReview = await _context.Recenzije
-                .FirstOrDefaultAsync(r => r.RoomID == roomId && r.KorisnikID == user.Id);
-
-            if (existingReview != null)
-            {
-                TempData["Message"] = "Već ste dali recenziju za ovu sobu!";
                 return RedirectToAction(nameof(List), new { roomId = roomId });
             }
 

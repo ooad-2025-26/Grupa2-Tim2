@@ -3,7 +3,15 @@
 @{
     ViewData["Title"] = "Detalji rezervacije";
     var placanje = ViewBag.Placanje as Task6.Models.Placanje;
-    var ukupno = Model.BrojOsoba * Model.Termin.EscapeRoom.Cijena;
+    var pricePerPerson = Model.Termin.EscapeRoom.CurrentPrice;
+    var ukupno = Model.BrojOsoba * pricePerPerson;
+
+    var terminDateTime = Model.Termin.Datum.Date;
+    if (TimeSpan.TryParse(Model.Termin.Vrijeme, out var terminVrijeme))
+    {
+        terminDateTime = terminDateTime.Add(terminVrijeme);
+    }
+    var terminProsao = terminDateTime < DateTime.UtcNow;
 }
 
 <div class="reservation-details-page">
@@ -24,7 +32,16 @@
             <div><strong>Datum:</strong> @Model.Termin.Datum.ToString("dd.MM.yyyy")</div>
             <div><strong>Vrijeme:</strong> @Model.Termin.Vrijeme</div>
             <div><strong>Broj osoba:</strong> @Model.BrojOsoba</div>
-            <div><strong>Cijena po osobi:</strong> @Model.Termin.EscapeRoom.Cijena KM</div>
+            <div><strong>Cijena po osobi:</strong>
+                @if (Model.Termin.EscapeRoom.IsDiscountActive())
+                {
+                    <span><s>@Model.Termin.EscapeRoom.Cijena</s> @Model.Termin.EscapeRoom.CurrentPrice KM</span>
+                }
+                else
+                {
+                    <span>@Model.Termin.EscapeRoom.Cijena KM</span>
+                }
+            </div>
             <div><strong>Ukupno:</strong> @ukupno KM</div>
             <div><strong>Kreirano:</strong> @Model.DatumKreiranja.ToString("dd.MM.yyyy HH:mm")</div>
         </div>
@@ -56,13 +73,12 @@
         </div>
 
         <div class="reservation-details-actions">
-            @if ((placanje == null || !placanje.Status)
-    && Model.Termin.Datum >= DateTime.Today)
+            @if ((placanje == null || !placanje.Status) && !terminProsao && Model.Status)
             {
                 <a asp-controller="Payment"
-                   asp-action="Pay"
-                   asp-route-reservationId="@Model.RezervacijaID"
-                   class="details-btn">
+                       asp-action="Pay"
+                       asp-route-reservationId="@Model.RezervacijaID"
+                       class="details-btn">
                     Plati online
                 </a>
             }

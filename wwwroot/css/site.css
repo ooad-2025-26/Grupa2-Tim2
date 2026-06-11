@@ -428,24 +428,25 @@ body {
 ========================= */
 
 .escape-cards {
+    margin-top: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
     width: 100%;
-    max-width: 1500px;
-    margin: 55px auto 0 auto;
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 24px;
+    gap: 14px;
+    flex-wrap: nowrap;
     opacity: 0;
     visibility: hidden;
     transform: translateY(50px);
-    transition: all 0.6s ease;
+    transition: 0.6s ease;
 }
 
-    .escape-cards.show-rooms {
+    .rooms-content:hover .escape-cards,
+    .escape-cards:hover {
         opacity: 1;
         visibility: visible;
         transform: translateY(0);
     }
-
 
 .escape-card {
     width: 23%;
@@ -749,47 +750,42 @@ body {
 .contact-left {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 24px;
     height: 340px;
 }
 
 /* CARDS */
 
 .contact-card {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 24px;
-    border: 2px solid rgba(254,127,45,0.15);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    transition: all 0.3s ease;
+    background: rgba(255,255,255,0.78);
+    backdrop-filter: blur(6px);
     width: 300px;
-    height: 150px;
+    flex: 1;
+    padding: 26px 30px;
+    border-radius: 24px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    text-align: left;
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
     .contact-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        transform: translateY(-6px);
     }
 
     .contact-card h3 {
         color: #FE7F2D;
-        font-size: 22px;
-        font-weight: 700;
-        margin-bottom: 15px;
+        margin-bottom: 18px;
+        font-size: 24px;
     }
 
-.contact-main {
-    color: #233D4D;
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-
-.contact-secondary {
-    color: #5C6C74;
-    font-size: 14px;
-    margin: 0;
-}
+    .contact-card p {
+        color: #4f616b;
+        line-height: 1.8;
+        font-size: 16px;
+    }
 
 /* MAPA */
 
@@ -1886,6 +1882,11 @@ body {
             color: #233D4D;
         }
 
+    .login-card .home-btn,
+    .login-card .home-btn:hover {
+        color: white;
+    }
+
 
 /* ===== AUTH FINAL FIX ===== */
 
@@ -2196,8 +2197,10 @@ body {
 
 .admin-dashboard-header {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    gap: 18px;
     margin-bottom: 35px;
 }
 
@@ -2289,6 +2292,47 @@ body {
     border-radius: 28px;
     padding: 30px;
     box-shadow: 0 18px 45px rgba(0, 0, 0, 0.2);
+}
+
+.admin-highlight-panel {
+    margin-bottom: 28px;
+}
+
+.admin-highlight-card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #FE7F2D 0%, #F5FBE6 100%);
+    border-radius: 28px;
+    padding: 28px 32px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+    gap: 16px;
+}
+
+.admin-highlight-card h2 {
+    margin: 0 0 8px;
+    color: #233D4D;
+    font-size: 34px;
+    font-weight: 900;
+}
+
+.admin-highlight-card p {
+    margin: 0;
+    color: #233D4D;
+    opacity: 0.9;
+    max-width: 680px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.admin-highlight-card .admin-add-btn {
+    background-color: #233D4D;
+    box-shadow: 0 10px 25px rgba(35, 61, 77, 0.25);
+}
+
+.admin-highlight-card .admin-add-btn:hover {
+    background-color: #1c3240;
 }
 
 .admin-actions-header p {
@@ -2391,14 +2435,12 @@ body {
 
 .room-details-overlay {
     position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.55);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(35, 61, 77, 0.82), rgba(33, 94, 97, 0.62));
     z-index: 1;
-}
-
-.room-details-content {
-    position: relative;
-    z-index: 2;
 }
 
 .room-details-content {
@@ -3062,12 +3104,16 @@ body {
 .support-question-link {
     display: block;
     text-align: center;
-    margin-top: -50px;
+    margin-top: 40px;
     color: #FE7F2D;
     font-size: 18px;
     font-weight: 600;
     text-decoration: none;
 }
+
+    .support-question-link:hover {
+        text-decoration: underline;
+    }
 /*
 .rooms-section-header {
     display: flex;
@@ -3097,8 +3143,6 @@ body {
         text-decoration: underline;
     }
 
-
-
 .escape-cards {
     width: 100%;
     max-width: 1500px;
@@ -3106,18 +3150,7 @@ body {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 24px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(40px);
-    transition: all .6s ease;
 }
-
-    .rooms-hover-title:hover + .rooms-text + .escape-cards,
-    .escape-cards:hover {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
 
 .escape-card {
     width: 100%;
@@ -3125,7 +3158,6 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-   
 }
 
 .card-image {
@@ -3137,6 +3169,7 @@ body {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        filter: brightness(0.8);
     }
 
 .card-content {
@@ -3186,15 +3219,6 @@ body {
         text-decoration: underline;
     }
 
-.escape-cards {
-    opacity: 1 !important;
-    visibility: visible !important;
-}
-
-.escape-card {
-    opacity: 1 !important;
-    visibility: visible !important;
-}
 
 .escape-cards {
     width: 100%;
@@ -3203,8 +3227,6 @@ body {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 24px;
-    opacity: 1 !important;
-    visibility: visible !important;
 }
 
 .escape-card {
@@ -3213,8 +3235,6 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    opacity: 1 !important;
-    visibility: visible !important;
 }
 
 .card-image {
@@ -3226,6 +3246,7 @@ body {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        filter: brightness(0.8);
     }
 
 .card-content {
@@ -4032,6 +4053,19 @@ body {
         opacity: 0.9;
         color: white;
     }
+
+.admin-form-card .d-flex.gap-2 {
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+    .admin-form-card .d-flex.gap-2 .admin-edit-btn,
+    .admin-form-card .d-flex.gap-2 .admin-delete-btn {
+        display: inline-flex;
+        align-items: center;
+        margin-right: 0;
+    }
+
 .admin-form-card {
     background-color: #F5FBE6;
     border: 2px solid #FE7F2D;
@@ -4057,54 +4091,24 @@ body {
             box-shadow: 0 0 0 0.2rem rgba(254,127,45,0.25);
         }
 
-
-.escape-cards {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    transform: translateY(50px) !important;
-    transition: all 0.6s ease !important;
-}
-
-    .rooms-hover-container:has(.rooms-hover-title:hover) .escape-cards,
-    .escape-cards:hover {
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: translateY(0) !important;
+    .admin-form-card .discount-room-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 10px 18px;
+        background: white;
+        border: 2px solid #215E61;
+        border-radius: 12px;
+        padding: 16px;
+        max-height: 260px;
+        overflow-y: auto;
     }
 
-    /*NOVI ZA DUGME*/
-
-.question-link-container {
-    text-align: center;
-    margin: 35px 0 50px;
-}
-
-.support-question-link {
-    display: inline-block;
-    background: #FE7F2D;
-    color: white;
-    text-decoration: none;
-    padding: 16px 34px;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 18px;
-    transition: all 0.3s ease;
-}
-
-    .support-question-link:hover {
-        background: #233D4D;
-        color: white;
-        transform: translateY(-3px);
+    .admin-form-card .form-check-label {
+        color: #233D4D;
+        font-weight: 500;
     }
 
-.back-home-btn {
-    display: inline-block;
-    margin-bottom: 20px;
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-    .back-home-btn:hover {
-        color: #ff8a2b;
+    .admin-form-card .form-check-input:checked {
+        background-color: #FE7F2D;
+        border-color: #FE7F2D;
     }

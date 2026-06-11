@@ -2,6 +2,13 @@
 
 @{
     ViewData["Title"] = "Detalji rezervacije";
+
+    var terminDateTime = Model.Termin.Datum.Date;
+    if (TimeSpan.TryParse(Model.Termin.Vrijeme, out var terminVrijeme))
+    {
+        terminDateTime = terminDateTime.Add(terminVrijeme);
+    }
+    var terminProsao = terminDateTime < DateTime.Now;
 }
 
 <div class="admin-page">
@@ -84,8 +91,44 @@
                    class="admin-edit-btn">
                 Nazad na rezervacije
             </a>
+            
+            @if (!terminProsao)
+            {
+                <form asp-action="Cancel" method="post" style="display:inline; margin-left:10px;">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.RezervacijaID" />
+                    <button type="submit" class="admin-delete-btn" onclick="return confirmCancelReservation(event, this.form)">
+                        Otkaži rezervaciju
+                    </button>
+                </form>
+            }
         </div>
 
     </div>
 
 </div>
+
+@section Scripts {
+    <script>
+        function confirmCancelReservation(event, form) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Otkazati rezervaciju?',
+                text: 'Rezervacija će biti trajno izbrisana, a korisnik obaviješten o otkazivanju. Ova akcija se ne može poništiti.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Otkaži rezervaciju',
+                cancelButtonText: 'Odustani',
+                confirmButtonColor: '#c94a4a',
+                cancelButtonColor: '#1f4f54'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+
+            return false;
+        }
+    </script>
+}

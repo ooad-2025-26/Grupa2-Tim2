@@ -30,8 +30,8 @@
             </div>
 
             <button type="submit" class="login-btn">Prijavite se</button>
-            <div class="forgot-password-link">
-                <a asp-controller="Account" asp-action="ForgotPassword">
+            <div class="forgot-password-link text-center mt-2">
+                <a asp-controller="Account" asp-action="ForgotPassword" asp-route-email="@Model?.Email">
                     Zaboravili ste lozinku?
                 </a>
             </div>
@@ -40,6 +40,12 @@
         <div class="register-link">
             Nemate račun?
             <a asp-controller="Account" asp-action="Register">Registrujte se</a>
+        </div>
+
+        <div class="text-center mt-3">
+            <a asp-controller="Home" asp-action="Index" class="home-btn">
+                Nazad na početnu
+            </a>
         </div>
     </div>
 </div>

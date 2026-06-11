@@ -60,7 +60,7 @@ namespace Task6.Controllers
             }
 
             ViewBag.Rezervacija = rezervacija;
-            ViewBag.Iznos = rezervacija.BrojOsoba * rezervacija.Termin.EscapeRoom.Cijena;
+            ViewBag.Iznos = rezervacija.BrojOsoba * rezervacija.Termin.EscapeRoom.CurrentPrice;
 
             return View();
         }
@@ -90,7 +90,7 @@ namespace Task6.Controllers
                 return NotFound();
 
             ViewBag.Rezervacija = rezervacija;
-            ViewBag.Iznos = rezervacija.BrojOsoba * rezervacija.Termin.EscapeRoom.Cijena;
+            ViewBag.Iznos = rezervacija.BrojOsoba * rezervacija.Termin.EscapeRoom.CurrentPrice;
 
             if (!rezervacija.Status)
             {
@@ -157,7 +157,7 @@ namespace Task6.Controllers
                 return View();
             }
 
-            var iznos = rezervacija.BrojOsoba * rezervacija.Termin.EscapeRoom.Cijena;
+            var iznos = rezervacija.BrojOsoba * rezervacija.Termin.EscapeRoom.CurrentPrice;
 
             var placanje = await _context.Placanja
                 .FirstOrDefaultAsync(p => p.RezervacijaID == reservationId);

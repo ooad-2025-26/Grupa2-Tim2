@@ -19,6 +19,16 @@
         </a>
     </div>
 
+    @if (TempData["CancelSuccess"] != null)
+    {
+        <div class="alert alert-success">@TempData["CancelSuccess"]</div>
+    }
+
+    @if (TempData["CancelError"] != null)
+    {
+        <div class="alert alert-danger">@TempData["CancelError"]</div>
+    }
+
     @if (Model.Any())
     {
         <div class="admin-table-box">
@@ -42,6 +52,13 @@
                 <tbody>
                     @foreach (var res in Model)
                     {
+                        var terminDateTime = res.Termin.Datum.Date;
+                        if (TimeSpan.TryParse(res.Termin.Vrijeme, out var terminVrijeme))
+                        {
+                            terminDateTime = terminDateTime.Add(terminVrijeme);
+                        }
+                        var terminProsao = terminDateTime < DateTime.Now;
+
                         <tr>
 
                             <td>@res.RezervacijaID</td>
@@ -92,6 +109,17 @@
                                        class="admin-edit-btn">
                                     Detalji
                                 </a>
+
+                                @if (!terminProsao)
+                                {
+                                    <form asp-action="Cancel" method="post" style="display:inline; margin-left:8px;">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@res.RezervacijaID" />
+                                        <button type="submit" class="admin-delete-btn" onclick="return confirmCancelReservation(event, this.form)">
+                                            Otkaži
+                                        </button>
+                                    </form>
+                                }
                             </td>
 
                         </tr>
@@ -110,3 +138,28 @@
     }
 
 </div>
+
+@section Scripts {
+    <script>
+        function confirmCancelReservation(event, form) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'Otkazati rezervaciju?',
+                text: 'Rezervacija će biti trajno izbrisana, a korisnik obaviješten o otkazivanju. Ova akcija se ne može poništiti.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Otkaži rezervaciju',
+                cancelButtonText: 'Odustani',
+                confirmButtonColor: '#c94a4a',
+                cancelButtonColor: '#1f4f54'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+
+            return false;
+        }
+    </script>
+}

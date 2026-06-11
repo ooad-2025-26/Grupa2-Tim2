@@ -85,13 +85,14 @@ namespace Task6.Controllers
                 if (termin == null || !termin.Dostupnost)
                     return BadRequest(new { message = "Termin nije dostupan." });
 
-                var datumIVrijeme = termin.Datum.Date.Add(TimeSpan.Parse(termin.Vrijeme));
-
-                if (datumIVrijeme <= DateTime.UtcNow)
+                var terminDateTime = termin.Datum.Date;
+                if (TimeSpan.TryParse(termin.Vrijeme, out var terminVrijeme))
                 {
-                    TempData["ReservationError"] = "Odabrani termin je već prošao.";
-                    return RedirectToAction("Details", "EscapeRooms", new { id = termin.RoomID });
+                    terminDateTime = terminDateTime.Add(terminVrijeme);
                 }
+
+                if (terminDateTime < DateTime.UtcNow)
+                    return BadRequest(new { message = "Termin nije dostupan." });
 
                 termin.Dostupnost = false;
 
@@ -149,12 +150,35 @@ namespace Task6.Controllers
 
             if (rez == null) return NotFound();
 
+            if (!rez.Status)
+            {
+                TempData["CancelError"] = "Rezervaciju nije moguće otkazati.";
+                return RedirectToAction("Index", "Profil");
+            }
+
+            if (rez.Termin != null)
+            {
+                var terminDateTime = rez.Termin.Datum.Date;
+                if (TimeSpan.TryParse(rez.Termin.Vrijeme, out var terminVrijeme))
+                {
+                    terminDateTime = terminDateTime.Add(terminVrijeme);
+                }
+
+                if (terminDateTime < DateTime.UtcNow)
+                {
+                    TempData["CancelError"] = "Rezervaciju nije moguće otkazati.";
+                    return RedirectToAction("Index", "Profil");
+                }
+            }
+
             rez.Status = false;
 
             if (rez.Termin != null)
                 rez.Termin.Dostupnost = true;
 
             await _context.SaveChangesAsync();
+
+            TempData["CancelSuccess"] = "Uspješno ste otkazali rezervaciju.";
 
             if (!string.IsNullOrEmpty(rez.Korisnik.Email))
             {

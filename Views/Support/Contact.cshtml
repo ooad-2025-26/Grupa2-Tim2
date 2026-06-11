@@ -7,20 +7,14 @@
 <div class="question-page">
     <div class="question-card">
 
-        <a href="javascript:history.back()"
-           class="back-profile-btn">
-            ← Nazad
+        <a asp-controller="Profil"
+               asp-action="Index"
+               class="back-profile-btn">
+            ← Nazad na profil
         </a>
 
         <p class="profile-small-title">THE LAST KEY</p>
-        @if (ViewBag.Source == "faq")
-        {
-            <h1>Pitaj odmah</h1>
-        }
-        else
-        {
-            <h1>Kontaktirajte nas</h1>
-        }
+        <h1>Dodatna pitanja</h1>
 
         <p class="question-subtitle">
             Imate dodatno pitanje vezano za rezervaciju, plaćanje ili escape room?

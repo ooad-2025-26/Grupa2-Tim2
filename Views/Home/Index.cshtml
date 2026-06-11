@@ -23,8 +23,8 @@
             <ul class="nav-links">
                 <li><a href="#about">O NAMA</a></li>
                 <li><a href="#rooms">SOBE</a></li>
-                <li><a href="#faq">ČESTA PITANJA</a></li>
-                <a href="#contact">KONTAKT I PODRŠKA</a>
+                <li><a href="#contact">KONTAKT I PODRŠKA</a></li>
+                <a href="#faq">ČESTA PITANJA</a>
             </ul>
 
             <div class="nav-buttons">
@@ -136,14 +136,14 @@
 
     <section id="rooms" class="rooms-section">
 
-        <div class="rooms-content rooms-hover-container">
+        <div class="rooms-content">
 
             <p class="rooms-subtitle">
                 AKTIVNE SOBE
             </p>
 
             <h2 class="rooms-hover-title">
-                Istraži naše misterije
+                Istražite naše sobe
             </h2>
 
             <p class="rooms-text">
@@ -221,7 +221,6 @@
             </div>
 
         </div>
-    </section>
     </section>
 
 
@@ -348,32 +347,28 @@
 
             </div>
 
+            <div class="question-link-container">
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Support"
+                       asp-action="Contact"
+                       class="support-question-link">
+                        Imate dodatnih pitanja?
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="Account"
+                       asp-action="Login"
+                       class="support-question-link">
+                        Imate dodatnih pitanja?
+                    </a>
+                }
+            </div>
+
         </div>
 
-    <div class="question-link-container" style="text-align:center; margin-top:35px;">
-
-        @if (User.Identity != null && User.Identity.IsAuthenticated)
-        {
-            <a asp-controller="Support"
-               asp-action="Contact"
-               asp-route-source="faq"
-               class="support-question-link">
-                Pitaj odmah
-            </a>
-        }
-        else
-        {
-            <a asp-controller="Account"
-               asp-action="Login"
-               class="support-question-link">
-                Pitajte odmah
-            </a>
-        }
-
-    </div>
-
     </section>
-
 
     <!-- CONTACT SECTION -->
 
@@ -394,28 +389,6 @@
                 Posjetite nas na adresi ispod ili nas kontaktirajte direktno.
             </p>
 
-        <div class="question-link-container">
-            @if (User.Identity != null && User.Identity.IsAuthenticated)
-            {
-                <a asp-controller="Support"
-                   asp-action="Contact"
-                   asp-route-source="contact"
-                   class="support-question-link">
-                    Kontaktirajte nas
-                </a>
-            }
-            else
-            {
-                <a asp-controller="Account"
-                   asp-action="Login"
-                   class="support-question-link">
-                    Kontaktirajte nas
-                </a>
-            }
-        </div>
-
-           
-
             <div class="contact-wrapper">
 
                 <!-- LIJEVA STRANA -->
@@ -424,35 +397,27 @@
 
                     <!-- ADRESA -->
 
-                <div class="contact-card">
+                    <div class="contact-card">
 
-                    <h3>📍 Adresa</h3>
+                        <h3>📍 Adresa</h3>
 
-                    <p class="contact-main">
-                        Fra Anđela Zvizdovića 3
-                    </p>
+                        <p>Fra Anđela Zvizdovića 3</p>
 
-                    <p class="contact-secondary">
-                        Sarajevo, Bosna i Hercegovina
-                    </p>
+                        <p>Sarajevo, Bosna i Hercegovina</p>
 
-                </div>
+                    </div>
 
                     <!-- KONTAKT -->
 
-                <div class="contact-card">
+                    <div class="contact-card">
 
-                    <h3>📞 Kontakt</h3>
+                        <h3>Kontakt</h3>
 
-                    <p class="contact-main">
-                        +387 61 234 567
-                    </p>
+                        <p>📞 +387 61 234 567</p>
 
-                    <p class="contact-secondary">
-                        thelastkey71000@gmail.com
-                    </p>
+                        <p>thelastkey71000@gmail.com</p>
 
-                </div>
+                    </div>
 
                 </div>
 
@@ -2486,7 +2451,6 @@
         </div>
 
     </div>
-
 
 
 </body>

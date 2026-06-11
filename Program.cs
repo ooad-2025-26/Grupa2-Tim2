@@ -17,6 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<SupabaseStorageService>();
+builder.Services.AddHostedService<DiscountCleanupService>();
+builder.Services.AddHostedService<TerminCleanupService>();
 
 builder.Services.AddDbContext<EscapeRoomDbContext>(options =>
     options.UseNpgsql(
@@ -112,3 +114,4 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 app.Run();
+

@@ -12,6 +12,7 @@ namespace Task6.Models
         public DateTime Datum { get; set; }
 
         [Required]
+        [RegularExpression(@"^([01]\d|2[0-3]):[0-5]\d$", ErrorMessage = "Vrijeme mora biti u formatu HH:mm (npr. 14:30).")]
         public string Vrijeme { get; set; } = null!;
 
         public bool Dostupnost { get; set; }

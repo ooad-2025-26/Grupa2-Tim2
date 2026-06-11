@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Task6.Data;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using Task6.Models;
 using Task6.Services;
+using Task6.ViewModels;
 
 namespace Task6.Controllers
 {
@@ -76,6 +79,22 @@ namespace Task6.Controllers
             if (!await JeAdmin())
                 return RedirectToAction("Index", "Home");
 
+            // validate raw input for decimal separator (only dot allowed) and non-negative
+            ModelState.Remove("Cijena");
+            var rawCijena = Request.Form["Cijena"].ToString();
+            if (string.IsNullOrWhiteSpace(rawCijena) || !Regex.IsMatch(rawCijena, @"^\d+(\.\d+)?$"))
+            {
+                ModelState.AddModelError("Cijena", "Cijena mora biti nenegativan broj. Između brojeva smije biti samo tačka.");
+            }
+            else if (!double.TryParse(rawCijena, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var parsedCijena) || parsedCijena < 0)
+            {
+                ModelState.AddModelError("Cijena", "Cijena mora biti nenegativan broj.");
+            }
+            else
+            {
+                room.Cijena = parsedCijena;
+            }
+
             if (ModelState.IsValid)
             {
                 if (imageFile != null && imageFile.Length > 0)
@@ -104,6 +123,25 @@ namespace Task6.Controllers
 
                 _context.EscapeRooms.Add(room);
                 await _context.SaveChangesAsync();
+
+                var korisnici = await _context.Users.Where(u => !string.IsNullOrEmpty(u.Email)).ToListAsync();
+                foreach (var korisnik in korisnici)
+                {
+                    var body = $@"
+                        <div style='font-family: Arial, sans-serif; padding: 20px;'>
+                            <h2 style='color:#233D4D;'>The Last Key</h2>
+                            <h3 style='color:#FE7F2D;'>Nova escape soba!</h3>
+                            <p style='color:#233D4D; font-size:16px;'>Obavještavamo vas o novoj ponudi - dodana je nova escape soba: <strong>{room.Naziv}</strong>.</p>
+                            <p style='color:#233D4D; font-size:16px;'>{room.Opis}</p>
+                            <p style='color:#233D4D; font-size:16px;'><strong>Cijena:</strong> {room.Cijena} KM</p>
+                            <hr />
+                            <p style='font-size:13px; color:#777;'>Ovo je automatska obavijest sistema The Last Key.</p>
+                        </div>
+                    ";
+
+                    await _emailService.SendEmailAsync(korisnik.Email!, $"The Last Key - Nova soba: {room.Naziv}", body);
+                }
+
                 return RedirectToAction(nameof(Rooms));
             }
 
@@ -130,6 +168,22 @@ namespace Task6.Controllers
         {
             if (!await JeAdmin())
                 return RedirectToAction("Index", "Home");
+
+            // validate raw input for decimal separator (only dot allowed) and non-negative
+            ModelState.Remove("Cijena");
+            var rawCijena = Request.Form["Cijena"].ToString();
+            if (string.IsNullOrWhiteSpace(rawCijena) || !Regex.IsMatch(rawCijena, @"^\d+(\.\d+)?$"))
+            {
+                ModelState.AddModelError("Cijena", "Cijena mora biti nenegativan broj. Između brojeva smije biti samo tačka.");
+            }
+            else if (!double.TryParse(rawCijena, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var parsedCijena) || parsedCijena < 0)
+            {
+                ModelState.AddModelError("Cijena", "Cijena mora biti nenegativan broj.");
+            }
+            else
+            {
+                room.Cijena = parsedCijena;
+            }
 
             if (ModelState.IsValid)
             {
@@ -211,6 +265,82 @@ namespace Task6.Controllers
                 .ToListAsync();
 
             return View(rezervacije);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Popusti()
+        {
+            if (!await JeAdmin())
+                return RedirectToAction("Index", "Home");
+
+            var rooms = await _context.EscapeRooms.ToListAsync();
+            var vm = new DiscountViewModel();
+            vm.Rooms = rooms.Select(r => (r.RoomID, r.Naziv)).ToList();
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Popusti(DiscountViewModel model)
+        {
+            if (!await JeAdmin())
+                return RedirectToAction("Index", "Home");
+
+            if (model.DiscountPercent < 0 || model.DiscountPercent > 100)
+            {
+                ModelState.AddModelError("DiscountPercent", "Popust mora biti između 0 i 100.");
+            }
+
+            if (!model.StartDate.HasValue || !model.EndDate.HasValue || model.StartDate.Value >= model.EndDate.Value)
+            {
+                ModelState.AddModelError(string.Empty, "Neispravan vremenski period za popust.");
+            }
+
+            if (!model.SelectedRoomIds.Any())
+            {
+                ModelState.AddModelError(string.Empty, "Odaberite barem jednu sobu.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var rooms = await _context.EscapeRooms.ToListAsync();
+                model.Rooms = rooms.Select(r => (r.RoomID, r.Naziv)).ToList();
+                return View(model);
+            }
+
+            var roomsToUpdate = await _context.EscapeRooms
+                .Where(r => model.SelectedRoomIds.Contains(r.RoomID))
+                .ToListAsync();
+
+            foreach (var room in roomsToUpdate)
+            {
+                room.DiscountPercent = model.DiscountPercent;
+                room.DiscountStart = DateTime.SpecifyKind(model.StartDate.Value, DateTimeKind.Utc);
+                room.DiscountEnd = DateTime.SpecifyKind(model.EndDate.Value, DateTimeKind.Utc);
+            }
+
+            await _context.SaveChangesAsync();
+
+            var korisnici = await _context.Users.Where(u => !string.IsNullOrEmpty(u.Email)).ToListAsync();
+
+            foreach (var korisnik in korisnici)
+            {
+                var body = $"<div style='font-family: Arial, sans-serif; padding:20px;'><h2 style='color:#233D4D;'>The Last Key</h2><h3 style='color:#FE7F2D;'>Novi popust</h3>";
+                body += "<p style='color:#233D4D; font-size:16px;'>Imamo posebnu ponudu za vas! Na sljedeće escape sobe trenutno vrijedi popust:</p>";
+                body += "<ul>";
+                foreach (var room in roomsToUpdate)
+                {
+                    var newPrice = Math.Round(room.Cijena * (1 - model.DiscountPercent / 100.0), 2);
+                    body += $"<li><strong>{room.Naziv}</strong>: <s>{room.Cijena} KM</s> -> {newPrice} KM ({model.DiscountPercent}% )</li>";
+                }
+                body += "</ul>";
+                body += $"<p>Popust vrijedi od {model.StartDate.Value:dd.MM.yyyy} do {model.EndDate.Value:dd.MM.yyyy}.</p></div>";
+
+                await _emailService.SendEmailAsync(korisnik.Email!, "The Last Key - Novi popust", body);
+            }
+
+            TempData["DiscountSuccess"] = "Popust je primijenjen i svi korisnici su obaviješteni.";
+            return RedirectToAction(nameof(Popusti));
         }
 
         public async Task<IActionResult> Payments()
@@ -402,39 +532,6 @@ namespace Task6.Controllers
             return RedirectToAction(nameof(Notifications));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> EditNotification(int id)
-        {
-            if (!await JeAdmin())
-                return RedirectToAction("Index", "Home");
-
-            var obavijest = await _context.Obavijesti.FindAsync(id);
-
-            if (obavijest == null)
-                return NotFound();
-
-            return View(obavijest);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditNotification(Obavijest obavijest)
-        {
-            if (!await JeAdmin())
-                return RedirectToAction("Index", "Home");
-
-            if (ModelState.IsValid)
-            {
-                obavijest.Datum = DateTime.UtcNow;
-                _context.Obavijesti.Update(obavijest);
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction(nameof(Notifications));
-            }
-
-            return View(obavijest);
-        }
-
         public async Task<IActionResult> Termini()
         {
             if (!await JeAdmin())
@@ -466,6 +563,17 @@ namespace Task6.Controllers
                 return RedirectToAction("Index", "Home");
 
             ModelState.Remove("EscapeRoom");
+
+            var terminDateTime = termin.Datum.Date;
+            if (TimeSpan.TryParse(termin.Vrijeme, out var terminVrijeme))
+            {
+                terminDateTime = terminDateTime.Add(terminVrijeme);
+            }
+
+            if (terminDateTime < DateTime.Now)
+            {
+                ModelState.AddModelError(string.Empty, "Ne možete kreirati termin koji je u prošlosti.");
+            }
 
             if (ModelState.IsValid)
             {
@@ -505,6 +613,17 @@ namespace Task6.Controllers
                 return RedirectToAction("Index", "Home");
 
             ModelState.Remove("EscapeRoom");
+
+            var terminDateTime = termin.Datum.Date;
+            if (TimeSpan.TryParse(termin.Vrijeme, out var terminVrijeme))
+            {
+                terminDateTime = terminDateTime.Add(terminVrijeme);
+            }
+
+            if (terminDateTime < DateTime.Now)
+            {
+                ModelState.AddModelError(string.Empty, "Ne možete postaviti termin koji je u prošlosti.");
+            }
 
             if (ModelState.IsValid)
             {
@@ -567,6 +686,31 @@ namespace Task6.Controllers
             return RedirectToAction(nameof(Users));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            if (!await JeAdmin())
+                return RedirectToAction("Index", "Home");
+
+            var korisnik = await _context.Users.FindAsync(id);
+
+            if (korisnik == null)
+                return NotFound();
+
+            if (korisnik.Email == User.Identity?.Name)
+            {
+                TempData["UserError"] = "Ne možete deaktivirati vlastiti račun.";
+                return RedirectToAction(nameof(Users));
+            }
+
+            _context.Users.Remove(korisnik);
+            await _context.SaveChangesAsync();
+
+            TempData["UserSuccess"] = "Račun je uspješno deaktiviran.";
+            return RedirectToAction(nameof(Users));
+        }
+
         public async Task<IActionResult> ReservationDetails(int id)
         {
             if (!await JeAdmin())
@@ -582,6 +726,55 @@ namespace Task6.Controllers
                 return NotFound();
 
             return View(rezervacija);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Cancel(int id)
+        {
+            if (!await JeAdmin())
+                return RedirectToAction("Index", "Home");
+
+            var rez = await _context.Rezervacije
+                .Include(r => r.Termin)
+                    .ThenInclude(t => t.EscapeRoom)
+                .Include(r => r.Korisnik)
+                .FirstOrDefaultAsync(r => r.RezervacijaID == id);
+
+            if (rez == null)
+                return NotFound();
+
+            var bilaAktivna = rez.Status;
+
+            if (rez.Termin != null)
+                rez.Termin.Dostupnost = true;
+
+            if (bilaAktivna && !string.IsNullOrEmpty(rez.Korisnik?.Email))
+            {
+                await _emailService.SendEmailAsync(
+                    rez.Korisnik.Email,
+                    "The Last Key - Rezervacija otkazana",
+                    $@"
+                    <div style='font-family: Arial, sans-serif; padding: 20px;'>
+                        <h2 style='color:#233D4D;'>The Last Key</h2>
+                        <h3 style='color:#FE7F2D;'>Rezervacija otkazana</h3>
+                        <p>Poštovani/a {rez.Korisnik.Ime}, vaša rezervacija je otkazana.</p>
+                        <p><strong>Soba:</strong> {rez.Termin.EscapeRoom.Naziv}</p>
+                        <p><strong>Datum:</strong> {rez.Termin.Datum:dd.MM.yyyy}</p>
+                        <p><strong>Vrijeme:</strong> {rez.Termin.Vrijeme}</p>
+                        <hr />
+                        <p style='font-size:13px; color:#777;'>
+                            Ovo je automatska poruka sistema The Last Key.
+                        </p>
+                    </div>"
+                );
+            }
+
+            _context.Rezervacije.Remove(rez);
+            await _context.SaveChangesAsync();
+
+            TempData["CancelSuccess"] = "Rezervacija je uspješno otkazana i izbrisana.";
+            return RedirectToAction(nameof(Reservations));
         }
 
         public async Task<IActionResult> Support()

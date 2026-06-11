@@ -60,7 +60,14 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Cijena</h5>
-                    <p class="h4 text-success">@Model.Cijena KM po osobi</p>
+                    @if (Model.IsDiscountActive())
+                    {
+                        <p class="h4 text-success"><s>@Model.Cijena</s> @Model.CurrentPrice KM po osobi</p>
+                    }
+                    else
+                    {
+                        <p class="h4 text-success">@Model.Cijena KM po osobi</p>
+                    }
                 </div>
             </div>
         </div>

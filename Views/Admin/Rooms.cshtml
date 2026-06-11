@@ -24,6 +24,14 @@
         + Nova soba
     </a>
 
+    <div class="mb-3">
+        <input type="text"
+               id="roomSearch"
+               class="form-control"
+               style="max-width:300px;"
+               placeholder="Pretraži po nazivu sobe..." />
+    </div>
+
     @if (Model.Any())
     {
         <div class="admin-table-box">
@@ -49,7 +57,16 @@
                             <td>@room.Opis.Substring(0, Math.Min(30, room.Opis.Length))...</td>
                             <td>@room.Tezina</td>
                             <td>@room.Kapacitet</td>
-                            <td>@room.Cijena</td>
+                            <td>
+                                @if (room.IsDiscountActive())
+                                {
+                                    <span><s>@room.Cijena</s> @room.CurrentPrice KM</span>
+                                }
+                                else
+                                {
+                                    <span>@room.Cijena KM</span>
+                                }
+                            </td>
                             <td>
                                 <a asp-controller="Admin"
                                        asp-action="EditRoom"
@@ -78,3 +95,23 @@
         </div>
     }
 </div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var searchInput = document.getElementById('roomSearch');
+            var rows = document.querySelectorAll('.admin-table tbody tr');
+
+            if (!searchInput) return;
+
+            searchInput.addEventListener('input', function () {
+                var query = searchInput.value.trim().toLowerCase();
+
+                rows.forEach(function (row) {
+                    var naziv = row.children[1].textContent.trim().toLowerCase();
+                    row.style.display = naziv.includes(query) ? '' : 'none';
+                });
+            });
+        });
+    </script>
+}

@@ -19,6 +19,15 @@
         </a>
     </div>
 
+    @if (TempData["UserSuccess"] != null)
+    {
+        <div class="alert alert-success">@TempData["UserSuccess"]</div>
+    }
+    @if (TempData["UserError"] != null)
+    {
+        <div class="alert alert-danger">@TempData["UserError"]</div>
+    }
+
     <div class="admin-table-box">
         <table class="table admin-table">
             <thead>
@@ -41,28 +50,46 @@
                         <td>@korisnik.Uloga</td>
 
                         <td>
-                            <form method="post"
-                                  asp-controller="Admin"
-                                  asp-action="ChangeUserRole"
-                                  class="d-flex gap-2 align-items-center">
-                                @Html.AntiForgeryToken()
+                            <div class="d-flex align-items-center gap-2 flex-wrap">
+                                <form method="post"
+                                      asp-controller="Admin"
+                                      asp-action="ChangeUserRole"
+                                      class="d-flex gap-2 align-items-center">
+                                    @Html.AntiForgeryToken()
 
-                                <input type="hidden"
-                                       name="id"
-                                       value="@korisnik.Id" />
+                                    <input type="hidden"
+                                           name="id"
+                                           value="@korisnik.Id" />
 
-                                <select name="uloga"
-                                        class="form-select w-auto">
-                                    <option value="Korisnik">Korisnik</option>
-                                    <option value="Admin">Admin</option>
-                                    <option value="Zaposlenik">Zaposlenik</option>
-                                </select>
+                                    <select name="uloga"
+                                            class="form-select w-auto">
+                                        <option value="Korisnik">Korisnik</option>
+                                        <option value="Admin">Admin</option>
+                                        <option value="Zaposlenik">Zaposlenik</option>
+                                    </select>
 
-                                <button type="submit"
-                                        class="admin-edit-btn">
-                                    Promijeni
-                                </button>
-                            </form>
+                                    <button type="submit"
+                                            class="admin-edit-btn">
+                                        Promijeni
+                                    </button>
+                                </form>
+
+                                <form method="post"
+                                      asp-controller="Admin"
+                                      asp-action="DeleteUser">
+                                    @Html.AntiForgeryToken()
+
+                                    <input type="hidden"
+                                           name="id"
+                                           value="@korisnik.Id" />
+
+                                    <button type="submit"
+                                            class="admin-delete-btn"
+                                            onclick="return confirmDeactivate(event, this.form)">
+                                        Deaktiviraj račun
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 }
@@ -71,3 +98,26 @@
     </div>
 
 </div>
+
+<script>
+    function confirmDeactivate(event, form) {
+        event.preventDefault();
+
+        Swal.fire({
+            title: 'Deaktivirati račun?',
+            text: 'Ova akcija će trajno obrisati račun iz baze i ne može se poništiti.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Deaktiviraj',
+            cancelButtonText: 'Odustani',
+            confirmButtonColor: '#c94a4a',
+            cancelButtonColor: '#1f4f54'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+
+        return false;
+    }
+</script>
